@@ -1,9 +1,9 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:bus_express/view/search/components/roadAlert.dart';
 import 'package:bus_express/view/search/search.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchTabBar extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           busStop['description'],
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        trailing: Icon(Icons.chevron_right_rounded),
+                        trailing: Icon(CustomIcons.chevron_right, size: 18),
                         subtitle: busStop['error'] != true
                             ? Text((busStop['roadName']).toString() +
                                 " • " +
@@ -51,7 +51,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             busStop['error'] != true
-                                ? dataTile(MdiIcons.busStop, Colors.blue)
+                                ? dataTile(CustomIcons.bus_stop, Colors.blue)
                                 : dataTile(
                                     Icons.error_outline_rounded, Colors.red),
                           ],
@@ -81,14 +81,14 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           busService['serviceNo'],
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        trailing: Icon(Icons.chevron_right_rounded),
+                        trailing: Icon(CustomIcons.chevron_right, size: 18),
                         subtitle: Text(busService['operator']),
                         leading: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             busService['error'] != true
-                                ? dataTile(MdiIcons.bus, Colors.blue)
+                                ? dataTile(CustomIcons.bus, Colors.blue)
                                 : dataTile(
                                     Icons.error_outline_rounded, Colors.red),
                           ],
@@ -116,7 +116,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           road["roadName"],
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        trailing: Icon(Icons.chevron_right_rounded),
+                        trailing: Icon(CustomIcons.chevron_right, size: 18),
                         subtitle: road['error'] == true
                             ? Text(road['subtitle'])
                             : Text(road['amountOfBusStop'].toString() +
@@ -126,9 +126,8 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             road['error'] == true
-                                ? dataTile(
-                                    Icons.error_outline_rounded, Colors.red)
-                                : dataTile(MdiIcons.roadVariant, Colors.blue)
+                                ? dataTile(CustomIcons.error_circle, Colors.red)
+                                : dataTile(CustomIcons.road_3d, Colors.blue)
                           ],
                         ),
                         onTap: () => road['error'] != true

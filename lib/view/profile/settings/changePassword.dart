@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -29,7 +30,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: currentPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock_outline_rounded),
+              icon: Icon(CustomIcons.lock_regular),
               hintText: '',
               labelText: 'Current Password',
             ),
@@ -74,7 +75,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: newPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock_rounded),
+              icon: Icon(CustomIcons.lock_filled),
               hintText: '',
               labelText: 'New Password',
             ),
@@ -93,7 +94,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: retypeNewPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(Icons.lock_rounded),
+              icon: Icon(CustomIcons.lock_filled),
               hintText: '',
               labelText: 'Retype New Password',
             ),

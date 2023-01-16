@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -56,7 +57,7 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
             keyboardType: TextInputType.phone,
             maxLength: contactNumberMaxLength,
             decoration: InputDecoration(
-              icon: Icon(Icons.phone_iphone_rounded),
+              icon: Icon(CustomIcons.mobile_phone),
               helperText: 'e.g: 912345678',
               labelText: 'Contact Number',
               hintText: currentContactNumber,

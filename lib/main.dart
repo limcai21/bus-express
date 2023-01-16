@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'view/components/startUpData.dart';
 import 'view/favourite/favourite.dart';
@@ -34,10 +35,30 @@ class BusArrivalApp extends StatefulWidget {
 class BusArrivalAppState extends State<BusArrivalApp> {
   int selectedIndex = 0;
   List pagesData = [
-    ["Home", Icons.home, Home()],
-    ["Search", Icons.search_rounded, Search()],
-    ["Favourites", Icons.favorite_rounded, Favourite()],
-    ["Profile", Icons.person_rounded, Profile()],
+    [
+      "Home",
+      CustomIcons.home_regular,
+      CustomIcons.home_filled,
+      Home(),
+    ],
+    [
+      "Search",
+      CustomIcons.search_regular,
+      CustomIcons.search_filled,
+      Search(),
+    ],
+    [
+      "Favourites",
+      CustomIcons.favourite_regular,
+      CustomIcons.favourite_filled,
+      Favourite(),
+    ],
+    [
+      "Profile",
+      CustomIcons.profile_regular,
+      CustomIcons.profile_filled,
+      Profile(),
+    ],
   ];
 
   void onItemTapped(int index) {
@@ -55,13 +76,12 @@ class BusArrivalAppState extends State<BusArrivalApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text(pagesData[selectedIndex][0]),
         actions: [
           if (selectedIndex == 1)
             IconButton(
-              icon: Icon(Icons.search_rounded),
+              icon: Icon(CustomIcons.search_regular),
               onPressed: () => showSearch(
                 context: context,
                 delegate: DataSearch(),
@@ -69,9 +89,10 @@ class BusArrivalAppState extends State<BusArrivalApp> {
             ),
         ],
       ),
-      body: pagesData[selectedIndex][2],
+      body: pagesData[selectedIndex][3],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        // FOR BLUE BACKGROUND
         backgroundColor: Theme.of(context).primaryColor,
         selectedIconTheme: IconThemeData(color: Colors.white),
         unselectedIconTheme: IconThemeData(color: Colors.grey[300]),
@@ -79,11 +100,18 @@ class BusArrivalAppState extends State<BusArrivalApp> {
         selectedItemColor: Colors.white,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+
+        // FOR WHITE BACKGROUND
+        // selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        // unselectedIconTheme: IconThemeData(color: Colors.grey),
+        // showSelectedLabels: true,
+        // showUnselectedLabels: true,
         items: [
           for (var i = 0; i < pagesData.length; i++)
             BottomNavigationBarItem(
               label: pagesData[i][0],
               icon: Icon(pagesData[i][1]),
+              activeIcon: Icon(pagesData[i][2]),
               backgroundColor: Theme.of(context).primaryColor,
             ),
         ],

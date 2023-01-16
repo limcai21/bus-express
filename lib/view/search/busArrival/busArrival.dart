@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -122,7 +123,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
-                        busType(bus['nextBus']['type'].toString()),
+                        busFeaturesIcon(bus['nextBus']['type'].toString()),
                         size: 32,
                         color: Colors.blue[600],
                       ),
@@ -343,7 +344,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text("No Estimate Available"),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
             onTap: () {
               if (busArrivalData.isNotEmpty) {
                 Navigator.push(
@@ -390,7 +391,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
         actions: [
           if (busArrivalData.isNotEmpty)
             IconButton(
-              icon: Icon(Icons.refresh_rounded),
+              icon: Icon(CustomIcons.refresh),
               onPressed: () {
                 initPageData(widget.busStopCode);
               },

@@ -1,5 +1,5 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 operatorName(operator) {
   switch (operator) {
@@ -26,61 +26,41 @@ operatorName(operator) {
   }
 }
 
-busType(type) {
-  switch (type) {
-    case "SD":
-      {
-        return MdiIcons.busSide;
-      }
-      break;
-    case "SD":
-      {
-        return MdiIcons.busArticulatedEnd;
-      }
-      break;
-    case "DD":
-      {
-        return MdiIcons.busDoubleDecker;
-      }
-      break;
-  }
-}
-
 busFeaturesIcon(feature) {
   switch (feature) {
     case "SEA":
       {
-        return MdiIcons.seatPassenger;
+        return CustomIcons.seat;
       }
       break;
     case "SDA":
       {
-        return MdiIcons.walk;
+        return CustomIcons.standing;
       }
       break;
     case "LSD":
       {
-        return Icons.priority_high_rounded;
+        return CustomIcons.important;
       }
       break;
     case "WAB":
       {
-        return Icons.accessible_rounded;
+        return CustomIcons.wheelchair;
       }
       break;
     case "SD":
       {
-        return MdiIcons.busSide;
-      }
-      break;
-    case "DD":
-      {
-        return MdiIcons.busDoubleDecker;
+        return CustomIcons.bus_single_decker;
       }
       break;
     case "BD":
       {
-        return MdiIcons.busArticulatedEnd;
+        return CustomIcons.bus_bendy;
+      }
+      break;
+    case "DD":
+      {
+        return CustomIcons.bus_double_decker;
       }
       break;
   }

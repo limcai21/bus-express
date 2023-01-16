@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../custom_icons_icons.dart';
+
 class CustomScaffold extends StatelessWidget {
   String title;
   String subtitle;
@@ -11,6 +13,10 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // leading: IconButton(
+        //   icon: Icon(CustomIcons.arrow_left),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
         elevation: 0,
         actions: actionBtn,
       ),

@@ -279,7 +279,7 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     final nextBusArrival = nextBusData['estimatedArrival'] != 'Arr'
         ? 'Arriving in ' + nextBusData['estimatedArrival'].toString() + " min"
         : "Arriving";
-    final nextBusType = busType(nextBusData['type'].toString());
+    final nextBusType = busFeaturesIcon(nextBusData['type'].toString());
     final nextBusLoad = nextBusData['load'];
     final nextBusFeature = nextBusData['feature'];
     final nextBusLat = nextBusData['latitude'] != null
@@ -294,7 +294,7 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     final nextBus2Arrival = nextBus2Data['estimatedArrival'] != 'Arr'
         ? 'Arriving in ' + nextBus2Data['estimatedArrival'].toString() + " min"
         : "Arriving";
-    final nextBus2Type = busType(nextBus2Data['type'].toString());
+    final nextBus2Type = busFeaturesIcon(nextBus2Data['type'].toString());
     final nextBus2Load = nextBus2Data['load'];
     final nextBus2Feature = nextBus2Data['feature'];
     final nextBus2Lat = nextBus2Data['latitude'] != null
@@ -309,7 +309,7 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     final nextBus3Arrival = nextBus3Data['estimatedArrival'] != 'Arr'
         ? 'Arriving in ' + nextBus3Data['estimatedArrival'].toString() + " min"
         : "Arriving";
-    final nextBus3Type = busType(nextBus3Data['type'].toString());
+    final nextBus3Type = busFeaturesIcon(nextBus3Data['type'].toString());
     final nextBus3Load = nextBus3Data['load'];
     final nextBus3Feature = nextBus3Data['feature'];
     final nextBus3Lat = nextBus3Data['latitude'] != null

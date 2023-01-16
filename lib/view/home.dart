@@ -8,11 +8,12 @@ import 'package:bus_express/view/components/startUpData.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+
+import '../custom_icons_icons.dart';
 
 class Home extends StatefulWidget {
   callBack() {
@@ -177,7 +178,7 @@ class _HomeState extends State<Home> {
                       style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor,
                       ),
-                      icon: Icon(MdiIcons.clock, size: 20),
+                      icon: Icon(CustomIcons.clock, size: 20),
                       onPressed: () async {
                         Navigator.push(
                           context,
@@ -187,7 +188,7 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       },
-                      label: Text("Bus Arrival"),
+                      label: Text("Arrival Timing"),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -201,7 +202,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       icon: Icon(
-                        MdiIcons.routes,
+                        CustomIcons.routes,
                         size: 20,
                         color: Theme.of(context).primaryColor,
                       ),
@@ -360,7 +361,7 @@ class _HomeState extends State<Home> {
                       alignment: Alignment.center,
                       child: IconButton(
                         icon: Icon(
-                          MdiIcons.busStop,
+                          CustomIcons.bus_stop,
                           size: 15,
                           color: Colors.white,
                         ),
@@ -404,9 +405,9 @@ class _HomeState extends State<Home> {
                         "PermissionStatus.deniedForever") &&
                     (permissionGranted.toString() != "PermissionStatus.denied")
                 ? nearbyBusStopBool
-                    ? Icon(MdiIcons.busStop)
-                    : Icon(MdiIcons.nearMe)
-                : Icon(MdiIcons.nearMe),
+                    ? Icon(CustomIcons.bus_stop)
+                    : Icon(CustomIcons.near_me)
+                : Icon(CustomIcons.near_me),
           ),
         )
       ],

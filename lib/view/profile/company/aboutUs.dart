@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
@@ -102,26 +103,26 @@ class AboutUsContent extends StatelessWidget {
             listViewHeader('Contacts', context),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.phone_rounded, Colors.teal),
+              leading: dataTile(CustomIcons.phone, Colors.teal),
               title: Text(companyNumber),
-              trailing: Icon(Icons.open_in_new_rounded, size: 16),
+              trailing: Icon(CustomIcons.open_in, size: 16),
               subtitle: Text("Phone Number"),
               onTap: () => launchContactNumber(companyNumber),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.email_rounded, Colors.orange),
+              leading: dataTile(CustomIcons.mail, Colors.orange),
               title: Text(companyFeedbackEmail),
-              trailing: Icon(Icons.open_in_new_rounded, size: 16),
+              trailing: Icon(CustomIcons.open_in, size: 16),
               subtitle: Text("Email"),
               onTap: () => launchEmail(companyFeedbackEmail, "Feedback"),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.web_asset_rounded, Colors.red),
+              leading: dataTile(CustomIcons.web, Colors.red),
               title: Text(comapanyName),
               subtitle: Text("Company Website"),
-              trailing: Icon(Icons.open_in_new_rounded, size: 16),
+              trailing: Icon(CustomIcons.open_in, size: 16),
               onTap: () => launchURL(companyWebsite),
             ),
 
@@ -129,7 +130,7 @@ class AboutUsContent extends StatelessWidget {
             listViewHeader('Team', context),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.code_rounded, Colors.blueGrey),
+              leading: dataTile(CustomIcons.profile_filled, Colors.blueGrey),
               title: Text(companyDeveloper),
               subtitle: Text("Developer"),
             ),
@@ -138,18 +139,18 @@ class AboutUsContent extends StatelessWidget {
             listViewHeader('Sources', context),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.api_rounded, Colors.brown),
+              leading: dataTile(CustomIcons.code, Colors.brown),
               title: Text('LTA DataMall'),
               subtitle: Text("API"),
-              trailing: Icon(Icons.open_in_new_rounded, size: 16),
+              trailing: Icon(CustomIcons.open_in, size: 16),
               onTap: () => launchURL(ltaDataMallURL),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(Icons.api_rounded, Colors.deepPurple),
+              leading: dataTile(CustomIcons.code, Colors.deepPurple),
               title: Text("Tourism Information & Services Hub"),
               subtitle: Text("API"),
-              trailing: Icon(Icons.open_in_new_rounded, size: 16),
+              trailing: Icon(CustomIcons.open_in, size: 16),
               onTap: () => launchURL(stbAPIURL),
             ),
           ],

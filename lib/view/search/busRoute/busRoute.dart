@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/api.dart';
@@ -157,7 +158,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       title: Text(busStopName),
       subtitle: Text(distance != null ? distance : "Distance not avaialble"),
-      trailing: Icon(Icons.chevron_right_rounded),
+      trailing: Icon(CustomIcons.chevron_right, size: 18),
       leading: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

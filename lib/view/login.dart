@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -76,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
               TextFormField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.person_rounded),
+                  icon: Icon(CustomIcons.profile_filled),
                   labelText: 'Username',
                 ),
                 validator: (value) {
@@ -91,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.lock_rounded),
+                  icon: Icon(CustomIcons.lock_filled),
                   labelText: 'Password',
                 ),
                 validator: (value) {

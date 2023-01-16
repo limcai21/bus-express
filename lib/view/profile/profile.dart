@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -56,7 +57,7 @@ class _ProfileState extends State<Profile> {
         style: TextStyle(fontWeight: FontWeight.w500),
       ),
       subtitle: Text(subtitle),
-      trailing: Icon(Icons.keyboard_arrow_right_rounded),
+      trailing: Icon(CustomIcons.chevron_right, size: 18),
       leading: leadingIcon(icon, bgColor),
       onTap: () => Navigator.push(
         context,
@@ -107,8 +108,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text('View all your favourites'),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(MdiIcons.login, Colors.orange),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.login, Colors.orange),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -125,7 +126,7 @@ class _ProfileState extends State<Profile> {
           customListTile(
             'Sign Up',
             'Favourites all your bus stop',
-            Icons.person_add_rounded,
+            CustomIcons.sign_up,
             Colors.teal,
             SignUp(),
           ),
@@ -139,8 +140,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text('Update your email'),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(Icons.email_rounded, Colors.orange),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.mail, Colors.orange),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -166,8 +167,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text("Change your password"),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(Icons.lock_rounded, Colors.brown),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.password, Colors.brown),
             onTap: () async {
               var result = await Navigator.push(
                 context,
@@ -193,8 +194,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text('Update your Contact Number'),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(Icons.phone_rounded, Colors.teal),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.phone, Colors.teal),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -220,8 +221,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text("You can't undo this action"),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(Icons.delete_rounded, Colors.red),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.delete, Colors.red),
             onTap: () {
               alertDialog(
                 deleteAccountTitle,
@@ -265,8 +266,8 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text("You can always sign back in"),
-            trailing: Icon(Icons.keyboard_arrow_right_rounded),
-            leading: leadingIcon(Icons.logout, Colors.indigo),
+            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            leading: leadingIcon(CustomIcons.logout, Colors.indigo),
             onTap: () {
               alertDialog(
                 logoutTitle,
@@ -291,7 +292,7 @@ class _ProfileState extends State<Profile> {
         customListTile(
           'About Us',
           'Find out more about us',
-          Icons.info_rounded,
+          CustomIcons.information_circle,
           Colors.green,
           CompanyAboutUs(),
         ),
@@ -302,8 +303,8 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
           subtitle: Text('Tell us if you encounter something odd'),
-          trailing: Icon(Icons.open_in_new_rounded, size: 16),
-          leading: leadingIcon(Icons.feedback_rounded, Colors.purple),
+          trailing: Icon(CustomIcons.open_in, size: 16),
+          leading: leadingIcon(CustomIcons.feedback, Colors.purple),
           onTap: () => launchEmail(companyFeedbackEmail, 'Feedback'),
         ),
       ],

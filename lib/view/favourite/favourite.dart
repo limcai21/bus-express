@@ -167,7 +167,7 @@ class _FavouriteState extends State<Favourite> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
-                busType(arrivalData['nextBus']['type'].toString()),
+                busFeaturesIcon(arrivalData['nextBus']['type'].toString()),
                 size: 32,
                 color: Colors.blue[600],
               ),

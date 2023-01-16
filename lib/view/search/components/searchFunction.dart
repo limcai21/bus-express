@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/search.dart';
@@ -75,7 +76,7 @@ class DataSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear_rounded),
+        icon: Icon(CustomIcons.dismiss, size: 22),
         onPressed: () {
           query = "";
         },
@@ -86,10 +87,7 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
-        progress: transitionAnimation,
-      ),
+      icon: Icon(CustomIcons.arrow_left),
       onPressed: () {
         searchBusStopsData = allBusStopsData;
         searchBusServiceData = allBusServiceData;

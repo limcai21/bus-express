@@ -1,3 +1,4 @@
+import 'package:bus_express/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/view/components/alertDialog.dart';
@@ -101,7 +102,7 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.person_rounded),
+                  icon: Icon(CustomIcons.profile_filled),
                   labelText: 'Username',
                 ),
                 validator: (value) {
@@ -117,7 +118,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.email_rounded),
+                  icon: Icon(CustomIcons.mail),
                   labelText: 'Email',
                 ),
                 validator: (value) {
@@ -135,7 +136,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 keyboardType: TextInputType.phone,
                 maxLength: contactNumberMaxLength,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.phone_rounded),
+                  icon: Icon(CustomIcons.phone),
                   labelText: 'Contact Number',
                 ),
                 validator: (value) {
@@ -152,7 +153,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.lock_rounded),
+                  icon: Icon(CustomIcons.lock_filled),
                   labelText: 'Password',
                 ),
                 validator: (value) {
@@ -168,7 +169,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: retypePasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.lock_rounded),
+                  icon: Icon(CustomIcons.lock_filled),
                   labelText: 'Retype Password',
                 ),
                 validator: (value) {
