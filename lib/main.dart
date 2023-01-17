@@ -1,6 +1,6 @@
 import 'package:bus_express/custom_icons_icons.dart';
-import 'package:bus_express/view/search/components/customSearchTabBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'model/global.dart';
 import 'view/components/startUpData.dart';
 import 'view/favourite/favourite.dart';
@@ -101,19 +101,21 @@ class BusArrivalAppState extends State<BusArrivalApp> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         // FOR BLUE BACKGROUND
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedIconTheme: IconThemeData(color: Colors.white),
-        unselectedIconTheme: IconThemeData(color: Colors.grey[300]),
-        selectedLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
-        selectedItemColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        // backgroundColor: Theme.of(context).primaryColor,
+        // selectedIconTheme: IconThemeData(color: Colors.white),
+        // unselectedIconTheme: IconThemeData(color: Colors.grey[300]),
+        // selectedLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
+        // selectedItemColor: Colors.white,
+        // showSelectedLabels: false,
+        // showUnselectedLabels: false,
 
         // FOR WHITE BACKGROUND
-        // selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        // unselectedIconTheme: IconThemeData(color: Colors.grey),
-        // showSelectedLabels: true,
-        // showUnselectedLabels: true,
+        backgroundColor: Color.fromRGBO(240, 240, 240, 1),
+        selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+        unselectedIconTheme: IconThemeData(color: Colors.grey),
+        selectedFontSize: 12,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: [
           for (var i = 0; i < pagesData.length; i++)
             BottomNavigationBarItem(
