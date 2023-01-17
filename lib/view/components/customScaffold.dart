@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../custom_icons_icons.dart';
-
 class CustomScaffold extends StatelessWidget {
   String title;
   String subtitle;

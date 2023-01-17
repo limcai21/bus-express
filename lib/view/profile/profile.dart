@@ -9,7 +9,6 @@ import 'package:bus_express/view/profile/profileEdit.dart';
 import 'package:bus_express/view/signup.dart';
 import 'company/components/contactFunctions.dart';
 import 'components/leadingIcon.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
