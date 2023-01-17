@@ -7,6 +7,9 @@ import 'package:bus_express/view/search/search.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchTabBar extends StatefulWidget {
+  int selectedIndex;
+  CustomSearchTabBar({this.selectedIndex});
+
   @override
   State<CustomSearchTabBar> createState() => _CustomSearchTabBarState();
 }
@@ -15,10 +18,12 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: searchTabIndex,
       length: 3,
       child: Column(
         children: [
           TabBar(
+            onTap: (index) => setState(() => searchTabIndex = index),
             indicatorColor: Theme.of(context).primaryColor,
             labelColor: Theme.of(context).primaryColor,
             tabs: [

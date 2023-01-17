@@ -5,6 +5,7 @@ import 'package:bus_express/view/search/search.dart';
 import './customSearchTabBar.dart';
 
 class DataSearch extends SearchDelegate<String> {
+
   busStopSearching() {
     Map<String, dynamic> tempSearchHolderForBusStop = {};
 
@@ -92,7 +93,7 @@ class DataSearch extends SearchDelegate<String> {
         searchBusStopsData = allBusStopsData;
         searchBusServiceData = allBusServiceData;
         searchAddressData = allAddressData;
-        close(context, null);
+        close(context, searchTabIndex.toString());
       },
     );
   }
@@ -113,6 +114,6 @@ class DataSearch extends SearchDelegate<String> {
       searchBusServiceData = busServiceSearching();
       searchAddressData = addressSearching();
     }
-    return CustomSearchTabBar();
+    return CustomSearchTabBar(selectedIndex: searchTabIndex);
   }
 }

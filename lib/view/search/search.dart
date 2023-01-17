@@ -18,6 +18,9 @@ class _SearchState extends State<Search> {
     searchBusStopsData = allBusStopsData;
     searchBusServiceData = allBusServiceData;
     searchAddressData = allAddressData;
+    setState(() {
+      searchTabIndex = 0;
+    });
   }
 
   @override

@@ -6,6 +6,8 @@ import 'package:location/location.dart';
 
 // GET USER CURRENT LOCATION
 checkLocationServiceAndPermission() async {
+  bool checkLocationService = true;
+  bool checkPermissionGranted = true;
   print("");
   print("Waiting for Permission and Location Service...");
   locationServiceEnabled = await location.serviceEnabled();
@@ -14,6 +16,8 @@ checkLocationServiceAndPermission() async {
 
     if (!locationServiceEnabled) {
       // LOCATION SERVICE NOT ENABLED
+      print("LOCATION SERVICE NOT ENABLED");
+      checkLocationService = false;
     }
   }
 
@@ -22,7 +26,14 @@ checkLocationServiceAndPermission() async {
     permissionGranted = await location.requestPermission();
     if (permissionGranted != PermissionStatus.granted) {
       // PERMISSION NOT GRANTED
+      print("PERMISSION NOT GRANTED");
+      checkPermissionGranted = false;
     }
+  }
+
+  if (checkLocationService && checkPermissionGranted) {
+    print("both enabled");
+    isAllPermissionEnabled = true;
   }
 
   print("");

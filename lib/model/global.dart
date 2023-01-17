@@ -14,6 +14,8 @@ bool isThereInternetConnection = false;
 
 String currentLoginUsername = '';
 
+int searchTabIndex = 0;
+
 PermissionStatus permissionGranted;
 Location location = new Location();
 LatLng centerPoint = LatLng(1.3521, 103.8198);

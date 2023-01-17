@@ -1,5 +1,7 @@
 import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/view/search/components/customSearchTabBar.dart';
 import 'package:flutter/material.dart';
+import 'model/global.dart';
 import 'view/components/startUpData.dart';
 import 'view/favourite/favourite.dart';
 import 'view/home.dart';
@@ -82,10 +84,16 @@ class BusArrivalAppState extends State<BusArrivalApp> {
           if (selectedIndex == 1)
             IconButton(
               icon: Icon(CustomIcons.search_regular),
-              onPressed: () => showSearch(
-                context: context,
-                delegate: DataSearch(),
-              ),
+              onPressed: () async {
+                print(searchTabIndex);
+                final result = await showSearch(
+                  context: context,
+                  delegate: DataSearch(),
+                );
+                setState(() {
+                  searchTabIndex = int.parse(result);
+                });
+              },
             ),
         ],
       ),

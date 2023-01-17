@@ -31,7 +31,6 @@ dependencies:
   flutter_map_location_marker:  
   shared_preferences:
   url_launcher:
-  flutter_launcher_icons:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -76,11 +75,3 @@ flutter:
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_icons:
-  ios: true
-  android: true
-  image_path: "images/appLogo.png"
-  image_path_ios: "images/appLogo.png"
-  image_path_android: "images/appLogoBorderRadius.png"
-  adaptive_icon_background: "#002e53"
-  adaptive_icon_foreground: "images/appLogoNoBg.png"
