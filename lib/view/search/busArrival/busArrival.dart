@@ -288,6 +288,22 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                   alignment: Alignment.centerLeft,
                 ),
               ),
+              secondaryBackground: Container(
+                color: Colors.black,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      swipeLeftToRightInstruction,
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.end,
+                    )
+                  ],
+                ),
+              ),
               confirmDismiss: (direction) async {
                 if (direction == DismissDirection.startToEnd) {
                   final busService = bus['busService'];

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,22 @@ class _FavouriteState extends State<Favourite> {
       {Map arrivalData}) {
     return Dismissible(
       key: Key(busService),
+      secondaryBackground: Container(
+        color: Colors.black,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              swipeLeftToRightInstruction,
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.end,
+            )
+          ],
+        ),
+      ),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20),
         title: Text(
@@ -471,7 +488,12 @@ class _FavouriteState extends State<Favourite> {
           return Column(
             children: [
               legendForBus(),
-              Expanded(child: ListView(children: listViewChildren)),
+              Expanded(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: listViewChildren,
+                ),
+              ),
             ],
           );
         } else {

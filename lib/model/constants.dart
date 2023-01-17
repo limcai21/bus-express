@@ -93,6 +93,9 @@ const busRouteNotAvailableForBusStopTitle = "Error";
 const busRouteNotAvailableForBusStopDescription =
     "We are not able to get the buses operating at this bus stop.";
 
+// SWIPE LEFT TO RIGHT BACKGROUND 2
+const swipeLeftToRightInstruction = "😆 Swipe Right Instead";
+
 // COMPANY INFO
 const comapanyName = 'arnet';
 const companyNumber = '+65 64515115';
