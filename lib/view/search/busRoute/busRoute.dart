@@ -1,16 +1,16 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/constants.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
-import 'package:bus_express/view/components/loadingAlert.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SearchBusRoute extends StatefulWidget {
-  String busService;
+  final String busService;
   SearchBusRoute(this.busService);
 
   @override
@@ -262,6 +262,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
           ],
         ),
       ),
+      2,
     );
   }
 }

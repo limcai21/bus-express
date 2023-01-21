@@ -1,9 +1,9 @@
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
-import 'package:bus_express/view/components/alertSimpleDialog.dart';
-import 'package:bus_express/view/components/loadingAlert.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertSimpleDialog.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/startUpData.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
@@ -12,8 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-
-import '../custom_icons_icons.dart';
+import '../model/custom_icons_icons.dart';
 
 class Home extends StatefulWidget {
   callBack() {
@@ -92,7 +91,7 @@ class _HomeState extends State<Home> {
     List buses = await Bus().service(busStopCode);
 
     return showModalBottomSheet(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -226,7 +225,6 @@ class _HomeState extends State<Home> {
   }
 
   setZoomAndCenter(data) {
-    zoom = 17;
     centerOnLocationUpdate = CenterOnLocationUpdate.first;
 
     location.getLocation().then((value) async {
@@ -236,11 +234,19 @@ class _HomeState extends State<Home> {
       centerPoint = LatLng(lat, long);
     });
 
-    mapController.move(centerPoint, zoom);
+    if (nearbyBusStopBool) {
+      mapController.move(centerPoint, 17);
+    } else {
+      mapController.move(centerPoint, 16);
+    }
   }
 
   onPressFAB() async {
     await checkLocationServiceAndPermission();
+    if (isAllPermissionEnabled) {
+      await nearbyBusStop();
+    }
+
     setState(() {
       if (isAllPermissionEnabled) {
         // TRUE = NEARBY, FALSE = ALL

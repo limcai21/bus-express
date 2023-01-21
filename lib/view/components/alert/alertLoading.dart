@@ -11,6 +11,7 @@ loadingAlert(context) async {
         return WillPopScope(
           onWillPop: () async => false,
           child: AlertDialog(
+            insetPadding: const EdgeInsets.all(20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),

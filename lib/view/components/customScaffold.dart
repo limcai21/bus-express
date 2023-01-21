@@ -1,20 +1,48 @@
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
-  String title;
-  String subtitle;
-  Widget body;
-  List<Widget> actionBtn;
+  final String title;
+  final String subtitle;
+  final Widget body;
+  final List<Widget> actionBtn;
+  final Widget bottomNavigationbar;
+  final int layout;
+  CustomScaffold(
+    this.title,
+    this.subtitle,
+    this.body,
+    this.layout, {
+    this.actionBtn,
+    this.bottomNavigationbar,
+  });
 
-  CustomScaffold(this.title, this.subtitle, this.body, {this.actionBtn});
-  @override
-  Widget build(BuildContext context) {
+  titleWidget(title, context) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: Theme.of(context).textTheme.headline6.fontSize,
+      ),
+    );
+  }
+
+  // NORMAL SCAFFOLD
+  scaffoldLayout(context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: IconButton(
-        //   icon: Icon(CustomIcons.arrow_left),
-        //   onPressed: () => Navigator.pop(context),
-        // ),
+        title: Text(title),
+        actions: actionBtn,
+      ),
+      body: body,
+      bottomNavigationBar: bottomNavigationbar,
+    );
+  }
+
+  // CUSTOM SCAFFOLD
+  scaffoldLayout2(context) {
+    return Scaffold(
+      appBar: AppBar(
         elevation: 0,
         actions: actionBtn,
       ),
@@ -23,29 +51,40 @@ class CustomScaffold extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
             color: Theme.of(context).primaryColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Theme.of(context).textTheme.headline6.fontSize,
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(color: Colors.grey[300]),
-                )
+                titleWidget(title, context),
+                if (subtitle.isNotEmpty)
+                  Text(
+                    subtitle,
+                    style: TextStyle(color: Colors.grey[300]),
+                  )
               ],
             ),
           ),
-          body,
+          Expanded(child: body),
         ],
       ),
+      bottomNavigationBar: bottomNavigationbar,
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    switch (layout.toString()) {
+      case "1":
+        {
+          return scaffoldLayout(context);
+        }
+        break;
+      case "2":
+        {
+          return scaffoldLayout2(context);
+        }
+        break;
+    }
   }
 }

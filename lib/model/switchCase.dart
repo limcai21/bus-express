@@ -1,4 +1,4 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 
 operatorName(operator) {
@@ -61,6 +61,11 @@ busFeaturesIcon(feature) {
     case "DD":
       {
         return CustomIcons.bus_double_decker;
+      }
+      break;
+    default:
+      {
+        return CustomIcons.bus;
       }
       break;
   }

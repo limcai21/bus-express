@@ -1,8 +1,8 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +13,7 @@ class Login extends StatelessWidget {
       "Login",
       "Sign in to see all your saved bus stops",
       LoginForm(),
+      2,
     );
   }
 }
@@ -66,57 +67,56 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.profile_filled),
-                  labelText: 'Username',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Username';
-                  }
-                  return null;
-                },
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: usernameController,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.profile_filled),
+                labelText: 'Username',
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.lock_filled),
-                  labelText: 'Password',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Password';
-                  }
-                  return null;
-                },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Username';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.lock_filled),
+                labelText: 'Password',
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState.validate()) {
-                    checkUsernameAndPassword();
-                  }
-                },
-                child: Text('Login'),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Theme.of(context).primaryColor),
-                ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Password';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                if (formKey.currentState.validate()) {
+                  checkUsernameAndPassword();
+                }
+              },
+              child: Text('Login'),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).primaryColor),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

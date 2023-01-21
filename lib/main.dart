@@ -1,14 +1,15 @@
-import 'package:bus_express/custom_icons_icons.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'model/global.dart';
-import 'view/components/startUpData.dart';
-import 'view/favourite/favourite.dart';
 import 'view/home.dart';
+import 'model/global.dart';
+import 'view/favourite.dart';
+import 'model/constants.dart';
 import 'view/search/search.dart';
 import 'view/profile/profile.dart';
-import 'model/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'view/components/startUpData.dart';
 import 'view/search/components/searchFunction.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:bus_express/view/components/customScaffold.dart';
 
 void main() {
   runApp(MyApp());
@@ -77,28 +78,27 @@ class BusArrivalAppState extends State<BusArrivalApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(pagesData[selectedIndex][0]),
-        actions: [
-          if (selectedIndex == 1)
-            IconButton(
-              icon: Icon(CustomIcons.search_regular),
-              onPressed: () async {
-                print(searchTabIndex);
-                final result = await showSearch(
-                  context: context,
-                  delegate: DataSearch(),
-                );
-                setState(() {
-                  searchTabIndex = int.parse(result);
-                });
-              },
-            ),
-        ],
-      ),
-      body: pagesData[selectedIndex][3],
-      bottomNavigationBar: BottomNavigationBar(
+    return CustomScaffold(
+      pagesData[selectedIndex][0],
+      "",
+      pagesData[selectedIndex][3],
+      2,
+      actionBtn: [
+        if (selectedIndex == 1)
+          IconButton(
+            icon: Icon(CustomIcons.search_regular),
+            onPressed: () async {
+              final result = await showSearch(
+                context: context,
+                delegate: DataSearch(),
+              );
+              setState(() {
+                searchTabIndex = int.parse(result);
+              });
+            },
+          ),
+      ],
+      bottomNavigationbar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         // FOR BLUE BACKGROUND
         // backgroundColor: Theme.of(context).primaryColor,

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:bus_express/custom_icons_icons.dart';
-import 'package:bus_express/model/switchCase.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
+import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
-import 'package:bus_express/view/components/loadingAlert.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/search/busArrival/addingAndRemovingFav.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -18,9 +19,9 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchBusArrival extends StatefulWidget {
-  String title;
-  String busStopCode;
-  String roadName;
+  final String title;
+  final String busStopCode;
+  final String roadName;
   SearchBusArrival(this.title, this.busStopCode, this.roadName);
 
   @override
@@ -107,125 +108,21 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          for (var bus in busArrivalData.values)
+          for (var bus in busArrivalData.values) ...[
             Dismissible(
               key: Key(bus['busService']),
+              background: busArrivalDataBackground(
+                context,
+                busesInFavList: busesInFavList,
+                currentBus: bus['busService'],
+              ),
+              secondaryBackground: busArrivalDataBackground2(),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        busFeaturesIcon(bus['nextBus']['type'].toString()),
-                        size: 32,
-                        color: Colors.blue[600],
-                      ),
-                    )
-                  ],
-                ),
-                title: Text(
-                  bus['busService'].toString(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                leading: busArrivalDataLeading(bus),
+                title: busArrivalDataTitle(bus['busService'], bus),
                 subtitle: Text(bus['destinationName'].toString()),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        bus['nextBus']['feature'].toString() == "WAB"
-                            ? Icon(
-                                busFeaturesIcon(bus['nextBus']['feature']),
-                                color: Colors.black,
-                                size: 16,
-                              )
-                            : Text(""),
-                        SizedBox(width: 5),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          bus['nextBus']['estimatedArrival'].toString(),
-                          style: TextStyle(
-                            fontSize:
-                                bus['nextBus']['estimatedArrival'].toString() ==
-                                        "NA"
-                                    ? 16
-                                    : 20,
-                            fontWeight: FontWeight.w500,
-                            color:
-                                bus['nextBus']['estimatedArrival'].toString() ==
-                                        "NA"
-                                    ? Colors.grey
-                                    : busFeaturesColor(bus['nextBus']['load']),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                          child: VerticalDivider(
-                            thickness: 1,
-                            width: 20,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          bus['nextBus2']['estimatedArrival'].toString(),
-                          style: TextStyle(
-                            fontSize: bus['nextBus2']['estimatedArrival']
-                                        .toString() ==
-                                    "NA"
-                                ? 16
-                                : 20,
-                            fontWeight: FontWeight.w500,
-                            color: bus['nextBus2']['estimatedArrival']
-                                        .toString() ==
-                                    "NA"
-                                ? Colors.grey
-                                : busFeaturesColor(bus['nextBus2']['load']),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                          child: VerticalDivider(
-                            thickness: 1,
-                            width: 20,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          bus['nextBus3']['estimatedArrival'].toString(),
-                          style: TextStyle(
-                            fontSize: bus['nextBus3']['estimatedArrival']
-                                        .toString() ==
-                                    "NA"
-                                ? 16
-                                : 20,
-                            fontWeight: FontWeight.w500,
-                            color: bus['nextBus3']['estimatedArrival']
-                                        .toString() ==
-                                    "NA"
-                                ? Colors.grey
-                                : busFeaturesColor(bus['nextBus3']['load']),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                trailing: busArrivalDataTrailing(bus, isDataLoaded),
                 onTap: () {
                   setState(() {
                     stopTimer = true;
@@ -269,41 +166,6 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                   });
                 },
               ),
-              background: Container(
-                color: Theme.of(context).primaryColor,
-                alignment: Alignment.center,
-                child: Align(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Icon(
-                      isDataLoaded
-                          ? busesInFavList
-                                  .contains(bus['busService'].toString())
-                              ? Icons.favorite_rounded
-                              : Icons.favorite_outline_rounded
-                          : Icons.favorite_outline_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                  alignment: Alignment.centerLeft,
-                ),
-              ),
-              secondaryBackground: Container(
-                color: Colors.black,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      swipeLeftToRightInstruction,
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.end,
-                    )
-                  ],
-                ),
-              ),
               confirmDismiss: (direction) async {
                 if (direction == DismissDirection.startToEnd) {
                   final busService = bus['busService'];
@@ -319,11 +181,11 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                       context,
                     );
                   }
-
-                  return false;
                 }
+                return false;
               },
             ),
+          ]
         ],
       ),
     );

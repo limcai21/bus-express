@@ -1,4 +1,4 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
@@ -7,7 +7,7 @@ import 'package:bus_express/view/search/search.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchTabBar extends StatefulWidget {
-  int selectedIndex;
+  final int selectedIndex;
   CustomSearchTabBar({this.selectedIndex});
 
   @override
@@ -15,6 +15,52 @@ class CustomSearchTabBar extends StatefulWidget {
 }
 
 class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
+  List<String> filters = <String>[];
+
+  filterBusServiceType() {
+    Map<String, dynamic> tempHolder = {};
+    filters.forEach((cat) {
+      allBusServiceData.forEach((key, value) {
+        String dbCat = formatBusCategory(value['category']);
+        if (filters.contains(dbCat)) {
+          tempHolder[key] = value;
+        }
+      });
+    });
+
+    setState(() {
+      if (filters.isNotEmpty) {
+        searchBusServiceData = tempHolder;
+      } else {
+        searchBusServiceData = allBusServiceData;
+      }
+    });
+  }
+
+  filterCustomChips(int index) {
+    var isSelected = filters.contains(allBusServiceType[index]);
+    return ChoiceChip(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      label: Text(allBusServiceType[index]),
+      selected: isSelected,
+      onSelected: (bool value) {
+        setState(() {
+          if (value) {
+            if (!filters.contains(allBusServiceType[index])) {
+              filters.add(allBusServiceType[index]);
+            }
+          } else {
+            filters.removeWhere((String cat) {
+              return cat == allBusServiceType[index];
+            });
+          }
+
+          filterBusServiceType();
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,6 +69,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
       child: Column(
         children: [
           TabBar(
+            labelPadding: const EdgeInsets.all(0),
             onTap: (index) => setState(() => searchTabIndex = index),
             indicatorColor: Theme.of(context).primaryColor,
             labelColor: Theme.of(context).primaryColor,
@@ -35,6 +82,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
           Expanded(
             child: TabBarView(
               children: [
+                // BUS STOP
                 ListView(
                   physics: BouncingScrollPhysics(),
                   children: [
@@ -76,41 +124,106 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                       ),
                   ],
                 ),
-                ListView(
-                  physics: BouncingScrollPhysics(),
+
+                // BUS SERVICE
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (var busService in searchBusServiceData.values)
-                      ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                        title: Text(
-                          busService['serviceNo'],
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                    // DATA
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 2,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                         ),
-                        trailing: Icon(CustomIcons.chevron_right, size: 18),
-                        subtitle: Text(busService['operator']),
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: ListView(
+                          physics: BouncingScrollPhysics(),
                           children: [
-                            busService['error'] != true
-                                ? dataTile(CustomIcons.bus, Colors.blue)
-                                : dataTile(
-                                    Icons.error_outline_rounded, Colors.red),
+                            for (var busService in searchBusServiceData.values)
+                              ListTile(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 20),
+                                title: Text(
+                                  busService['serviceNo'],
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                trailing:
+                                    Icon(CustomIcons.chevron_right, size: 18),
+                                subtitle: Text(busService['operator']),
+                                leading: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    busService['error'] != true
+                                        ? dataTile(CustomIcons.bus, Colors.blue)
+                                        : dataTile(Icons.error_outline_rounded,
+                                            Colors.red),
+                                  ],
+                                ),
+                                onTap: () => busService['error'] != true
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SearchBusRoute(
+                                            busService['serviceNo'],
+                                          ),
+                                        ),
+                                      )
+                                    : null,
+                              )
                           ],
                         ),
-                        onTap: () => busService['error'] != true
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SearchBusRoute(
-                                    busService['serviceNo'],
-                                  ),
-                                ),
-                              )
-                            : null,
-                      )
+                      ),
+                    ),
+
+                    // FILTER
+                    Container(
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: allBusServiceType.length,
+                              itemBuilder: (context, index) {
+                                return filterCustomChips(index);
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(width: 5);
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: TextButton(
+                              onPressed: filters.length > 0
+                                  ? () {
+                                      setState(() {
+                                        filters = [];
+                                        searchBusServiceData =
+                                            allBusServiceData;
+                                      });
+                                    }
+                                  : null,
+                              child: Text(
+                                filters.length > 0 ? "CLEAR" : "FILTER",
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
+
+                // ROAD
                 ListView(
                   physics: BouncingScrollPhysics(),
                   children: [

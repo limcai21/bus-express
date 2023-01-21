@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:collection';
-import 'package:bus_express/model/api.dart';
-import 'package:bus_express/model/global.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
+import 'package:bus_express/model/api.dart';
+import 'package:bus_express/model/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // GET USER CURRENT LOCATION
 checkLocationServiceAndPermission() async {
@@ -53,6 +55,8 @@ nearbyBusStop() async {
       centerPoint = LatLng(lat, long);
       nearbyBusStopsData = {};
       nearbyBusStopsData = await BusStop().nearby(lat, long);
+
+      print("Current Position: " + lat.toString() + ", " + long.toString());
       print("Nearby bus stops loaded");
     });
   } else {
@@ -62,11 +66,26 @@ nearbyBusStop() async {
 
 // GET NEARBY BUS STOP
 startUpLoadData(context) async {
-  // loadingAlert(context);
-
   print("Loading (startUpLoadData)");
-  allBusStopsData = await BusStop().all();
-  allBusServiceData = await Bus().all();
+
+  // GETTING DATA FROM DB
+  final prefs = await SharedPreferences.getInstance();
+  final String dbBusStopsData = prefs.getString('allBusStopsData');
+  final String dbBusServiceData = prefs.getString('allBusServiceData');
+
+  // BUS STOP
+  if (dbBusStopsData == null) {
+    await BusStop().all();
+  } else {
+    allBusStopsData = jsonDecode(dbBusStopsData);
+  }
+
+  // BUS SERVICE
+  if (dbBusServiceData == null) {
+    await Bus().all();
+  } else {
+    allBusServiceData = jsonDecode(dbBusServiceData);
+  }
 
   // GET ROADNAME FOR ADDRESS
   Map<String, dynamic> tempHolder = {};
@@ -86,6 +105,14 @@ startUpLoadData(context) async {
     }
   });
 
+  // GET BUS TYPE
+  allBusServiceData.forEach((key, value) {
+    String category = formatBusCategory(value['category']);
+    if (!allBusServiceType.contains(category)) {
+      allBusServiceType.add(category);
+    }
+  });
+
   // SORT BY A-Z
   allBusStopsData = new SplayTreeMap<String, dynamic>.from(
       allBusStopsData, (k1, k2) => k1.compareTo(k2));
@@ -95,7 +122,4 @@ startUpLoadData(context) async {
       tempHolder, (k1, k2) => k1.compareTo(k2));
 
   print("Data all loaded (startUpLoadData)");
-
-  // REMOVE LOADING ALERT
-  // Navigator.of(context).pop();
 }

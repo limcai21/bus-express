@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:bus_express/model/constants.dart';
-import 'package:bus_express/model/switchCase.dart';
+import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
+import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/loadingAlert.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/search/busArrival/addingAndRemovingFav.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
@@ -148,214 +148,68 @@ class _FavouriteState extends State<Favourite> {
       {Map arrivalData}) {
     return Dismissible(
       key: Key(busService),
-      secondaryBackground: Container(
-        color: Colors.black,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Text(
-              swipeLeftToRightInstruction,
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.end,
-            )
-          ],
-        ),
-      ),
+      background: busArrivalDataBackground(context),
+      secondaryBackground: busArrivalDataBackground2(),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20),
-        title: Text(
-          busService,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: busArrivalDataTitle(busService, arrivalData),
         subtitle: gotData
             ? Text(arrivalData['destinationName'])
-            : Text("Bus Service ended"),
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.blue[100],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(
-                busFeaturesIcon(arrivalData['nextBus']['type'].toString()),
-                size: 32,
-                color: Colors.blue[600],
-              ),
-            )
-          ],
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: gotData
-              ? [
-                  Row(
-                    children: [
-                      arrivalData['nextBus']['feature'].toString() == "WAB"
-                          ? Icon(
-                              busFeaturesIcon(
-                                  arrivalData['nextBus']['feature']),
-                              color: Colors.black,
-                              size: 16,
-                            )
-                          : Text(""),
-                      SizedBox(width: 5),
-                      SizedBox(width: 10),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            arrivalData['nextBus']['estimatedArrival']
-                                .toString(),
-                            style: TextStyle(
-                              fontSize: arrivalData['nextBus']
-                                              ['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? 16
-                                  : 20,
-                              fontWeight: FontWeight.w500,
-                              color: arrivalData['nextBus']['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? Colors.grey
-                                  : busFeaturesColor(
-                                      arrivalData['nextBus']['load']),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                            child: VerticalDivider(
-                              thickness: 1,
-                              width: 20,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            arrivalData['nextBus2']['estimatedArrival']
-                                .toString(),
-                            style: TextStyle(
-                              fontSize: arrivalData['nextBus2']
-                                              ['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? 16
-                                  : 20,
-                              fontWeight: FontWeight.w500,
-                              color: arrivalData['nextBus2']['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? Colors.grey
-                                  : busFeaturesColor(
-                                      arrivalData['nextBus2']['load']),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                            child: VerticalDivider(
-                              thickness: 1,
-                              width: 20,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            arrivalData['nextBus3']['estimatedArrival']
-                                .toString(),
-                            style: TextStyle(
-                              fontSize: arrivalData['nextBus3']
-                                              ['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? 16
-                                  : 20,
-                              fontWeight: FontWeight.w500,
-                              color: arrivalData['nextBus3']['estimatedArrival']
-                                          .toString() ==
-                                      "NA"
-                                  ? Colors.grey
-                                  : busFeaturesColor(
-                                      arrivalData['nextBus3']['load']),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ]
-              : [
-                  Text(
-                    "No Estimate Available",
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
-                  ),
-                ],
-        ),
+            : Text(allBusServiceData[busService] != null
+                ? allBusServiceData[busService]['operator']
+                : ""),
+        leading: busArrivalDataLeading(arrivalData),
+        trailing: busArrivalDataTrailing(arrivalData, gotData),
         onTap: () {
-          setState(() {
-            stopTimer = true;
-            refreshTimer.cancel();
-            print('timer stop at fav');
-          });
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SearchBusRoute(busService)),
-          ).then((value) async {
+          if (arrivalData != null) {
             setState(() {
-              stopTimer = false;
-              isDataLoaded = false;
-              print("start timer again");
+              stopTimer = true;
+              refreshTimer.cancel();
+              print('timer stop at fav');
             });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SearchBusRoute(busService)),
+            ).then((value) async {
+              setState(() {
+                stopTimer = false;
+                isDataLoaded = false;
+                print("start timer again");
+              });
 
-            await pageInitFunction();
-          });
+              await pageInitFunction();
+            });
+          }
         },
         onLongPress: () {
-          setState(() {
-            stopTimer = true;
-            refreshTimer.cancel();
-          });
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BusesLocation(
-                busService,
-                arrivalData['destinationName'],
-                arrivalData,
-                code,
-                busStopName,
-              ),
-            ),
-          ).then((value) async {
-            // IF USER RETURN TO THIS PAGE
+          if (arrivalData != null) {
             setState(() {
-              stopTimer = false;
-              isDataLoaded = false;
-              print("start timer again");
+              stopTimer = true;
+              refreshTimer.cancel();
             });
-            await pageInitFunction();
-          });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BusesLocation(
+                  busService,
+                  arrivalData['destinationName'],
+                  arrivalData,
+                  code,
+                  busStopName,
+                ),
+              ),
+            ).then((value) async {
+              // IF USER RETURN TO THIS PAGE
+              setState(() {
+                stopTimer = false;
+                isDataLoaded = false;
+                print("start timer again");
+              });
+              await pageInitFunction();
+            });
+          }
         },
-      ),
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.center,
-        child: Align(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Icon(
-              Icons.delete_rounded,
-              color: Colors.white,
-            ),
-          ),
-          alignment: Alignment.centerLeft,
-        ),
       ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
@@ -364,9 +218,9 @@ class _FavouriteState extends State<Favourite> {
             isDataLoaded = false;
             pageInitFunction();
           });
-
-          return false;
         }
+
+        return false;
       },
     );
   }
@@ -517,7 +371,7 @@ class _FavouriteState extends State<Favourite> {
         "images/busStop.png",
         600,
         "Loving It?",
-        "Login to save all your favourite bus stops",
+        "Login to favourite all your bus stops",
       );
     }
   }

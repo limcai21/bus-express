@@ -1,4 +1,4 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
@@ -11,7 +11,8 @@ class CompanyAboutUs extends StatelessWidget {
     return CustomScaffold(
       "About Us",
       'How it started',
-      Expanded(child: AboutUsContent()),
+      AboutUsContent(),
+      2,
     );
   }
 }

@@ -1,14 +1,16 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/api.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/login.dart';
 import 'package:bus_express/view/profile/company/aboutUs.dart';
 import 'package:bus_express/view/profile/profileEdit.dart';
 import 'package:bus_express/view/signup.dart';
 import 'company/components/contactFunctions.dart';
-import 'components/leadingIcon.dart';
+import 'components/profileLeadingIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
@@ -66,24 +68,52 @@ class _ProfileState extends State<Profile> {
   }
 
   profileCard() {
-    var bgColor = Theme.of(context).primaryColor;
+    Color bgColor = Colors.grey[200];
+    String accountName = isUserLogin ? currentLoginUsername : "Guest";
+    String accountSubtitle = isUserLogin
+        ? userEmail + "  •  +65 " + userContactNumber
+        : "Login to view your profile";
+    double paddingTopBottom = 30.0;
+
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: paddingTopBottom,
+      ),
       color: bgColor,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: UserAccountsDrawerHeader(
-        decoration: BoxDecoration(color: bgColor),
-        accountName: Text(isUserLogin ? currentLoginUsername : "Guest"),
-        accountEmail: Text(
-          isUserLogin
-              ? userEmail + "  •  +65 " + userContactNumber
-              : "Login to view your profile",
-        ),
-        currentAccountPicture: isUserLogin
-            ? CircleAvatar(
-                backgroundImage: AssetImage("images/defaultProfilePic.png"),
-              )
-            : null,
-        margin: const EdgeInsets.all(0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                accountName,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Theme.of(context).textTheme.headline6.fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                accountSubtitle,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: Theme.of(context).textTheme.bodyText1.fontSize,
+                ),
+              ),
+            ],
+          ),
+          if (isUserLogin) ...[
+            SizedBox(width: 10),
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage("images/defaultProfilePic.png"),
+            ),
+          ]
+        ],
       ),
     );
   }
@@ -220,7 +250,6 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text("You can't undo this action"),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
             leading: leadingIcon(CustomIcons.delete, Colors.red),
             onTap: () {
               alertDialog(
@@ -256,7 +285,6 @@ class _ProfileState extends State<Profile> {
             },
           ),
 
-        if (isUserLogin) listViewHeader('Others', context),
         if (isUserLogin)
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -265,7 +293,6 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             subtitle: Text("You can always sign back in"),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
             leading: leadingIcon(CustomIcons.logout, Colors.indigo),
             onTap: () {
               alertDialog(
@@ -286,6 +313,24 @@ class _ProfileState extends State<Profile> {
               );
             },
           ),
+
+        listViewHeader('Others', context),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          title: Text(
+            'Refetch Data',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          subtitle: Text("For missing Bus Stops or Bus Service"),
+          leading: leadingIcon(CustomIcons.refresh, Colors.pink),
+          onTap: () async {
+            loadingAlert(context);
+            await BusStop().all();
+            await Bus().all();
+            Navigator.pop(context);
+            alertDialog(refetchDataTitle, refetchDataDescription, context);
+          },
+        ),
 
         listViewHeader('Company', context),
         customListTile(

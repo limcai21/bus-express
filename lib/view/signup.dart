@@ -1,9 +1,9 @@
-import 'package:bus_express/custom_icons_icons.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
-import 'package:bus_express/view/components/loadingAlert.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
@@ -18,6 +18,7 @@ class _SignUpState extends State<SignUp> {
       'Sign Up',
       'Save all you favourite bus stop',
       SignUpForm(),
+      2,
     );
   }
 }
@@ -90,116 +91,115 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: usernameController,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.profile_filled),
-                  labelText: 'Username',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return usernameEmptyNull;
-                  } else {
-                    return checkUsernameExist(value);
-                  }
-                },
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      child: Form(
+        autovalidateMode: AutovalidateMode.always,
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: usernameController,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.profile_filled),
+                labelText: 'Username',
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.mail),
-                  labelText: 'Email',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return emailEmptyNull;
-                  } else if (!RegExp(emailRegex).hasMatch(value)) {
-                    return emailInvalid;
-                  }
-                  return null;
-                },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return usernameEmptyNull;
+                } else {
+                  return checkUsernameExist(value);
+                }
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.mail),
+                labelText: 'Email',
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: contactNumberController,
-                keyboardType: TextInputType.phone,
-                maxLength: contactNumberMaxLength,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.phone),
-                  labelText: 'Contact Number',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return contactNumberEmptyNull;
-                  } else if (!RegExp(contactNumberRegex).hasMatch(value)) {
-                    return contactNumberInvalid;
-                  }
-                  return null;
-                },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return emailEmptyNull;
+                } else if (!RegExp(emailRegex).hasMatch(value)) {
+                  return emailInvalid;
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: contactNumberController,
+              keyboardType: TextInputType.phone,
+              maxLength: contactNumberMaxLength,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.phone),
+                labelText: 'Contact Number',
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.lock_filled),
-                  labelText: 'Password',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return passwordEmptyNull;
-                  } else {
-                    return checkRetypePasswordAndPasswordAreSame();
-                  }
-                },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return contactNumberEmptyNull;
+                } else if (!RegExp(contactNumberRegex).hasMatch(value)) {
+                  return contactNumberInvalid;
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.lock_filled),
+                labelText: 'Password',
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: retypePasswordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  icon: Icon(CustomIcons.lock_filled),
-                  labelText: 'Retype Password',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return retpyePasswordEmptyNull;
-                  } else {
-                    return checkRetypePasswordAndPasswordAreSame();
-                  }
-                },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return passwordEmptyNull;
+                } else {
+                  return checkRetypePasswordAndPasswordAreSame();
+                }
+              },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: retypePasswordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(CustomIcons.lock_filled),
+                labelText: 'Retype Password',
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () async {
-                  if (formKey.currentState.validate()) {
-                    await registerUser();
-                    await alertDialog(
-                      "Completed!",
-                      'Sign up successfully.\nYou can now sign in',
-                      context,
-                    );
-                  }
-                },
-                child: Text('Sign Up'),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Theme.of(context).primaryColor),
-                ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return retpyePasswordEmptyNull;
+                } else {
+                  return checkRetypePasswordAndPasswordAreSame();
+                }
+              },
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState.validate()) {
+                  await registerUser();
+                  await alertDialog(
+                    "Completed!",
+                    'Sign up successfully.\nYou can now sign in',
+                    context,
+                  );
+                }
+              },
+              child: Text('Sign Up'),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).primaryColor),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

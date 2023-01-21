@@ -5,9 +5,9 @@ import 'package:bus_express/view/profile/settings/changeEmail.dart';
 import 'package:bus_express/view/profile/settings/changePassword.dart';
 
 class ProfileEditForm extends StatelessWidget {
-  String title;
-  String subtitle;
-  int index;
+  final String title;
+  final String subtitle;
+  final int index;
   ProfileEditForm(this.title, this.subtitle, this.index);
 
   @override
@@ -18,9 +18,13 @@ class ProfileEditForm extends StatelessWidget {
       title,
       subtitle,
       Container(
-        padding: const EdgeInsets.all(20),
-        child: pages[index],
+        child: SingleChildScrollView(
+          child: pages[index],
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          physics: BouncingScrollPhysics(),
+        ),
       ),
+      2,
     );
   }
 }

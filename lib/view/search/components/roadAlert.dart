@@ -1,8 +1,8 @@
-import 'package:bus_express/view/components/alertSimpleDialog.dart';
+import 'package:bus_express/view/components/alert/alertSimpleDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 
 Future<void> roadAlert(roadName, context) async {

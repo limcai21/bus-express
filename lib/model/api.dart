@@ -1,7 +1,9 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:http/http.dart' as http;
 import 'package:bus_express/model/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // LTA DATAMALL
 // API KEY = mDsTHNRhT3aj8d9FamUH3A==
@@ -173,6 +175,13 @@ class Bus {
           "category": tempHolder[i]["Category"]
         };
       }
+
+      // STORE
+      final prefs = await SharedPreferences.getInstance();
+      tempData = new SplayTreeMap<String, dynamic>.from(
+          tempData, (k1, k2) => k1.compareTo(k2));
+      await prefs.setString('allBusServiceData', jsonEncode(tempData));
+      allBusServiceData = tempData;
 
       return tempData;
     }
@@ -376,42 +385,73 @@ class BusStop {
         }
 
         await BusStop().all(
-            skip: skip + 500,
-            tempHolder: tempHolder,
-            tempBusStopData: tempBusStopData);
+          skip: skip + 500,
+          tempHolder: tempHolder,
+          tempBusStopData: tempBusStopData,
+        );
       }
     }
 
-    return tempBusStopData;
+    // STORE
+    final prefs = await SharedPreferences.getInstance();
+    tempBusStopData = new SplayTreeMap<String, dynamic>.from(
+        tempBusStopData, (k1, k2) => k1.compareTo(k2));
+    await prefs.setString('allBusStopsData', jsonEncode(tempBusStopData));
+    allBusStopsData = tempBusStopData;
   }
 
   Future<Object> nearby(double lat, double long) async {
-    var request = http.Request('GET',
-        Uri.parse(nearbyBusStopURL + lat.toString() + "," + long.toString()));
-    request.headers.addAll(stbAPIHeader);
-    http.StreamedResponse response = await request.send();
-    var tempHolder = [];
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(await response.stream.bytesToString())['data'];
-      if (data.length > 0) {
-        tempHolder.addAll(data);
-      }
-
-      for (var i = 0; i < tempHolder.length; i++) {
-        var data = tempHolder[i];
-        final code = (data["code"]).toString();
-        nearbyBusStopsData[code] = {
-          "code": code,
-          "roadName": data["roadName"],
-          "description": data["description"],
-          "latitude": data["location"]["latitude"],
-          "longitude": data["location"]["longitude"],
-        };
-      }
-
-      return nearbyBusStopsData;
+    if (allBusServiceData == null) {
+      await BusStop().all();
     }
+
+    Map<String, dynamic> tempHolder = {};
+    allBusStopsData.forEach((key, value) {
+      final busStopLat = value['latitude'];
+      final busStopLong = value['longitude'];
+
+      final double meters = calculateDistance(
+        lat,
+        long,
+        busStopLat,
+        busStopLong,
+      );
+
+      // GET SAVE BUS STOP WITHIN 500m
+      if (meters < 500) {
+        tempHolder[key] = value;
+      }
+    });
+
+    return tempHolder;
+
+    // STB API
+    // var request = http.Request('GET',
+    //     Uri.parse(nearbyBusStopURL + lat.toString() + "," + long.toString()));
+    // request.headers.addAll(stbAPIHeader);
+    // http.StreamedResponse response = await request.send();
+    // var tempHolder = [];
+
+    // if (response.statusCode == 200) {
+    //   final data = jsonDecode(await response.stream.bytesToString())['data'];
+    //   if (data.length > 0) {
+    //     tempHolder.addAll(data);
+    //   }
+
+    //   for (var i = 0; i < tempHolder.length; i++) {
+    //     var data = tempHolder[i];
+    //     final code = (data["code"]).toString();
+    //     nearbyBusStopsData[code] = {
+    //       "code": code,
+    //       "roadName": data["roadName"],
+    //       "description": data["description"],
+    //       "latitude": data["location"]["latitude"],
+    //       "longitude": data["location"]["longitude"],
+    //     };
+    //   }
+
+    //   return nearbyBusStopsData;
+    // }
   }
 
   Future<Object> originAndDestination(String busStopCode) async {

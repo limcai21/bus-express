@@ -1,7 +1,7 @@
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/model/switchCase.dart';
-import 'package:bus_express/view/components/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/search/busArrival/addingAndRemovingFav.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +11,11 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BusesLocation extends StatelessWidget {
-  String title;
-  String subtitle;
-  Map<String, dynamic> data;
-  String busStopCode;
-  String busStopName;
+  final String title;
+  final String subtitle;
+  final Map<String, dynamic> data;
+  final String busStopCode;
+  final String busStopName;
   BusesLocation(
     this.title,
     this.subtitle,
@@ -35,15 +35,16 @@ class BusesLocation extends StatelessWidget {
         busService: title,
         busStopName: busStopName,
       ),
+      2,
     );
   }
 }
 
 class BusesLocationMap extends StatefulWidget {
-  Map<String, dynamic> data;
-  String busStopCode;
-  String busService;
-  String busStopName;
+  final Map<String, dynamic> data;
+  final String busStopCode;
+  final String busService;
+  final String busStopName;
   BusesLocationMap({
     Key key,
     @required this.data,
@@ -319,82 +320,79 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
         ? double.parse(nextBus3Data['longitude'])
         : 0.0;
 
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          new FlutterMap(
-            mapController: mapController,
-            options: new MapOptions(
-              zoom: zoom,
-              center: centerPoint,
-              plugins: [
-                LocationMarkerPlugin(
-                  centerOnLocationUpdate: centerOnLocationUpdate,
-                )
-              ],
-            ),
-            layers: [
-              new TileLayerOptions(
-                urlTemplate: mapUrlTemplate,
-                subdomains: mapSubdomain,
-              ),
-              if (isAllPermissionEnabled) LocationMarkerLayerOptions(),
-              new MarkerLayerOptions(markers: next3BusMarker),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        new FlutterMap(
+          mapController: mapController,
+          options: new MapOptions(
+            zoom: zoom,
+            center: centerPoint,
+            plugins: [
+              LocationMarkerPlugin(
+                centerOnLocationUpdate: centerOnLocationUpdate,
+              )
             ],
           ),
-          Container(
-            height: 210,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: [
-                if (middlePointOfNext3BusMarker.length >= 1 &&
-                    middlePointOfNext3BusMarker.length <= 3)
-                  busArrivalCustomCard(
-                    "Next Bus",
-                    nextBusArrival,
-                    nextBusType,
-                    nextBusLoad,
-                    nextBusFeature,
-                    nextBusLat,
-                    nextBusLong,
-                    middlePointOfNext3BusMarker.length == 1
-                        ? const EdgeInsets.all(20)
-                        : const EdgeInsets.fromLTRB(20, 20, 5, 20),
-                  ),
-                if (middlePointOfNext3BusMarker.length >= 2 &&
-                    middlePointOfNext3BusMarker.length <= 3)
-                  busArrivalCustomCard(
-                    "Next Bus 2",
-                    nextBus2Arrival,
-                    nextBus2Type,
-                    nextBus2Load,
-                    nextBus2Feature,
-                    nextBus2Lat,
-                    nextBus2Long,
-                    middlePointOfNext3BusMarker.length == 2
-                        ? const EdgeInsets.fromLTRB(5, 20, 20, 20)
-                        : const EdgeInsets.fromLTRB(5, 20, 5, 20),
-                  ),
-                if (middlePointOfNext3BusMarker.length == 3)
-                  busArrivalCustomCard(
-                    "Next Bus 3",
-                    nextBus3Arrival,
-                    nextBus3Type,
-                    nextBus3Load,
-                    nextBus3Feature,
-                    nextBus3Lat,
-                    nextBus3Long,
-                    const EdgeInsets.fromLTRB(5, 20, 20, 20),
-                  ),
-              ],
+          layers: [
+            new TileLayerOptions(
+              urlTemplate: mapUrlTemplate,
+              subdomains: mapSubdomain,
             ),
+            if (isAllPermissionEnabled) LocationMarkerLayerOptions(),
+            new MarkerLayerOptions(markers: next3BusMarker),
+          ],
+        ),
+        Container(
+          height: 210,
+          color: Color.fromRGBO(0, 0, 0, 0.5),
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: [
+              if (middlePointOfNext3BusMarker.length >= 1 &&
+                  middlePointOfNext3BusMarker.length <= 3)
+                busArrivalCustomCard(
+                  "Next Bus",
+                  nextBusArrival,
+                  nextBusType,
+                  nextBusLoad,
+                  nextBusFeature,
+                  nextBusLat,
+                  nextBusLong,
+                  middlePointOfNext3BusMarker.length == 1
+                      ? const EdgeInsets.all(20)
+                      : const EdgeInsets.fromLTRB(20, 20, 5, 20),
+                ),
+              if (middlePointOfNext3BusMarker.length >= 2 &&
+                  middlePointOfNext3BusMarker.length <= 3)
+                busArrivalCustomCard(
+                  "Next Bus 2",
+                  nextBus2Arrival,
+                  nextBus2Type,
+                  nextBus2Load,
+                  nextBus2Feature,
+                  nextBus2Lat,
+                  nextBus2Long,
+                  middlePointOfNext3BusMarker.length == 2
+                      ? const EdgeInsets.fromLTRB(5, 20, 20, 20)
+                      : const EdgeInsets.fromLTRB(5, 20, 5, 20),
+                ),
+              if (middlePointOfNext3BusMarker.length == 3)
+                busArrivalCustomCard(
+                  "Next Bus 3",
+                  nextBus3Arrival,
+                  nextBus3Type,
+                  nextBus3Load,
+                  nextBus3Feature,
+                  nextBus3Lat,
+                  nextBus3Long,
+                  const EdgeInsets.fromLTRB(5, 20, 20, 20),
+                ),
+            ],
           ),
-        ],
-      ),
-      // ),
+        ),
+      ],
     );
   }
 }
