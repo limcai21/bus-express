@@ -13,6 +13,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import '../model/custom_icons_icons.dart';
+import 'package:open_settings/open_settings.dart';
 
 class Home extends StatefulWidget {
   callBack() {
@@ -266,6 +267,10 @@ class _HomeState extends State<Home> {
           permissionDisabledTitle,
           permissionDisabled,
           context,
+          additionalActions: TextButton(
+            onPressed: () => OpenSettings.openLocationSetting(),
+            child: Text("SETTINGS"),
+          ),
         );
       }
     });

@@ -27,7 +27,8 @@ dependencies:
   http: any 
   location: any 
   flutter_map: any 
-  url_launcher: any 
+  url_launcher: any
+  open_settings: any 
   shared_preferences: any 
   flutter_map_location_marker: any 
   material_design_icons_flutter: any 

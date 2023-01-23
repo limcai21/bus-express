@@ -9,6 +9,7 @@ import 'package:bus_express/view/login.dart';
 import 'package:bus_express/view/profile/company/aboutUs.dart';
 import 'package:bus_express/view/profile/profileEdit.dart';
 import 'package:bus_express/view/signup.dart';
+import 'package:open_settings/open_settings.dart';
 import 'company/components/contactFunctions.dart';
 import 'components/profileLeadingIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -138,7 +139,7 @@ class _ProfileState extends State<Profile> {
             ),
             subtitle: Text('View all your favourites'),
             trailing: Icon(CustomIcons.chevron_right, size: 18),
-            leading: leadingIcon(CustomIcons.login, Colors.orange),
+            leading: leadingIcon(CustomIcons.profile_filled, Colors.orange),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -318,10 +319,21 @@ class _ProfileState extends State<Profile> {
         ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
           title: Text(
+            'Location Service',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          subtitle: Text('Enable your location service'),
+          trailing: Icon(CustomIcons.open_in, size: 16),
+          leading: leadingIcon(CustomIcons.near_me, Colors.blueGrey),
+          onTap: () => OpenSettings.openLocationSetting(),
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          title: Text(
             'Refetch Data',
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
-          subtitle: Text("For missing Bus Stops or Bus Service"),
+          subtitle: Text("Refetch missing Bus Stops or Bus Service"),
           leading: leadingIcon(CustomIcons.refresh, Colors.pink),
           onTap: () async {
             loadingAlert(context);
