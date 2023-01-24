@@ -7,6 +7,7 @@ class CustomScaffold extends StatelessWidget {
   final List<Widget> actionBtn;
   final Widget bottomNavigationbar;
   final int layout;
+  final Color backgroundColor;
   CustomScaffold(
     this.title,
     this.subtitle,
@@ -14,6 +15,7 @@ class CustomScaffold extends StatelessWidget {
     this.layout, {
     this.actionBtn,
     this.bottomNavigationbar,
+    this.backgroundColor,
   });
 
   titleWidget(title, context) {
@@ -31,6 +33,9 @@ class CustomScaffold extends StatelessWidget {
   scaffoldLayout(context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: backgroundColor != null
+            ? backgroundColor
+            : Theme.of(context).primaryColor,
         title: Text(title),
         actions: actionBtn,
       ),
@@ -45,6 +50,9 @@ class CustomScaffold extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         actions: actionBtn,
+        backgroundColor: backgroundColor != null
+            ? backgroundColor
+            : Theme.of(context).primaryColor,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +60,9 @@ class CustomScaffold extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-            color: Theme.of(context).primaryColor,
+            color: backgroundColor != null
+                ? backgroundColor
+                : Theme.of(context).primaryColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

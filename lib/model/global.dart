@@ -10,12 +10,14 @@ Map<String, dynamic> allBusServiceData = {};
 Map<String, dynamic> allAddressData = {};
 
 List allBusServiceType = [];
+List<String> filters = <String>[];
 
 bool locationServiceEnabled;
 bool isUserLogin = false;
 bool isAllPermissionEnabled = false;
 bool isThereInternetConnection = false;
 
+String searchQuery = '';
 String currentLoginUsername = '';
 
 int searchTabIndex = 0;

@@ -23,6 +23,17 @@ busArrivalDataLeading(data) {
   );
 }
 
+busTimingDivider() {
+  return SizedBox(
+    height: 20,
+    child: VerticalDivider(
+      thickness: 1,
+      width: 20,
+      color: Colors.grey,
+    ),
+  );
+}
+
 // LAYOUT 1
 // busArrivalDataTrailingTiming(data) {
 //   return Text(
@@ -83,23 +94,9 @@ busArrivalDataTrailing(data, bool gotData) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     busArrivalDataTrailingTiming(data['nextBus']),
-                    SizedBox(
-                      height: 25,
-                      child: VerticalDivider(
-                        thickness: 1,
-                        width: 20,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    busTimingDivider(),
                     busArrivalDataTrailingTiming(data['nextBus2']),
-                    SizedBox(
-                      height: 25,
-                      child: VerticalDivider(
-                        thickness: 1,
-                        width: 20,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    busTimingDivider(),
                     busArrivalDataTrailingTiming(data['nextBus3']),
                   ],
                 ),

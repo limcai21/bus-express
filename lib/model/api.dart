@@ -172,7 +172,7 @@ class Bus {
         tempData[serviceNo] = {
           "serviceNo": tempHolder[i]["ServiceNo"],
           "operator": operatorName(operator),
-          "category": tempHolder[i]["Category"]
+          "category": formatBusCategory(tempHolder[i]["Category"]),
         };
       }
 

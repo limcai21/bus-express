@@ -29,6 +29,7 @@ dependencies:
   flutter_map: any 
   url_launcher: any
   open_settings: any 
+  salomon_bottom_bar: any
   shared_preferences: any 
   flutter_map_location_marker: any 
   material_design_icons_flutter: any 
