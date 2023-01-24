@@ -3,37 +3,20 @@ import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:bus_express/view/search/components/roadAlert.dart';
+import 'package:bus_express/view/search/components/searchFunction.dart';
 import 'package:bus_express/view/search/search.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchTabBar extends StatefulWidget {
-  final int selectedIndex;
-  CustomSearchTabBar({this.selectedIndex});
-
   @override
   State<CustomSearchTabBar> createState() => _CustomSearchTabBarState();
 }
 
 class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
-  List<String> filters = <String>[];
-
   filterBusServiceType() {
-    Map<String, dynamic> tempHolder = {};
-    filters.forEach((cat) {
-      allBusServiceData.forEach((key, value) {
-        String dbCat = formatBusCategory(value['category']);
-        if (filters.contains(dbCat)) {
-          tempHolder[key] = value;
-        }
-      });
-    });
-
     setState(() {
-      if (filters.isNotEmpty) {
-        searchBusServiceData = tempHolder;
-      } else {
-        searchBusServiceData = allBusServiceData;
-      }
+      searchBusServiceData =
+          DataSearch().busServiceSearching(searchData: searchQuery);
     });
   }
 
@@ -69,8 +52,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
       child: Column(
         children: [
           TabBar(
-            labelPadding: const EdgeInsets.all(0),
-            onTap: (index) => setState(() => searchTabIndex = index),
+            onTap: (index) => searchTabIndex = index,
             indicatorColor: Theme.of(context).primaryColor,
             labelColor: Theme.of(context).primaryColor,
             tabs: [
@@ -93,7 +75,9 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           busStop['description'],
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        trailing: Icon(CustomIcons.chevron_right, size: 18),
+                        trailing: busStop['error'] != true
+                            ? Icon(CustomIcons.chevron_right, size: 18)
+                            : null,
                         subtitle: busStop['error'] != true
                             ? Text((busStop['roadName']).toString() +
                                 " • " +
@@ -151,8 +135,9 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                                   busService['serviceNo'],
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
-                                trailing:
-                                    Icon(CustomIcons.chevron_right, size: 18),
+                                trailing: busService['error'] != true
+                                    ? Icon(CustomIcons.chevron_right, size: 18)
+                                    : null,
                                 subtitle: Text(busService['operator']),
                                 leading: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +219,9 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           road["roadName"],
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        trailing: Icon(CustomIcons.chevron_right, size: 18),
+                        trailing: road['error'] != true
+                            ? Icon(CustomIcons.chevron_right, size: 18)
+                            : null,
                         subtitle: road['error'] == true
                             ? Text(road['subtitle'])
                             : Text(road['amountOfBusStop'].toString() +

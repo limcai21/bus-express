@@ -15,12 +15,11 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+    filters = [];
     searchBusStopsData = allBusStopsData;
     searchBusServiceData = allBusServiceData;
     searchAddressData = allAddressData;
-    setState(() {
-      searchTabIndex = 0;
-    });
+    searchTabIndex = 0;
   }
 
   @override

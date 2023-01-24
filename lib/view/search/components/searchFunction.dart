@@ -5,7 +5,6 @@ import 'package:bus_express/view/search/search.dart';
 import './customSearchTabBar.dart';
 
 class DataSearch extends SearchDelegate<String> {
-
   busStopSearching() {
     Map<String, dynamic> tempSearchHolderForBusStop = {};
 
@@ -30,14 +29,26 @@ class DataSearch extends SearchDelegate<String> {
     return tempSearchHolderForBusStop;
   }
 
-  busServiceSearching() {
+  busServiceSearching({String searchData}) {
+    if (searchData == null) {
+      searchData = query;
+    }
+
     Map<String, dynamic> tempSearchHolderForBusService = {};
 
     allBusServiceData.forEach((key, value) {
       final service = (value["serviceNo"]).toString();
+      final category = (value["category"]).toString();
 
-      if ((service.toString()).contains(query.toUpperCase())) {
-        tempSearchHolderForBusService[key] = value;
+      if (filters.isEmpty) {
+        if ((service.toString()).contains(searchData.toUpperCase())) {
+          tempSearchHolderForBusService[key] = value;
+        }
+      } else {
+        if ((service.toString()).contains(searchData.toUpperCase()) &&
+            filters.contains(category)) {
+          tempSearchHolderForBusService[key] = value;
+        }
       }
     });
 
@@ -93,7 +104,7 @@ class DataSearch extends SearchDelegate<String> {
         searchBusStopsData = allBusStopsData;
         searchBusServiceData = allBusServiceData;
         searchAddressData = allAddressData;
-        close(context, searchTabIndex.toString());
+        close(context, null);
       },
     );
   }
@@ -105,15 +116,10 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    if (query.isEmpty) {
-      searchBusStopsData = allBusStopsData;
-      searchBusServiceData = allBusServiceData;
-      searchAddressData = allAddressData;
-    } else {
-      searchBusStopsData = busStopSearching();
-      searchBusServiceData = busServiceSearching();
-      searchAddressData = addressSearching();
-    }
-    return CustomSearchTabBar(selectedIndex: searchTabIndex);
+    searchQuery = query;
+    searchBusStopsData = busStopSearching();
+    searchBusServiceData = busServiceSearching();
+    searchAddressData = addressSearching();
+    return CustomSearchTabBar();
   }
 }
