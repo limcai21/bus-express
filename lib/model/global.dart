@@ -7,6 +7,7 @@ import 'package:latlong/latlong.dart';
 Map<String, dynamic> allBusStopsData = {};
 Map<String, dynamic> nearbyBusStopsData = {};
 Map<String, dynamic> allBusServiceData = {};
+Map<String, dynamic> allBusRouteData = {};
 Map<String, dynamic> allAddressData = {};
 
 List allBusServiceType = [];

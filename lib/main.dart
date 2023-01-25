@@ -146,7 +146,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
                 icon: Icon(pagesData[i][1]),
                 activeIcon: Icon(pagesData[i][2]),
                 title: Text(pagesData[i][0]),
-                selectedColor: pagesData[i][4],
+                // selectedColor: pagesData[i][4],
               ),
           ],
         ),
