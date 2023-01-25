@@ -95,6 +95,11 @@ class CustomScaffold extends StatelessWidget {
           return scaffoldLayout2(context);
         }
         break;
+
+      default:
+        {
+          return scaffoldLayout(context);
+        }
     }
   }
 }
