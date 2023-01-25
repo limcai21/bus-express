@@ -104,7 +104,12 @@ const swipeLeftToRightInstruction = "😆 Swipe Right Instead";
 
 // REFETCH DATA
 const refetchDataTitle = "Done!";
-const refetchDataDescription = "All Bus Stops and Service are now updated";
+const refetchDataDescription = "All Bus Stops, Service & Route are now updated";
+
+// ACCOUNT DELETE
+const accountDeletedTitle = "Account Deleted";
+const accountDeletedDescription =
+    "Tell us what we can do better by sending us a feedback if you don't mind";
 
 // COMPANY INFO
 const comapanyName = 'arnet';

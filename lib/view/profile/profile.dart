@@ -263,16 +263,18 @@ class _ProfileState extends State<Profile> {
                     deleteAccount();
                     Navigator.pop(context);
                     var feedbackBtn = TextButton(
-                      onPressed: () =>
-                          launchEmail(companyFeedbackEmail, 'Feedback'),
+                      onPressed: () => launchEmail(
+                        companyFeedbackEmail,
+                        'Feedback',
+                      ),
                       child: Text(
                         "FEEDBACK",
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     );
                     alertDialog(
-                      "Account Deleted",
-                      "Tell us what we can do better in the feedback form if you don't mind",
+                      accountDeletedTitle,
+                      accountDeletedDescription,
                       context,
                       additionalActions: feedbackBtn,
                     );
@@ -333,12 +335,16 @@ class _ProfileState extends State<Profile> {
             'Refetch Data',
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
-          subtitle: Text("Refetch missing Bus Stops or Bus Service"),
+          subtitle: Text("Refetch missing Bus Stops, Service & Route"),
           leading: leadingIcon(CustomIcons.refresh, Colors.pink),
           onTap: () async {
             loadingAlert(context);
-            await BusStop().all();
             await Bus().all();
+            print("done with bus service");
+            await BusStop().all();
+            print("done with bus stop");
+            await Bus().route();
+            print("done with bus route");
             Navigator.pop(context);
             alertDialog(refetchDataTitle, refetchDataDescription, context);
           },
