@@ -1,13 +1,8 @@
-import 'package:bus_express/model/custom_icons_icons.dart';
-import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:flutter/material.dart';
-import 'package:bus_express/model/api.dart';
-import 'package:bus_express/model/constants.dart';
-import 'package:bus_express/view/components/alert/alertDialog.dart';
+import 'package:bus_express/model/global.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
-import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SearchBusRoute extends StatefulWidget {
   final String busService;
@@ -18,64 +13,9 @@ class SearchBusRoute extends StatefulWidget {
 }
 
 class _SearchBusRouteState extends State<SearchBusRoute> {
-  bool isDataLoaded = false;
-  Map<String, dynamic> busRouteData = {};
-  String directionOneEndPlace = "Direction 1";
-  String directionTwoEndPlace = "Direction 2";
-  int amountOfDirection = 2;
-  String selectedTabBarIndex = "Direction 1";
+  String endLocation = '';
 
-  initPageData(busService) async {
-    loadingAlert(context);
-    busRouteData = await Bus().route(busService.toString());
-    if (busRouteData != null) {
-      var directionOneLength = (busRouteData['Direction 1'].length).toString();
-      var directionTwoLength = (busRouteData['Direction 2'].length).toString();
-
-      setState(() {
-        busRouteData = busRouteData;
-        if (busRouteData['Direction 2'].isEmpty) {
-          amountOfDirection = 1;
-          directionOneEndPlace = "To " +
-              busRouteData['Direction 1'][directionOneLength]['busStopName'];
-          selectedTabBarIndex = directionOneEndPlace;
-        } else {
-          directionTwoEndPlace = "To " +
-              busRouteData['Direction 2'][directionTwoLength]['busStopName'];
-          directionOneEndPlace = "To " +
-              busRouteData['Direction 1'][directionOneLength]['busStopName'];
-          selectedTabBarIndex = directionOneEndPlace;
-        }
-        isDataLoaded = true;
-        Navigator.pop(context);
-      });
-    } else {
-      // NO BUS TIMING ALR
-      setState(() {
-        isDataLoaded = true;
-      });
-      Navigator.pop(context);
-      Widget toFeedbackForm = TextButton(
-        child: Text(
-          'FEEDBACK',
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-        onPressed: () => launchEmail(
-          companyFeedbackEmail,
-          'Feedback - No Bus Route Available',
-        ),
-      );
-      await alertDialog(
-        busRouteNotFoundTitle,
-        busService + busRouteNotFoundDescription,
-        context,
-        additionalActions: toFeedbackForm,
-      );
-      Navigator.pop(context);
-    }
-  }
-
-  lastBusTimingBottomSheet(dataSet, selectedTabBarIndex) {
+  lastBusTimingBottomSheet(dataSet) {
     final weekdaysFirst = dataSet['weekdaysFirst'];
     final weekdaysLast = dataSet['weekdaysLast'];
     final saturdayFirst = dataSet['saturdayFirst'];
@@ -102,8 +42,8 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
             ),
           ),
           Text(
-            selectedTabBarIndex,
-            style: TextStyle(fontSize: 12),
+            endLocation,
+            style: TextStyle(fontSize: 14),
           ),
           SizedBox(height: 20),
           DataTable(
@@ -144,16 +84,20 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     );
   }
 
-  listTitleForRoute(int index, String direction, String selectedTabBarIndex) {
-    final busStopName =
-        busRouteData[direction][(index + 1).toString()]['busStopName'];
-    final roadName =
-        busRouteData[direction][(index + 1).toString()]['roadName'];
-    final busStopCode =
-        busRouteData[direction][(index + 1).toString()]['busStopCode'];
+  listTitleForRoute(
+    int index,
+    int lastIndex,
+    Map<dynamic, dynamic> data,
+  ) {
+    if (index + 1 == lastIndex - 1) {
+      index++;
+    }
+    final busStopName = data[(index + 1).toString()]['busStopName'];
+    final roadName = data[(index + 1).toString()]['roadName'];
+    final busStopCode = data[(index + 1).toString()]['busStopCode'];
     final distance =
-        busRouteData[direction][(index + 1).toString()]['distance'].toString() +
-            " km";
+        data[(index + 1).toString()]['distance'].toString() + " km";
+
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       title: Text(busStopName),
@@ -166,7 +110,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
-          MdiIcons.busStop,
+          CustomIcons.bus_stop,
           size: 32,
           color: Colors.blue[600],
         ),
@@ -187,78 +131,89 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
         context: context,
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         builder: (BuildContext context) {
-          return lastBusTimingBottomSheet(
-            busRouteData[direction][(index + 1).toString()],
-            selectedTabBarIndex,
-          );
+          return lastBusTimingBottomSheet(data[(index + 1).toString()]);
         },
       ),
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    initPageData(widget.busService);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Map<dynamic, dynamic> data = allBusRouteData[widget.busService];
+    Map<dynamic, dynamic> directionOneData = data['Direction 1'];
+    Map<dynamic, dynamic> directionTwoData = data['Direction 2'];
+
+    int amountOfDirection = data.length;
+    amountOfDirection = directionTwoData.isEmpty
+        ? amountOfDirection = 1
+        : amountOfDirection = amountOfDirection;
+
+    int lastIndex = directionOneData.length;
+    if (directionOneData[(directionOneData.length).toString()] == null) {
+      lastIndex = directionOneData.length + 1;
+    }
+
+    String directionOneEndLocation =
+        directionOneData[lastIndex.toString()]['busStopName'];
+    String directionTwoEndLocation = '';
+    String subtitle = directionOneEndLocation;
+    endLocation = directionOneEndLocation;
+
+    if (amountOfDirection == 2) {
+      directionTwoEndLocation = directionOneData['1']['busStopName'];
+      subtitle = directionOneEndLocation + " ⇆ " + directionTwoEndLocation;
+    }
+
     return CustomScaffold(
       widget.busService,
-      amountOfDirection == 1
-          ? directionOneEndPlace
-          : directionOneEndPlace + ' / ' + directionTwoEndPlace,
+      subtitle,
       DefaultTabController(
         length: amountOfDirection,
         child: Column(
           children: [
-            if (busRouteData != null && isDataLoaded)
-              TabBar(
-                onTap: (value) {
-                  setState(() {
-                    value == 0
-                        ? selectedTabBarIndex = directionOneEndPlace
-                        : selectedTabBarIndex = directionTwoEndPlace;
-                  });
-                },
-                labelColor: Theme.of(context).primaryColor,
-                tabs: [
-                  Tab(text: directionOneEndPlace),
-                  if (amountOfDirection == 2) Tab(text: directionTwoEndPlace),
+            TabBar(
+              onTap: (value) {
+                setState(() {
+                  value == 0
+                      ? endLocation = directionOneEndLocation
+                      : endLocation = directionTwoEndLocation;
+                });
+              },
+              labelColor: Theme.of(context).primaryColor,
+              tabs: [
+                Tab(text: directionOneEndLocation),
+                if (amountOfDirection == 2) Tab(text: directionTwoEndLocation)
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: directionOneData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return listTitleForRoute(
+                        index,
+                        lastIndex,
+                        directionOneData,
+                      );
+                    },
+                  ),
+                  if (amountOfDirection == 2)
+                    ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: directionTwoData.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return listTitleForRoute(
+                          index,
+                          lastIndex,
+                          directionTwoData,
+                        );
+                      },
+                    ),
                 ],
               ),
-            isDataLoaded
-                ? busRouteData != null
-                    ? Expanded(
-                        child: TabBarView(
-                          children: [
-                            ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              itemCount: busRouteData['Direction 1'].length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return listTitleForRoute(
-                                    index, 'Direction 1', selectedTabBarIndex);
-                              },
-                            ),
-                            if (amountOfDirection == 2)
-                              ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                itemCount: busRouteData['Direction 2'].length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return listTitleForRoute(index, 'Direction 2',
-                                      selectedTabBarIndex);
-                                },
-                              ),
-                          ],
-                        ),
-                      )
-                    : Text("")
-                : Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.all(15),
-                    child: Text("Loading..."),
-                  )
+            ),
           ],
         ),
       ),

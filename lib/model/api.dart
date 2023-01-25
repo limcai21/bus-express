@@ -63,97 +63,102 @@ class Bus {
     }
   }
 
-  Future<Object> route(
-    String busService, {
+  route({
     Map<String, dynamic> busRouteData,
-    String url = "https://api.stb.gov.sg/services/transport/v2/bus-routes",
+    int skip = 0,
   }) async {
-    var finalUrl = url + "/" + busService;
-
-    if (url != busRouteByBusService) {
-      finalUrl = url;
-    }
-
-    var request = http.Request('GET', Uri.parse(finalUrl));
-    request.headers.addAll(stbAPIHeader);
+    final url = allBusRouteURL + "?\$skip=$skip";
+    var request = http.Request('GET', Uri.parse(url));
+    request.headers.addAll(ltaDatamallAPIHeader);
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(await response.stream.bytesToString());
-      final busData = data['data'];
+      final List data =
+          jsonDecode(await response.stream.bytesToString())['value'];
 
-      for (var bus in busData) {
-        // SORT OUT DATA
-        if (busRouteData == null) {
-          busRouteData = {};
-          busRouteData['Direction 1'] = {};
-          busRouteData['Direction 2'] = {};
+      if (data.length > 0) {
+        for (var busRoute in data) {
+          final serviceNo = (busRoute['ServiceNo']).toString();
+          final busOperator = operatorName(busRoute['Operator']);
+          final sequence = (busRoute['StopSequence']).toString();
+          final busStopCode = (busRoute['BusStopCode']).toString();
+          final direction = busRoute['Direction'];
+          final distance = busRoute['Distance'];
+          final weekdaysFirst = busRoute['WD_FirstBus'];
+          final weekdaysLast = busRoute['WD_LastBus'];
+          final saturdayFirst = busRoute['SAT_FirstBus'];
+          final saturdayLast = busRoute['SAT_LastBus'];
+          final sundayFirst = busRoute['SUN_FirstBus'];
+          final sundayLast = busRoute['SUN_LastBus'];
+
+          // INIT
+          if (busRouteData == null) {
+            busRouteData = {};
+          }
+
+          if (busRouteData[serviceNo] == null) {
+            busRouteData[serviceNo] = {};
+            busRouteData[serviceNo]['Direction 1'] = {};
+            busRouteData[serviceNo]['Direction 2'] = {};
+          }
+
+          if (direction == 1) {
+            busRouteData[serviceNo]['Direction 1'][sequence] = {
+              "serviceNo": serviceNo,
+              "busOperator": busOperator,
+              "sequence": sequence,
+              'roadName': allBusStopsData[busStopCode] == null
+                  ? await BusStop().originAndDestination(busStopCode)
+                  : allBusStopsData[busStopCode]['roadName'],
+              'busStopName': allBusStopsData[busStopCode] == null
+                  ? await BusStop().originAndDestination(busStopCode)
+                  : allBusStopsData[busStopCode]['description'],
+              'busStopCode': busStopCode,
+              "distance": distance,
+              "weekdaysFirst": weekdaysFirst,
+              "weekdaysLast": weekdaysLast,
+              "saturdayFirst": saturdayFirst,
+              "saturdayLast": saturdayLast,
+              "sundayFirst": sundayFirst,
+              "sundayLast": sundayLast,
+            };
+          } else {
+            busRouteData[serviceNo]['Direction 2'][sequence] = {
+              "serviceNo": serviceNo,
+              "busOperator": busOperator,
+              'roadName': allBusStopsData[busStopCode] == null
+                  ? await BusStop().originAndDestination(busStopCode)
+                  : allBusStopsData[busStopCode]['roadName'],
+              'busStopName': allBusStopsData[busStopCode] == null
+                  ? await BusStop().originAndDestination(busStopCode)
+                  : allBusStopsData[busStopCode]['description'],
+              'busStopCode': busStopCode,
+              "distance": distance,
+              "weekdaysFirst": weekdaysFirst,
+              "weekdaysLast": weekdaysLast,
+              "saturdayFirst": saturdayFirst,
+              "saturdayLast": saturdayLast,
+              "sundayFirst": sundayFirst,
+              "sundayLast": sundayLast,
+            };
+          }
         }
 
-        final sequence = (bus['sequence']).toString();
-        final busStopCode = (bus['busStop']).toString();
-        final direction = bus['direction'];
-
-        if (direction == 1) {
-          busRouteData['Direction 1'][sequence] = {
-            "direction": direction,
-            "sequence": bus['sequence'],
-            'roadName': allBusStopsData[busStopCode] == null
-                ? await BusStop().originAndDestination(busStopCode)
-                : allBusStopsData[busStopCode]['roadName'],
-            'busStopName': allBusStopsData[busStopCode] == null
-                ? await BusStop().originAndDestination(busStopCode)
-                : allBusStopsData[busStopCode]['description'],
-            'busStopCode': busStopCode,
-            "express": bus['express'],
-            "distance": bus['distance'],
-            "weekdaysFirst": bus['weekdaysFirst'],
-            "weekdaysLast": bus['weekdaysLast'],
-            "saturdayFirst": bus['saturdayFirst'],
-            "saturdayLast": bus['saturdayLast'],
-            "sundayFirst": bus['sundayFirst'],
-            "sundayLast": bus['sundayLast'],
-            "special": bus['special'],
-          };
-        } else {
-          busRouteData['Direction 2'][sequence] = {
-            "direction": direction,
-            "sequence": bus['sequence'],
-            'roadName': allBusStopsData[busStopCode] == null
-                ? await BusStop().originAndDestination(busStopCode)
-                : allBusStopsData[busStopCode]['roadName'],
-            'busStopName': allBusStopsData[busStopCode] == null
-                ? await BusStop().originAndDestination(busStopCode)
-                : allBusStopsData[busStopCode]['description'],
-            'busStopCode': busStopCode,
-            "express": bus['express'],
-            "distance": bus['distance'],
-            "weekdaysFirst": bus['weekdaysFirst'],
-            "weekdaysLast": bus['weekdaysLast'],
-            "saturdayFirst": bus['saturdayFirst'],
-            "saturdayLast": bus['saturdayLast'],
-            "sundayFirst": bus['sundayFirst'],
-            "sundayLast": bus['sundayLast'],
-            "special": bus['special'],
-          };
-        }
+        // GET NEXT LIST
+        await Bus().route(skip: skip + 500, busRouteData: busRouteData);
       }
 
-      // GET NEXT PAGE OF DATA
-      final nextPageURL = data["paginationLinks"]['next'];
-      if (nextPageURL != null) {
-        await Bus().route(
-          busService,
-          url: nextPageURL,
-          busRouteData: busRouteData,
-        );
-      }
+      // STORE
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('allBusRouteData');
+      await prefs.setString('allBusRouteData', jsonEncode(busRouteData));
+      allBusRouteData = busRouteData;
+
+      return busRouteData;
     }
-
-    return busRouteData;
   }
 
-  Future<Object> all() async {
+  all() async {
     var request = http.Request('GET', Uri.parse(allBusServiceURL));
     request.headers.addAll(ltaDatamallAPIHeader);
     var response = await request.send();
@@ -180,6 +185,7 @@ class Bus {
       final prefs = await SharedPreferences.getInstance();
       tempData = new SplayTreeMap<String, dynamic>.from(
           tempData, (k1, k2) => k1.compareTo(k2));
+      await prefs.remove('allBusServiceData');
       await prefs.setString('allBusServiceData', jsonEncode(tempData));
       allBusServiceData = tempData;
 
@@ -187,7 +193,7 @@ class Bus {
     }
   }
 
-  Future<Object> arrival(String busStopCode, {String busService}) async {
+  arrival(String busStopCode, {String busService}) async {
     var query = '';
     busService != null
         ? query = '?BusStopCode=$busStopCode&ServiceNo=$busService'
@@ -349,7 +355,7 @@ class Bus {
 }
 
 class BusStop {
-  Future<Object> all({
+  all({
     Map<String, dynamic> tempBusStopData,
     int skip = 0,
     List tempHolder,
@@ -396,6 +402,7 @@ class BusStop {
     final prefs = await SharedPreferences.getInstance();
     tempBusStopData = new SplayTreeMap<String, dynamic>.from(
         tempBusStopData, (k1, k2) => k1.compareTo(k2));
+    await prefs.remove('allBusStopsData');
     await prefs.setString('allBusStopsData', jsonEncode(tempBusStopData));
     allBusStopsData = tempBusStopData;
   }
@@ -424,34 +431,6 @@ class BusStop {
     });
 
     return tempHolder;
-
-    // STB API
-    // var request = http.Request('GET',
-    //     Uri.parse(nearbyBusStopURL + lat.toString() + "," + long.toString()));
-    // request.headers.addAll(stbAPIHeader);
-    // http.StreamedResponse response = await request.send();
-    // var tempHolder = [];
-
-    // if (response.statusCode == 200) {
-    //   final data = jsonDecode(await response.stream.bytesToString())['data'];
-    //   if (data.length > 0) {
-    //     tempHolder.addAll(data);
-    //   }
-
-    //   for (var i = 0; i < tempHolder.length; i++) {
-    //     var data = tempHolder[i];
-    //     final code = (data["code"]).toString();
-    //     nearbyBusStopsData[code] = {
-    //       "code": code,
-    //       "roadName": data["roadName"],
-    //       "description": data["description"],
-    //       "latitude": data["location"]["latitude"],
-    //       "longitude": data["location"]["longitude"],
-    //     };
-    //   }
-
-    //   return nearbyBusStopsData;
-    // }
   }
 
   Future<Object> originAndDestination(String busStopCode) async {

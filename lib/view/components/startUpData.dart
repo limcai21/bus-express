@@ -72,6 +72,7 @@ startUpLoadData(context) async {
   final prefs = await SharedPreferences.getInstance();
   final String dbBusStopsData = prefs.getString('allBusStopsData');
   final String dbBusServiceData = prefs.getString('allBusServiceData');
+  final String dbBusRouteData = prefs.getString('allBusRouteData');
 
   // BUS STOP
   if (dbBusStopsData == null) {
@@ -85,6 +86,13 @@ startUpLoadData(context) async {
     await Bus().all();
   } else {
     allBusServiceData = jsonDecode(dbBusServiceData);
+  }
+
+  // BUS ROUTE
+  if (dbBusRouteData == null) {
+    await Bus().route();
+  } else {
+    allBusRouteData = jsonDecode(dbBusRouteData);
   }
 
   // GET ROADNAME FOR ADDRESS
