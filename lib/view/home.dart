@@ -33,14 +33,18 @@ class _HomeState extends State<Home> {
 
   Future<void> busRouteAlert(busData, context) async {
     if (busData[0] == "Not Found") {
-      return alertDialog(busRouteNotAvailableForBusStopTitle,
-          busRouteNotAvailableForBusStopDescription, context,
-          additionalActions: TextButton(
-              onPressed: () => launchEmail(
-                    companyFeedbackEmail,
-                    'Feedback - Bus Route not Available',
-                  ),
-              child: Text('FEEDBACK')));
+      return alertDialog(
+        busRouteNotAvailableForBusStopTitle,
+        busRouteNotAvailableForBusStopDescription,
+        context,
+        additionalActions: TextButton(
+          onPressed: () => launchEmail(
+            companyFeedbackEmail,
+            'Feedback - Bus Route not Available',
+          ),
+          child: Text('FEEDBACK'),
+        ),
+      );
     } else {
       List<Widget> tempHolder = [];
       for (var bus in busData) {
@@ -252,9 +256,16 @@ class _HomeState extends State<Home> {
       if (isAllPermissionEnabled) {
         // TRUE = NEARBY, FALSE = ALL
         nearbyBusStopBool = !nearbyBusStopBool;
-        nearbyBusStopBool
-            ? mapMaker = nearbyBusStopsData != null ? nearbyBusStopsData : {}
-            : mapMaker = allBusStopsData;
+
+        if (nearbyBusStopBool) {
+          if (nearbyBusStopsData != null) {
+            mapMaker = nearbyBusStopsData;
+          } else {
+            mapMaker = {};
+          }
+        } else {
+          mapMaker = allBusStopsData;
+        }
 
         setZoomAndCenter(mapMaker);
 
@@ -280,12 +291,12 @@ class _HomeState extends State<Home> {
     await checkLocationServiceAndPermission();
     print("Done getting Location Service and Permission");
 
-    loadingAlert(context);
-
     if ((locationServiceEnabled == true) &&
         (permissionGranted.toString() != "PermissionStatus.denied") &&
         (permissionGranted.toString() != "PermissionStatus.deniedForever")) {
       print("Loading Neaby Map...");
+      loadingAlert(context);
+
       await nearbyBusStop();
 
       if (this.mounted) {
@@ -304,7 +315,7 @@ class _HomeState extends State<Home> {
       errorWhenNoNearbyBusStop();
     } else {
       print("Loading all bus stop Map...");
-      await BusStop().all();
+      // await BusStop().all();
       if (this.mounted) {
         setState(() {
           nearbyBusStopBool = false;
@@ -315,7 +326,7 @@ class _HomeState extends State<Home> {
           centerOnLocationUpdate = CenterOnLocationUpdate.never;
         });
 
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
 
         alertDialog(
           zoomOutToViewMapTitle,
