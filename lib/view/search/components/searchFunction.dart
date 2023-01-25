@@ -101,6 +101,7 @@ class DataSearch extends SearchDelegate<String> {
     return IconButton(
       icon: Icon(CustomIcons.arrow_left),
       onPressed: () {
+        searchQuery = '';
         searchBusStopsData = allBusStopsData;
         searchBusServiceData = allBusServiceData;
         searchAddressData = allAddressData;
@@ -111,7 +112,11 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    searchQuery = query;
+    searchBusStopsData = busStopSearching();
+    searchBusServiceData = busServiceSearching();
+    searchAddressData = addressSearching();
+    return CustomSearchTabBar();
   }
 
   @override
