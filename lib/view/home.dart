@@ -5,15 +5,17 @@ import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/alert/alertSimpleDialog.dart';
 import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/startUpData.dart';
-import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:location/location.dart';
 import '../model/custom_icons_icons.dart';
 import 'package:open_settings/open_settings.dart';
+
+import 'components/button/textButton.dart';
 
 class Home extends StatefulWidget {
   callBack() {
@@ -37,12 +39,9 @@ class _HomeState extends State<Home> {
         busRouteNotAvailableForBusStopTitle,
         busRouteNotAvailableForBusStopDescription,
         context,
-        additionalActions: TextButton(
-          onPressed: () => launchEmail(
-            companyFeedbackEmail,
-            'Feedback - Bus Route not Available',
-          ),
-          child: Text('FEEDBACK'),
+        additionalActions: feedbackTextButton(
+          'Feedback - Bus Route not Available',
+          context,
         ),
       );
     } else {
@@ -72,21 +71,14 @@ class _HomeState extends State<Home> {
 
   errorWhenNoNearbyBusStop() {
     if (nearbyBusStopsData == null) {
-      TextButton textButton = TextButton(
-        child: Text(
-          "FEEDBACK",
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-        onPressed: () => launchEmail(
-          companyFeedbackEmail,
-          'Feedback - No Nearby Bus Stop Available',
-        ),
-      );
       alertDialog(
         "Hmm..",
         'Something went wrong when getting your nearby bus stop.',
         context,
-        additionalActions: textButton,
+        additionalActions: feedbackTextButton(
+          'Feedback - No Nearby Bus Stop Available',
+          context,
+        ),
       );
     }
   }
@@ -188,7 +180,10 @@ class _HomeState extends State<Home> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => SearchBusArrival(
-                                busStopName, busStopCode, roadName),
+                              busStopName,
+                              busStopCode,
+                              roadName,
+                            ),
                           ),
                         );
                       },
@@ -211,7 +206,6 @@ class _HomeState extends State<Home> {
                         color: Theme.of(context).primaryColor,
                       ),
                       onPressed: () {
-                        // alertDialog("title", "description", context);
                         busRouteAlert(buses, context);
                       },
                       label: Text(
@@ -248,12 +242,16 @@ class _HomeState extends State<Home> {
 
   onPressFAB() async {
     await checkLocationServiceAndPermission();
-    if (isAllPermissionEnabled) {
+    if ((locationServiceEnabled == true) &&
+        (permissionGranted != PermissionStatus.denied) &&
+        (permissionGranted != PermissionStatus.deniedForever)) {
       await nearbyBusStop();
     }
 
     setState(() {
-      if (isAllPermissionEnabled) {
+      if ((locationServiceEnabled == true) &&
+          (permissionGranted != PermissionStatus.denied) &&
+          (permissionGranted != PermissionStatus.deniedForever)) {
         // TRUE = NEARBY, FALSE = ALL
         nearbyBusStopBool = !nearbyBusStopBool;
 
@@ -278,9 +276,10 @@ class _HomeState extends State<Home> {
           permissionDisabledTitle,
           permissionDisabled,
           context,
-          additionalActions: TextButton(
-            onPressed: () => OpenSettings.openLocationSetting(),
-            child: Text("SETTINGS"),
+          additionalActions: customTextButton(
+            context,
+            "Settings",
+            () => OpenSettings.openLocationSetting(),
           ),
         );
       }
@@ -292,8 +291,8 @@ class _HomeState extends State<Home> {
     print("Done getting Location Service and Permission");
 
     if ((locationServiceEnabled == true) &&
-        (permissionGranted.toString() != "PermissionStatus.denied") &&
-        (permissionGranted.toString() != "PermissionStatus.deniedForever")) {
+        (permissionGranted != PermissionStatus.denied) &&
+        (permissionGranted != PermissionStatus.deniedForever)) {
       print("Loading Neaby Map...");
       loadingAlert(context);
 
@@ -368,7 +367,7 @@ class _HomeState extends State<Home> {
             if (isAllPermissionEnabled) LocationMarkerLayerOptions(),
             new MarkerLayerOptions(
               markers: [
-                for (var busStop in mapMaker.values)
+                for (var busStop in mapMaker.values) ...[
                   new Marker(
                     point: new LatLng(
                       busStop["latitude"],
@@ -395,6 +394,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
+                ]
               ],
             )
           ],
@@ -405,9 +405,8 @@ class _HomeState extends State<Home> {
             backgroundColor: Theme.of(context).primaryColor,
             onPressed: onPressFAB,
             label: (locationServiceEnabled == true) &&
-                    (permissionGranted.toString() !=
-                        "PermissionStatus.deniedForever") &&
-                    (permissionGranted.toString() != "PermissionStatus.denied")
+                    (permissionGranted != PermissionStatus.deniedForever) &&
+                    (permissionGranted != PermissionStatus.denied)
                 ? nearbyBusStopBool
                     ? Text(
                         'ALL',

@@ -1,3 +1,4 @@
+import 'package:bus_express/model/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
@@ -40,10 +41,6 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          Text(
-            endLocation,
-            style: TextStyle(fontSize: 14),
           ),
           SizedBox(height: 20),
           DataTable(
@@ -106,13 +103,13 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
       leading: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: Color.lerp(Colors.white, primaryColor, 0.2),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
           CustomIcons.bus_stop,
           size: 32,
-          color: Colors.blue[600],
+          color: primaryColor,
         ),
       ),
       onTap: () {
@@ -172,6 +169,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
         child: Column(
           children: [
             TabBar(
+              indicatorColor: Theme.of(context).primaryColor,
               onTap: (value) {
                 setState(() {
                   value == 0

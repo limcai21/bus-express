@@ -27,20 +27,16 @@ busArrivalDataTitle(String busService, data) {
 }
 
 busArrivalDataBackground(context, {List busesInFavList, String currentBus}) {
-  IconData bgIcon = CustomIcons.delete;
-  Color bgColor = Colors.red;
+  IconData bgIcon = CustomIcons.favourite_filled;
 
   if (busesInFavList != null) {
-    bgColor = Theme.of(context).primaryColor;
-    if (busesInFavList.contains(currentBus)) {
-      bgIcon = CustomIcons.favourite_filled;
-    } else {
+    if (!busesInFavList.contains(currentBus)) {
       bgIcon = CustomIcons.favourite_regular;
     }
   }
 
   return Container(
-    color: bgColor,
+    color: Theme.of(context).primaryColor,
     alignment: Alignment.center,
     child: Align(
       child: Padding(

@@ -39,6 +39,7 @@ class AboutUsContent extends StatelessWidget {
     return ListView(
       physics: BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
+      padding: const EdgeInsets.only(bottom: 20),
       children: [
         SizedBox(height: 20),
         Padding(
@@ -90,69 +91,64 @@ class AboutUsContent extends StatelessWidget {
             ],
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-        //   child: Text(
-        //     contactUsActionLines,
-        //     style: TextStyle(fontSize: 16),
-        //   ),
-        // ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // GET IN TOUCH
             listViewHeader('Contacts', context),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.phone, Colors.teal),
-              title: Text(companyNumber),
-              trailing: Icon(CustomIcons.open_in, size: 16),
-              subtitle: Text("Phone Number"),
-              onTap: () => launchContactNumber(companyNumber),
+            customListTile(
+              "Phone Number",
+              companyNumber,
+              CustomIcons.phone,
+              CustomIcons.open_in,
+              Colors.teal,
+              () => launchContactNumber(companyNumber),
             ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.mail, Colors.orange),
-              title: Text(companyFeedbackEmail),
-              trailing: Icon(CustomIcons.open_in, size: 16),
-              subtitle: Text("Email"),
-              onTap: () => launchEmail(companyFeedbackEmail, "Feedback"),
+            customListTile(
+              "Email",
+              companyFeedbackEmail,
+              CustomIcons.mail,
+              CustomIcons.open_in,
+              Colors.orange,
+              () => launchEmail(companyFeedbackEmail, "Feedback"),
             ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.web, Colors.red),
-              title: Text(comapanyName),
-              subtitle: Text("Company Website"),
-              trailing: Icon(CustomIcons.open_in, size: 16),
-              onTap: () => launchURL(companyWebsite),
+            customListTile(
+              "Company Website",
+              comapanyName,
+              CustomIcons.web,
+              CustomIcons.open_in,
+              Colors.red,
+              () => launchURL(companyWebsite),
             ),
 
             // CREDITS
             listViewHeader('Team', context),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.profile_filled, Colors.blueGrey),
-              title: Text(companyDeveloper),
-              subtitle: Text("Developer"),
+            customListTile(
+              "Developer",
+              companyDeveloper,
+              CustomIcons.profile_filled,
+              null,
+              Colors.blueGrey,
+              null,
             ),
 
             // DATA SOURCE
             listViewHeader('Sources', context),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.code, Colors.brown),
-              title: Text('LTA DataMall'),
-              subtitle: Text("API"),
-              trailing: Icon(CustomIcons.open_in, size: 16),
-              onTap: () => launchURL(ltaDataMallURL),
+            customListTile(
+              'LTA DataMall',
+              "API",
+              CustomIcons.code,
+              CustomIcons.open_in,
+              Colors.brown,
+              () => launchURL(ltaDataMallURL),
             ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              leading: dataTile(CustomIcons.code, Colors.deepPurple),
-              title: Text("Tourism Information & Services Hub"),
-              subtitle: Text("API"),
-              trailing: Icon(CustomIcons.open_in, size: 16),
-              onTap: () => launchURL(stbAPIURL),
+            customListTile(
+              'Tourism Information & Services Hub',
+              "API",
+              CustomIcons.code,
+              CustomIcons.open_in,
+              Colors.deepPurple,
+              () => launchURL(stbAPIURL),
             ),
           ],
         ),

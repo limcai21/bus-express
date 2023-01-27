@@ -17,7 +17,7 @@ alertDialog(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         titlePadding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-        contentPadding: const EdgeInsets.fromLTRB(20, 3, 20, 20),
+        contentPadding: const EdgeInsets.fromLTRB(20, 2, 20, 20),
         actionsPadding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         title: Text(
           title,
@@ -32,6 +32,7 @@ alertDialog(
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(Theme.of(context).primaryColor),
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
             ),
             child: Text(
               closeTitle.toUpperCase(),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
@@ -27,37 +28,36 @@ class _FavouriteState extends State<Favourite> {
   List<Widget> listViewChildren = [];
 
   notLoginAndNoFavouriteLayout(
-      String image, double imageWidth, String title, String subtitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Image.asset(image, width: imageWidth, fit: BoxFit.contain),
-              SizedBox(height: 20),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
+    String image,
+    double imageWidth,
+    String title,
+    String subtitle,
+  ) {
+    return Center(
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Image.asset(image, width: imageWidth, fit: BoxFit.contain),
+            SizedBox(height: 20),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
               ),
-              SizedBox(height: 2),
-              Text(subtitle, textAlign: TextAlign.center),
-            ],
-          ),
+            ),
+            SizedBox(height: 2),
+            Text(subtitle, textAlign: TextAlign.center),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -119,8 +119,8 @@ class _FavouriteState extends State<Favourite> {
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.fromLTRB(20, 40, 20, 10),
         decoration: BoxDecoration(
-          color: Colors.grey[200],
-          border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey)),
+          color: Color.lerp(Colors.white, primaryColor, 0.125),
+          // border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _FavouriteState extends State<Favourite> {
             ),
             Text(
               roadName + " • " + code,
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey[700]),
             )
           ],
         ),
@@ -352,24 +352,24 @@ class _FavouriteState extends State<Favourite> {
           );
         } else {
           return notLoginAndNoFavouriteLayout(
-            "images/travelTogether.png",
-            275,
+            "images/no_fav.png",
+            250,
             "Favourite",
             "Add your favourite bus stops and travel together",
           );
         }
       } else {
         return notLoginAndNoFavouriteLayout(
-          "images/travelTogether.png",
-          275,
+          "images/loading.png",
+          250,
           "Loading",
           "You will see your favourite bus stops soon",
         );
       }
     } else {
       return notLoginAndNoFavouriteLayout(
-        "images/busStop.png",
-        600,
+        "images/not_login.png",
+        350,
         "Loving It?",
         "Login to favourite all your bus stops",
       );

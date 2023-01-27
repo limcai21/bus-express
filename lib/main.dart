@@ -53,7 +53,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
       Colors.orange,
     ],
     [
-      "Favourites",
+      "Favourite",
       CustomIcons.favourite_regular,
       CustomIcons.favourite_filled,
       Favourite(),
@@ -130,6 +130,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
       //   currentIndex: selectedIndex,
       //   onTap: onItemTapped,
       // ),
+
       bottomNavigationbar: Container(
         color: Color.fromRGBO(240, 240, 240, 1),
         child: SalomonBottomBar(

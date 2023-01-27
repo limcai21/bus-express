@@ -1,6 +1,7 @@
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/alert/alertLoading.dart';
+import 'package:bus_express/view/components/button/textButton.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -11,7 +12,6 @@ import 'package:bus_express/view/profile/profileEdit.dart';
 import 'package:bus_express/view/signup.dart';
 import 'package:open_settings/open_settings.dart';
 import 'company/components/contactFunctions.dart';
-import 'components/profileLeadingIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
@@ -23,6 +23,9 @@ class _ProfileState extends State<Profile> {
   var prefs;
   var userEmail = '';
   var userContactNumber = '';
+  double iconSize = 24;
+  double borderRadius = 100;
+  double padding = 10;
 
   deleteAccount() {
     prefs.remove(currentLoginUsername);
@@ -50,26 +53,8 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  customListTile(String title, String subtitle, IconData icon,
-      MaterialColor bgColor, Widget route) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.w500),
-      ),
-      subtitle: Text(subtitle),
-      trailing: Icon(CustomIcons.chevron_right, size: 18),
-      leading: leadingIcon(icon, bgColor),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => route),
-      ),
-    );
-  }
-
   profileCard() {
-    Color bgColor = Colors.grey[200];
+    Color bgColor = Color.lerp(Colors.white, primaryColor, 0.125);
     String accountName = isUserLogin ? currentLoginUsername : "Guest";
     String accountSubtitle = isUserLogin
         ? userEmail + "  •  +65 " + userContactNumber
@@ -121,6 +106,7 @@ class _ProfileState extends State<Profile> {
 
   settingSection() {
     return ListView(
+      padding: const EdgeInsets.only(bottom: 20),
       physics: BouncingScrollPhysics(),
       children: [
         // PROFILE CARD
@@ -129,18 +115,14 @@ class _ProfileState extends State<Profile> {
         // SETTING AREA
         listViewHeader('Account', context),
 
-        // USER NOT LOGIN
-        if (!isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Login',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text('View all your favourites'),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
-            leading: leadingIcon(CustomIcons.profile_filled, Colors.orange),
-            onTap: () => Navigator.push(
+        if (!isUserLogin) ...[
+          customListTile(
+            "Login",
+            "View all your favourites",
+            CustomIcons.profile_filled,
+            CustomIcons.chevron_right,
+            Colors.orange,
+            () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => Login(),
@@ -151,28 +133,32 @@ class _ProfileState extends State<Profile> {
                 refreshEmailAddressAndContactNumber();
               });
             }),
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
-        if (!isUserLogin)
           customListTile(
             'Sign Up',
             'Favourites all your bus stop',
             CustomIcons.sign_up,
+            CustomIcons.chevron_right,
             Colors.teal,
-            SignUp(),
-          ),
-
-        // USER LOGIN
-        if (isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Email',
-              style: TextStyle(fontWeight: FontWeight.w500),
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignUp()),
             ),
-            subtitle: Text('Update your email'),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
-            leading: leadingIcon(CustomIcons.mail, Colors.orange),
-            onTap: () => Navigator.push(
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
+          ),
+        ] else ...[
+          customListTile(
+            "Email",
+            "Update your email",
+            CustomIcons.mail,
+            CustomIcons.chevron_right,
+            Colors.orange,
+            () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ProfileEditForm(
@@ -187,19 +173,17 @@ class _ProfileState extends State<Profile> {
                 refreshEmailAddressAndContactNumber();
               });
             }),
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
-
-        if (isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Password',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text("Change your password"),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
-            leading: leadingIcon(CustomIcons.password, Colors.brown),
-            onTap: () async {
+          customListTile(
+            "Password",
+            "Change your password",
+            CustomIcons.password,
+            CustomIcons.chevron_right,
+            Colors.brown,
+            () async {
               var result = await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -215,18 +199,17 @@ class _ProfileState extends State<Profile> {
                 logoutAccount();
               }
             },
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
-        if (isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Contact Number',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text('Update your Contact Number'),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
-            leading: leadingIcon(CustomIcons.phone, Colors.teal),
-            onTap: () => Navigator.push(
+          customListTile(
+            "Contact Number",
+            "Update your Contact Number",
+            CustomIcons.phone,
+            CustomIcons.chevron_right,
+            Colors.teal,
+            () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ProfileEditForm(
@@ -241,103 +224,86 @@ class _ProfileState extends State<Profile> {
                 refreshEmailAddressAndContactNumber();
               });
             }),
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
-
-        if (isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Delete Account',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text("You can't undo this action"),
-            leading: leadingIcon(CustomIcons.delete, Colors.red),
-            onTap: () {
+          customListTile(
+            "Delete Account",
+            "You can't undo this action",
+            CustomIcons.delete,
+            null,
+            Colors.red,
+            () {
+              TextButton textButton = customTextButton(
+                context,
+                "Delete",
+                () {
+                  deleteAccount();
+                  Navigator.pop(context);
+                  alertDialog(
+                    accountDeletedTitle,
+                    accountDeletedDescription,
+                    context,
+                    additionalActions: feedbackTextButton("Feedback", context),
+                  );
+                },
+              );
               alertDialog(
                 deleteAccountTitle,
                 deleteAccountDescription,
                 context,
                 closeTitle: "Cancel",
-                additionalActions: TextButton(
-                  onPressed: () {
-                    deleteAccount();
-                    Navigator.pop(context);
-                    var feedbackBtn = TextButton(
-                      onPressed: () => launchEmail(
-                        companyFeedbackEmail,
-                        'Feedback',
-                      ),
-                      child: Text(
-                        "FEEDBACK",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
-                    );
-                    alertDialog(
-                      accountDeletedTitle,
-                      accountDeletedDescription,
-                      context,
-                      additionalActions: feedbackBtn,
-                    );
-                  },
-                  child: Text(
-                    "DELETE",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                ),
+                additionalActions: textButton,
               );
             },
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
-
-        if (isUserLogin)
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: Text(
-              'Logout',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text("You can always sign back in"),
-            leading: leadingIcon(CustomIcons.logout, Colors.indigo),
-            onTap: () {
+          customListTile(
+            "Logout",
+            "You can always sign back in",
+            CustomIcons.logout,
+            null,
+            Colors.indigo,
+            () {
               alertDialog(
                 logoutTitle,
                 logoutDescription,
                 context,
                 closeTitle: "Cancel",
-                additionalActions: TextButton(
-                  onPressed: () {
-                    logoutAccount();
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "LOGOUT",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                ),
+                additionalActions: customTextButton(context, "Logout", () {
+                  logoutAccount();
+                  Navigator.pop(context);
+                }),
               );
             },
+            iconSize: iconSize,
+            borderRadius: borderRadius,
+            padding: padding,
           ),
+        ],
 
         listViewHeader('Others', context),
-        ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          title: Text(
-            'Location Service',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-          subtitle: Text('Enable your location service'),
-          trailing: Icon(CustomIcons.open_in, size: 16),
-          leading: leadingIcon(CustomIcons.near_me, Colors.blueGrey),
-          onTap: () => OpenSettings.openLocationSetting(),
+        customListTile(
+          "Location Service",
+          "Enable your location service",
+          CustomIcons.near_me,
+          CustomIcons.open_in,
+          Colors.blueGrey,
+          () => OpenSettings.openLocationSetting(),
+          iconSize: iconSize,
+          borderRadius: borderRadius,
+          padding: padding,
         ),
-        ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          title: Text(
-            'Refetch Data',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-          subtitle: Text("Refetch missing Bus Stops, Service & Route"),
-          leading: leadingIcon(CustomIcons.refresh, Colors.pink),
-          onTap: () async {
+        customListTile(
+          "Refetch Data",
+          "Refetch missing Bus Stops, Service & Route",
+          CustomIcons.refresh,
+          null,
+          Colors.pink,
+          () async {
             loadingAlert(context);
             await Bus().all();
             print("done with bus service");
@@ -348,6 +314,9 @@ class _ProfileState extends State<Profile> {
             Navigator.pop(context);
             alertDialog(refetchDataTitle, refetchDataDescription, context);
           },
+          iconSize: iconSize,
+          borderRadius: borderRadius,
+          padding: padding,
         ),
 
         listViewHeader('Company', context),
@@ -355,19 +324,26 @@ class _ProfileState extends State<Profile> {
           'About Us',
           'Find out more about us',
           CustomIcons.information_circle,
+          CustomIcons.chevron_right,
           Colors.green,
-          CompanyAboutUs(),
-        ),
-        ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          title: Text(
-            'Feedback',
-            style: TextStyle(fontWeight: FontWeight.w500),
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CompanyAboutUs()),
           ),
-          subtitle: Text('Tell us if you encounter something odd'),
-          trailing: Icon(CustomIcons.open_in, size: 16),
-          leading: leadingIcon(CustomIcons.feedback, Colors.purple),
-          onTap: () => launchEmail(companyFeedbackEmail, 'Feedback'),
+          iconSize: iconSize,
+          borderRadius: borderRadius,
+          padding: padding,
+        ),
+        customListTile(
+          'Feedback',
+          'Tell us if you encounter something odd',
+          CustomIcons.feedback,
+          CustomIcons.open_in,
+          Colors.purple,
+          () => launchEmail(companyFeedbackEmail, 'Feedback'),
+          iconSize: iconSize,
+          borderRadius: borderRadius,
+          padding: padding,
         ),
       ],
     );

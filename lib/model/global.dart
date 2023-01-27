@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
@@ -43,17 +42,55 @@ listViewHeader(String title, BuildContext context) {
   );
 }
 
-dataTile(IconData icon, MaterialColor mainColor) {
+customListTile(String title, String subtitle, IconData icon,
+    IconData trailingIcon, MaterialColor bgColor, Function onTap,
+    {double borderRadius, double iconSize, double padding}) {
+  return ListTile(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+    title: Text(
+      title,
+      style: TextStyle(fontWeight: FontWeight.w500),
+    ),
+    subtitle: subtitle != null ? Text(subtitle) : null,
+    trailing: trailingIcon != null ? Icon(trailingIcon, size: 18) : null,
+    leading: customLeadingIcon(
+      icon,
+      bgColor,
+      iconSize: iconSize,
+      borderRadius: borderRadius,
+      padding: padding,
+    ),
+    onTap: onTap != null ? onTap : null,
+  );
+}
+
+customLeadingIcon(
+  IconData icon,
+  Color mainColor, {
+  double borderRadius,
+  double iconSize,
+  double padding,
+}) {
+  // CHECK IF IS FROM PROFILE
+  Color iconColor = mainColor;
+  bool fromProfile = false;
+  if (borderRadius != null && iconSize != null && padding != null) {
+    iconColor = Colors.white;
+    fromProfile = true;
+  }
+
   return Container(
-    padding: const EdgeInsets.all(5),
+    padding: EdgeInsets.all(padding != null ? padding : 5),
     decoration: BoxDecoration(
-      color: mainColor[100],
-      borderRadius: BorderRadius.circular(10),
+      color: fromProfile ? mainColor : Color.lerp(Colors.white, mainColor, 0.2),
+      borderRadius: BorderRadius.circular(
+        borderRadius != null ? borderRadius : 10,
+      ),
     ),
     child: Icon(
       icon,
-      size: 32,
-      color: mainColor[600],
+      size: iconSize != null ? iconSize : 32,
+      color: iconColor,
     ),
   );
 }

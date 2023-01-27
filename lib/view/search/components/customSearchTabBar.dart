@@ -1,3 +1,4 @@
+import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
@@ -88,8 +89,9 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             busStop['error'] != true
-                                ? dataTile(CustomIcons.bus_stop, Colors.blue)
-                                : dataTile(
+                                ? customLeadingIcon(
+                                    CustomIcons.bus_stop, primaryColor)
+                                : customLeadingIcon(
                                     Icons.error_outline_rounded, Colors.red),
                           ],
                         ),
@@ -144,8 +146,10 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     busService['error'] != true
-                                        ? dataTile(CustomIcons.bus, Colors.blue)
-                                        : dataTile(Icons.error_outline_rounded,
+                                        ? customLeadingIcon(
+                                            CustomIcons.bus, primaryColor)
+                                        : customLeadingIcon(
+                                            Icons.error_outline_rounded,
                                             Colors.red),
                                   ],
                                 ),
@@ -184,21 +188,39 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                               },
                             ),
                           ),
-                          SizedBox(width: 20),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: TextButton(
-                              onPressed: filters.length > 0
-                                  ? () {
-                                      setState(() {
-                                        filters = [];
-                                        searchBusServiceData =
-                                            allBusServiceData;
-                                      });
-                                    }
-                                  : null,
-                              child: Text(
-                                filters.length > 0 ? "CLEAR" : "FILTER",
+                          SizedBox(
+                            height: 15,
+                            child: VerticalDivider(
+                              thickness: 2,
+                              width: 20,
+                              color: Colors.grey[400],
+                            ),
+                          ),
+                          TextButton(
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(
+                                Color.lerp(Colors.white, primaryColor, 0.1),
+                              ),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                            ),
+                            onPressed: filters.length > 0
+                                ? () {
+                                    setState(() {
+                                      filters = [];
+                                      searchBusServiceData = allBusServiceData;
+                                    });
+                                  }
+                                : null,
+                            child: Text(
+                              filters.length > 0 ? "CLEAR" : "FILTER",
+                              style: TextStyle(
+                                color: filters.isEmpty
+                                    ? Colors.grey
+                                    : primaryColor,
                               ),
                             ),
                           ),
@@ -231,8 +253,10 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             road['error'] == true
-                                ? dataTile(CustomIcons.error_circle, Colors.red)
-                                : dataTile(CustomIcons.road_3d, Colors.blue)
+                                ? customLeadingIcon(
+                                    CustomIcons.error_circle, Colors.red)
+                                : customLeadingIcon(
+                                    CustomIcons.road_3d, primaryColor)
                           ],
                         ),
                         onTap: () => road['error'] != true

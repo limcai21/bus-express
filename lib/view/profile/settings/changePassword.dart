@@ -123,6 +123,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                 }
               },
               child: Text('Change Password'),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).primaryColor),
+              ),
             ),
           ),
         ],

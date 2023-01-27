@@ -3,9 +3,8 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 // COLORS
-// const primaryColor = Color.fromRGBO(0, 46, 83, 1);
-const primaryColor = Colors.blue;
-const splashColor = Color.fromRGBO(0, 46, 83, 1);
+// const primaryColor = Colors.blue;
+const primaryColor = Color.fromRGBO(0, 46, 83, 1);
 
 // FORM
 // USERNAME

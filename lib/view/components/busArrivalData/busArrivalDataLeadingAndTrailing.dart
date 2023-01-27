@@ -1,3 +1,4 @@
+import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +10,14 @@ busArrivalDataLeading(data) {
       Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: Color.lerp(Colors.white, primaryColor, 0.2),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
           busFeaturesIcon(
               data == null ? "default" : data['nextBus']['type'].toString()),
           size: 32,
-          color: Colors.blue[600],
+          color: primaryColor,
         ),
       )
     ],

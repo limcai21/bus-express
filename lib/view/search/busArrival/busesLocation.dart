@@ -100,8 +100,8 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     if (layout == 2) {
       // BUS STOP LOCATION
       return new Marker(
-        height: 50,
-        width: 50,
+        height: 45,
+        width: 45,
         point: new LatLng(lat, long),
         builder: (context) => Container(
           padding: const EdgeInsets.all(0),
@@ -148,10 +148,6 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     final busStopLong = allBusStopsData[widget.busStopCode]['longitude'];
 
     next3BusMarker.add(busMarker(busStopLat, busStopLong, null, 2));
-
-    // final nextBusData = busArrivalTiming['nextBus'];
-    // final nextBusLat = double.parse(nextBusData['latitude']);
-    // final nextBusLong = double.parse(nextBusData['longitude']);
 
     setState(() {
       centerPoint = LatLng(busStopLat - 0.004, busStopLong);
@@ -225,13 +221,13 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: Colors.blue[100],
+                    color: Color.lerp(Colors.white, primaryColor, 0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
                     nextBusType,
                     size: 24,
-                    color: Colors.blue[600],
+                    color: primaryColor,
                   ),
                 )
               ],
