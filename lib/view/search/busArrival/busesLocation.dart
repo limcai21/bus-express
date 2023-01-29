@@ -1,4 +1,5 @@
 import 'package:bus_express/model/constants.dart';
+import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
@@ -262,6 +263,15 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     );
   }
 
+  goToBusStop() {
+    final busStopLat = allBusStopsData[widget.busStopCode]['latitude'];
+    final busStopLong = allBusStopsData[widget.busStopCode]['longitude'];
+
+    setState(() {
+      mapController.move(LatLng(busStopLat - 0.004, busStopLong), 15);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -388,6 +398,28 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
             ],
           ),
         ),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 230),
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: primaryColor,
+                  onPressed: goToBusStop,
+                  child: Icon(CustomIcons.bus_stop),
+                ),
+                // FloatingActionButton.extended(
+                //   onPressed: goToBusStop,
+                //   backgroundColor: primaryColor,
+                //   label: Text("BUS STOP"),
+                //   icon: Icon(CustomIcons.bus_stop),
+                // )
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
