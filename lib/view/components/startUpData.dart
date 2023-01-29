@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:collection';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
 import 'package:bus_express/model/api.dart';
@@ -66,10 +68,18 @@ nearbyBusStop() async {
 
 // GET NEARBY BUS STOP
 startUpLoadData(context) async {
+  loadingAlert(context, title: "Loading required data");
+
   print("Loading (startUpLoadData)");
 
   // GETTING DATA FROM DB
   final prefs = await SharedPreferences.getInstance();
+
+  // FOR TESTING
+  // await prefs.remove('allBusStopsData');
+  // await prefs.remove('allBusServiceData');
+  // await prefs.remove('allBusRouteData');
+
   final String dbBusStopsData = prefs.getString('allBusStopsData');
   final String dbBusServiceData = prefs.getString('allBusServiceData');
   final String dbBusRouteData = prefs.getString('allBusRouteData');
@@ -128,6 +138,8 @@ startUpLoadData(context) async {
       allBusServiceData, (k1, k2) => k1.compareTo(k2));
   allAddressData = new SplayTreeMap<String, dynamic>.from(
       tempHolder, (k1, k2) => k1.compareTo(k2));
+
+  Navigator.pop(context);
 
   print("Data all loaded (startUpLoadData)");
 }

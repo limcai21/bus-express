@@ -81,19 +81,23 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     );
   }
 
+  checkIfSequenceExist(int index, Map<dynamic, dynamic> data) {
+    if (data[(index + 1).toString()] != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   listTitleForRoute(
     int index,
-    int lastIndex,
     Map<dynamic, dynamic> data,
   ) {
-    if (index + 1 == lastIndex - 1) {
-      index++;
-    }
-    final busStopName = data[(index + 1).toString()]['busStopName'];
-    final roadName = data[(index + 1).toString()]['roadName'];
-    final busStopCode = data[(index + 1).toString()]['busStopCode'];
-    final distance =
-        data[(index + 1).toString()]['distance'].toString() + " km";
+    final finalIndex = (index + 1).toString();
+    final busStopName = data[finalIndex]['busStopName'];
+    final roadName = data[finalIndex]['roadName'];
+    final busStopCode = data[finalIndex]['busStopCode'];
+    final distance = data[finalIndex]['distance'].toString() + " km";
 
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -190,11 +194,16 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
                     physics: BouncingScrollPhysics(),
                     itemCount: directionOneData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return listTitleForRoute(
-                        index,
-                        lastIndex,
-                        directionOneData,
-                      );
+                      final checker =
+                          checkIfSequenceExist(index, directionOneData);
+                      if (checker) {
+                        return listTitleForRoute(
+                          index,
+                          directionOneData,
+                        );
+                      } else {
+                        return null;
+                      }
                     },
                   ),
                   if (amountOfDirection == 2)
@@ -202,11 +211,16 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
                       physics: BouncingScrollPhysics(),
                       itemCount: directionTwoData.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return listTitleForRoute(
-                          index,
-                          lastIndex,
-                          directionTwoData,
-                        );
+                        final checker =
+                            checkIfSequenceExist(index, directionTwoData);
+                        if (checker) {
+                          return listTitleForRoute(
+                            index,
+                            directionTwoData,
+                          );
+                        } else {
+                          return null;
+                        }
                       },
                     ),
                 ],

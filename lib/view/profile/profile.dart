@@ -27,9 +27,9 @@ class _ProfileState extends State<Profile> {
   double borderRadius = 100;
   double padding = 10;
 
-  deleteAccount() {
-    prefs.remove(currentLoginUsername);
-    prefs.remove(currentLoginUsername + "FavList");
+  deleteAccount() async {
+    await prefs.remove(currentLoginUsername);
+    await prefs.remove(currentLoginUsername + "FavList");
     setState(() {
       isUserLogin = false;
       currentLoginUsername = "";
@@ -238,8 +238,8 @@ class _ProfileState extends State<Profile> {
               TextButton textButton = customTextButton(
                 context,
                 "Delete",
-                () {
-                  deleteAccount();
+                () async {
+                  await deleteAccount();
                   Navigator.pop(context);
                   alertDialog(
                     accountDeletedTitle,

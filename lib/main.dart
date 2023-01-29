@@ -37,6 +37,8 @@ class BusArrivalApp extends StatefulWidget {
 
 class BusArrivalAppState extends State<BusArrivalApp> {
   int selectedIndex = 0;
+  bool doneLoading = false;
+
   List pagesData = [
     [
       "Home",
@@ -74,10 +76,17 @@ class BusArrivalAppState extends State<BusArrivalApp> {
     });
   }
 
+  initFunction() async {
+    await startUpLoadData(context);
+    setState(() {
+      doneLoading = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    startUpLoadData(context);
+    initFunction();
   }
 
   @override
@@ -85,7 +94,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
     return CustomScaffold(
       pagesData[selectedIndex][0],
       "",
-      pagesData[selectedIndex][3],
+      doneLoading ? pagesData[selectedIndex][3] : Container(),
       2,
       // backgroundColor: pagesData[selectedIndex][4],
       actionBtn: [
