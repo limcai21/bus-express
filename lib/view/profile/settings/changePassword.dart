@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -31,7 +32,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: currentPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(CustomIcons.lock_regular),
+              icon: Icon(FluentIcons.lock_closed_24_regular),
               hintText: '',
               labelText: 'Current Password',
             ),
@@ -76,7 +77,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: newPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(CustomIcons.lock_filled),
+              icon: Icon(FluentIcons.lock_closed_24_filled),
               hintText: '',
               labelText: 'New Password',
             ),
@@ -95,7 +96,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             controller: retypeNewPasswordController,
             obscureText: true,
             decoration: const InputDecoration(
-              icon: Icon(CustomIcons.lock_filled),
+              icon: Icon(FluentIcons.lock_closed_24_filled),
               hintText: '',
               labelText: 'Retype New Password',
             ),

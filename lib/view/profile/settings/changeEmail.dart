@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -57,7 +58,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              icon: Icon(CustomIcons.mail),
+              icon: Icon(FluentIcons.mail_24_filled),
               helperText: 'e.g: email@busexpress.com',
               labelText: 'Email',
               hintText: currentUserEmail,

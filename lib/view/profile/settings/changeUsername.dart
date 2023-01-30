@@ -8,26 +8,34 @@ import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChangeContactNumber extends StatefulWidget {
+class ChangeUsername extends StatefulWidget {
   @override
-  State<ChangeContactNumber> createState() => _ChangeContactNumberState();
+  State<ChangeUsername> createState() => _ChangeUsernameState();
 }
 
-class _ChangeContactNumberState extends State<ChangeContactNumber> {
+class _ChangeUsernameState extends State<ChangeUsername> {
   final formKey = GlobalKey<FormState>();
-  String currentContactNumber = "";
-  var contactNumberController = TextEditingController();
   var prefs;
+  var usernameController = TextEditingController();
 
-  updateContactNumber() {
-    final newContactNumber = contactNumberController.text;
+  checkUsernameExist(String username) {
+    final checkUsername = prefs.getString(username);
+    if (checkUsername != null) {
+      return usernameExist;
+    } else {
+      return null;
+    }
+  }
+
+  updateUsername() {
+    final newUsername = usernameController.text;
 
     // GET CURRENT USER DATA
     Map<String, dynamic> currentUserData =
         jsonDecode(prefs.getString(currentLoginUsername));
-    currentUserData['contactNumber'] = newContactNumber;
+    currentUserData['username'] = newUsername;
     prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
-    print("updated contact number");
+    print("updated username");
 
     Navigator.pop(context);
   }
@@ -35,16 +43,6 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
   @override
   void initState() {
     super.initState();
-    loadPageData();
-  }
-
-  loadPageData() async {
-    prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> userData =
-        jsonDecode(prefs.getString(currentLoginUsername));
-    setState(() {
-      currentContactNumber = (userData['contactNumber']).toString();
-    });
   }
 
   @override
@@ -55,20 +53,18 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
       child: Column(
         children: [
           TextFormField(
-            controller: contactNumberController,
-            keyboardType: TextInputType.phone,
-            maxLength: contactNumberMaxLength,
+            controller: usernameController,
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              icon: Icon(FluentIcons.phone_24_filled),
-              helperText: 'e.g: 912345678',
-              labelText: 'Contact Number',
-              hintText: currentContactNumber,
+              icon: Icon(FluentIcons.person_24_filled),
+              labelText: 'Username',
+              hintText: currentLoginUsername,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return contactNumberEmptyNull;
-              } else if (!RegExp(contactNumberRegex).hasMatch(value)) {
-                return contactNumberInvalid;
+                return emailEmptyNull;
+              } else if (!RegExp(emailRegex).hasMatch(value)) {
+                return emailInvalid;
               }
               return null;
             },
@@ -80,15 +76,15 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
             child: ElevatedButton(
               onPressed: () async {
                 if (formKey.currentState.validate()) {
-                  await updateContactNumber();
+                  await updateUsername();
                   alertDialog(
-                    contactNumberUpdateTitle,
-                    contactNumberUpdateDescription,
+                    emailUpdateTitle,
+                    emailUpdateDescription,
                     context,
                   );
                 }
               },
-              child: Text('Update'),
+              child: Text('Change'),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all(Theme.of(context).primaryColor),
