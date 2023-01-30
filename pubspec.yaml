@@ -31,8 +31,10 @@ dependencies:
   open_settings: any 
   salomon_bottom_bar: any
   shared_preferences: any 
+  fluentui_system_icons: any
   flutter_map_location_marker: any 
   material_design_icons_flutter: any 
+  
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

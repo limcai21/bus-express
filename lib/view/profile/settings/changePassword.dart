@@ -23,7 +23,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   var prefs;
 
   checkCurrentPasswordForm() {
-    print(currentPassword);
     return Form(
       key: formKey,
       child: Column(
@@ -155,6 +154,11 @@ class _ChangePasswordState extends State<ChangePassword> {
     prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
     print("updated password");
 
+    setState(() {
+      isUserLogin = false;
+    });
+
+    Navigator.pop(context, true);
     Navigator.pop(context, true);
   }
 

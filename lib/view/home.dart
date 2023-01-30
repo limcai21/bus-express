@@ -7,6 +7,7 @@ import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/startUpData.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:location/location.dart';
 import '../model/custom_icons_icons.dart';
 import 'package:open_settings/open_settings.dart';
-
+import 'dart:math' as math;
 import 'components/button/textButton.dart';
 
 class Home extends StatefulWidget {
@@ -427,8 +428,16 @@ class _HomeState extends State<Home> {
                     (permissionGranted.toString() != "PermissionStatus.denied")
                 ? nearbyBusStopBool
                     ? Icon(CustomIcons.bus_stop)
-                    : Icon(CustomIcons.near_me)
-                : Icon(CustomIcons.near_me),
+                    : Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(math.pi),
+                        child: Icon(FluentIcons.cursor_24_filled),
+                      )
+                : Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(math.pi),
+                    child: Icon(FluentIcons.cursor_24_filled),
+                  ),
           ),
         )
       ],

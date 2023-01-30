@@ -4,8 +4,8 @@ import 'package:flutter_map/flutter_map.dart';
 
 // COLORS
 // const primaryColor = Colors.blue;
-// const primaryColor = Color.fromRGBO(0, 46, 83, 1);
-const primaryColor = Colors.red;
+const primaryColor = Color.fromRGBO(0, 46, 83, 1);
+// const primaryColor = Colors.red;
 
 // FORM
 // USERNAME

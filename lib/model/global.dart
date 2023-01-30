@@ -19,6 +19,7 @@ bool isThereInternetConnection = false;
 
 String searchQuery = '';
 String currentLoginUsername = '';
+String userContactNumber = '';
 
 int searchTabIndex = 0;
 
