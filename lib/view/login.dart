@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -82,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               controller: usernameController,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.profile_filled),
+                icon: Icon(FluentIcons.person_24_filled),
                 labelText: 'Username',
               ),
               validator: (value) {
@@ -97,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.lock_filled),
+                icon: Icon(FluentIcons.lock_closed_24_filled),
                 labelText: 'Password',
               ),
               validator: (value) {
