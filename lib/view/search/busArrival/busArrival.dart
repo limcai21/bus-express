@@ -83,7 +83,9 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
   initPageData(busStopCode) async {
     loadingAlert(context);
     await loadBusArrivalData(busStopCode);
-    await checkIfBusServiceIsFavOrNot(busStopCode);
+    if (isUserLogin) {
+      await checkIfBusServiceIsFavOrNot(busStopCode);
+    }
     setState(() {
       isDataLoaded = true;
     });

@@ -1,7 +1,9 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
+import 'dart:math' as math;
 
 Map<String, dynamic> allBusStopsData = {};
 Map<String, dynamic> nearbyBusStopsData = {};
@@ -43,9 +45,18 @@ listViewHeader(String title, BuildContext context) {
   );
 }
 
-customListTile(String title, String subtitle, IconData icon,
-    IconData trailingIcon, MaterialColor bgColor, Function onTap,
-    {double borderRadius, double iconSize, double padding}) {
+customListTile(
+  String title,
+  String subtitle,
+  IconData icon,
+  IconData trailingIcon,
+  MaterialColor bgColor,
+  Function onTap, {
+  double borderRadius,
+  double iconSize,
+  double padding,
+  bool rotate = false,
+}) {
   return ListTile(
     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
     title: Text(
@@ -60,6 +71,7 @@ customListTile(String title, String subtitle, IconData icon,
       iconSize: iconSize,
       borderRadius: borderRadius,
       padding: padding,
+      rotate: rotate,
     ),
     onTap: onTap != null ? onTap : null,
   );
@@ -71,13 +83,32 @@ customLeadingIcon(
   double borderRadius,
   double iconSize,
   double padding,
+  bool rotate,
 }) {
   // CHECK IF IS FROM PROFILE
   Color iconColor = mainColor;
   bool fromProfile = false;
+  Widget iconOutput = Icon(
+    icon,
+    size: iconSize != null ? iconSize : 32,
+    color: iconColor,
+  );
+
   if (borderRadius != null && iconSize != null && padding != null) {
     iconColor = Colors.white;
     fromProfile = true;
+  }
+
+  if (rotate == true) {
+    iconOutput = Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationY(math.pi),
+      child: Icon(
+        icon,
+        size: iconSize != null ? iconSize : 32,
+        color: iconColor,
+      ),
+    );
   }
 
   return Container(
@@ -88,11 +119,7 @@ customLeadingIcon(
         borderRadius != null ? borderRadius : 10,
       ),
     ),
-    child: Icon(
-      icon,
-      size: iconSize != null ? iconSize : 32,
-      color: iconColor,
-    ),
+    child: iconOutput,
   );
 }
 
