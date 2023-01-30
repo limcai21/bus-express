@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -20,11 +22,10 @@ class _ChangeEmailState extends State<ChangeEmail> {
     final newEmail = emailController.text;
 
     // GET CURRENT USER DATA
-    var currentUserData = prefs.getStringList(currentLoginUsername);
-    final password = currentUserData[0];
-    final contactNumber = currentUserData[2];
-    prefs.setStringList(
-        currentLoginUsername, <String>[password, newEmail, contactNumber]);
+    Map<String, dynamic> currentUserData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    currentUserData['email'] = newEmail;
+    prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
     print("updated email");
 
     Navigator.pop(context);
@@ -38,9 +39,10 @@ class _ChangeEmailState extends State<ChangeEmail> {
 
   loadPageData() async {
     prefs = await SharedPreferences.getInstance();
-    currentUserEmail = prefs.getStringList(currentLoginUsername)[1].toString();
+    Map<String, dynamic> userData =
+        jsonDecode(prefs.getString(currentLoginUsername));
     setState(() {
-      currentUserEmail = currentUserEmail;
+      currentUserEmail = userData['email'];
     });
   }
 

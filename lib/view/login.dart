@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -36,13 +38,15 @@ class _LoginFormState extends State<LoginForm> {
     final username = usernameController.text;
     final password = passwordController.text;
 
-    final List<String> getUserData = prefs.getStringList(username);
+    final String getUserData = prefs.getString(username);
     if (getUserData != null) {
-      final checkPassowrd = getUserData[0];
+      Map<String, dynamic> userData = jsonDecode(prefs.getString(username));
+      final checkPassword = userData["password"];
 
-      if (password != checkPassowrd) {
+      if (password != checkPassword) {
         alertDialog(loginFailTitle, loginFailDescription, context);
       } else {
+        await prefs.setString("loginUser", username);
         print("login successful");
         setState(() {
           isUserLogin = true;

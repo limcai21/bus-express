@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -20,11 +22,10 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
     final newContactNumber = contactNumberController.text;
 
     // GET CURRENT USER DATA
-    var currentUserData = prefs.getStringList(currentLoginUsername);
-    final password = currentUserData[0];
-    final email = currentUserData[1];
-    prefs.setStringList(
-        currentLoginUsername, <String>[password, email, newContactNumber]);
+    Map<String, dynamic> currentUserData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    currentUserData['contactNumber'] = newContactNumber;
+    prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
     print("updated contact number");
 
     Navigator.pop(context);
@@ -38,10 +39,10 @@ class _ChangeContactNumberState extends State<ChangeContactNumber> {
 
   loadPageData() async {
     prefs = await SharedPreferences.getInstance();
-    currentContactNumber =
-        prefs.getStringList(currentLoginUsername)[2].toString();
+    Map<String, dynamic> userData =
+        jsonDecode(prefs.getString(currentLoginUsername));
     setState(() {
-      currentContactNumber = currentContactNumber;
+      currentContactNumber = (userData['contactNumber']).toString();
     });
   }
 

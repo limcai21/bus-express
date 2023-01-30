@@ -63,15 +63,14 @@ class _FavouriteState extends State<Favourite> {
 
   // GET ALL DATA
   getUserFavList() async {
-    final usernameFavList = currentLoginUsername + "FavList";
-
     final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString(usernameFavList);
-    if (data != null) {
-      final jsonData = jsonDecode(data);
+    Map<String, dynamic> userData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    Map<String, dynamic> userFavList = userData['favourite'];
 
+    if (userFavList != null) {
       setState(() {
-        favListData = jsonData;
+        favListData = userFavList;
       });
     }
   }

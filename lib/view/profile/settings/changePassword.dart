@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -136,9 +138,10 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   loadPageData() async {
     prefs = await SharedPreferences.getInstance();
-    currentPassword = prefs.getStringList(currentLoginUsername)[0].toString();
+    Map<String, dynamic> userData =
+        jsonDecode(prefs.getString(currentLoginUsername));
     setState(() {
-      currentPassword = currentPassword;
+      currentPassword = userData['password'];
     });
   }
 
@@ -146,11 +149,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     final newPassword = newPasswordController.text;
 
     // GET CURRENT USER DATA
-    var currentUserData = prefs.getStringList(currentLoginUsername);
-    final email = currentUserData[1];
-    final contactNumber = currentUserData[2];
-    prefs.setStringList(
-        currentLoginUsername, <String>[newPassword, email, contactNumber]);
+    Map<String, dynamic> currentUserData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    currentUserData['password'] = newPassword;
+    prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
     print("updated password");
 
     Navigator.pop(context, true);

@@ -61,17 +61,18 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
 
   checkIfBusServiceIsFavOrNot(String busStopCode) async {
     prefs = await SharedPreferences.getInstance();
-    final usernameFavList = currentLoginUsername + "FavList";
-    String currentUserFavList = prefs.getString(usernameFavList);
+    Map<String, dynamic> userData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    Map<String, dynamic> currentUserFavList = userData['favourite'];
+
     if (currentUserFavList != null) {
-      Map<String, dynamic> decodeJSON = jsonDecode(currentUserFavList);
-      if (decodeJSON[busStopCode] != null &&
-          decodeJSON[busStopCode].isNotEmpty) {
+      if (currentUserFavList[busStopCode] != null &&
+          currentUserFavList[busStopCode].isNotEmpty) {
         setState(() {
-          busesInFavList = decodeJSON[busStopCode];
+          busesInFavList = currentUserFavList[busStopCode];
         });
       } else {
-        decodeJSON.removeWhere((key, value) => key == busStopCode);
+        currentUserFavList.removeWhere((key, value) => key == busStopCode);
         setState(() {
           busesInFavList = [];
         });

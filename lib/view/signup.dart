@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -38,7 +40,7 @@ class _SignUpFormState extends State<SignUpForm> {
   var prefs;
 
   checkUsernameExist(String username) {
-    final List<String> checkUsername = prefs.getStringList(username);
+    final checkUsername = prefs.getString(username);
     if (checkUsername != null) {
       return usernameExist;
     } else {
@@ -66,8 +68,14 @@ class _SignUpFormState extends State<SignUpForm> {
     final password = passwordController.text;
 
     if (checkUsernameExist(username) != usernameExist) {
-      await prefs
-          .setStringList(username, <String>[password, email, contactNumber]);
+      var userData = {
+        "username": username,
+        "password": password,
+        "email": email,
+        "contactNumber": contactNumber,
+        "favourite": null,
+      };
+      await prefs.setString(username, jsonEncode(userData));
     } else {
       print("exist");
     }

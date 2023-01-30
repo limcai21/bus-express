@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/alert/alertLoading.dart';
@@ -29,7 +31,6 @@ class _ProfileState extends State<Profile> {
 
   deleteAccount() async {
     await prefs.remove(currentLoginUsername);
-    await prefs.remove(currentLoginUsername + "FavList");
     setState(() {
       isUserLogin = false;
       currentLoginUsername = "";
@@ -47,9 +48,10 @@ class _ProfileState extends State<Profile> {
 
   refreshEmailAddressAndContactNumber() {
     if (currentLoginUsername.isNotEmpty) {
-      var userData = prefs.getStringList(currentLoginUsername);
-      userEmail = userData[1];
-      userContactNumber = userData[2];
+      Map<String, dynamic> userData =
+          jsonDecode(prefs.getString(currentLoginUsername));
+      userEmail = userData["email"];
+      userContactNumber = userData["contactNumber"];
     }
   }
 
@@ -304,7 +306,7 @@ class _ProfileState extends State<Profile> {
           null,
           Colors.pink,
           () async {
-            loadingAlert(context);
+            loadingAlert(context, title: "Refetching Data..");
             await Bus().all();
             print("done with bus service");
             await BusStop().all();

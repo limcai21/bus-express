@@ -6,56 +6,65 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 addBusServiceToFav(String busStopCode, String busService) async {
   final prefs = await SharedPreferences.getInstance();
-  final usernameFavList = currentLoginUsername + "FavList";
 
   // CLEAR LIST
   // await prefs.remove(usernameFavList);
 
   // GET CURRENT FAV LIST
-  final String currentUserFavList = prefs.getString(usernameFavList);
+  final Map<String, dynamic> userData =
+      jsonDecode(prefs.getString(currentLoginUsername));
+  Map<String, dynamic> currentUserFavList = userData['favourite'];
 
   if (currentUserFavList != null) {
-    Map<String, dynamic> decodeJSON = jsonDecode(currentUserFavList);
-    if (decodeJSON[busStopCode] != null) {
-      if (!decodeJSON[busStopCode].contains(busService)) {
-        decodeJSON[busStopCode].add(busService);
-      } else {
+    if (currentUserFavList[busStopCode] != null) {
+      if (currentUserFavList[busStopCode].contains(busService)) {
         removeBusServiceFromFav(busStopCode, busService);
+      } else {
+        currentUserFavList[busStopCode].add(busService);
       }
     } else {
-      decodeJSON[busStopCode] = [busService];
+      currentUserFavList[busStopCode] = [busService];
+      userData['favourite'] = currentUserFavList;
     }
 
-    // SAVING IT
-    await prefs.setString(usernameFavList, jsonEncode(decodeJSON));
+    // // SAVING IT
+    await prefs.setString(currentLoginUsername, jsonEncode(userData));
   } else {
     // USER DOESNT NOT HAVE ANY FAV IN HIS LIST YET
     Map<String, dynamic> temp = {
       busStopCode: [busService]
     };
 
+    userData["favourite"] = temp;
+
     // SINCE CANNOT STORE MAP, ENCODE IT TO STRING
-    await prefs.setString(usernameFavList, jsonEncode(temp));
+    await prefs.setString(currentLoginUsername, jsonEncode(userData));
   }
+
+  print("add");
+  print(userData['favourite'][busStopCode]);
 }
 
 removeBusServiceFromFav(String busStopCode, String busService) async {
   final prefs = await SharedPreferences.getInstance();
-  final usernameFavList = currentLoginUsername + "FavList";
-  final String currentUserFavList = prefs.getString(usernameFavList);
+  final String currentUserFavList = prefs.getString(currentLoginUsername);
 
   if (currentUserFavList != null) {
     // USER ALR HAS SOME FAV
     Map<String, dynamic> allData = jsonDecode(currentUserFavList);
-    final List decodeJSON = jsonDecode(currentUserFavList)[busStopCode];
-    if (decodeJSON.length > 1) {
-      decodeJSON.removeWhere((element) => element == busService);
-      allData[busStopCode] = decodeJSON;
-      await prefs.setString(usernameFavList, jsonEncode(allData));
+    List userFavData = allData['favourite'][busStopCode];
+
+    if (userFavData.length > 1) {
+      userFavData.removeWhere((element) => element == busService);
+      allData["favourite"][busStopCode] = userFavData;
+      await prefs.setString(currentLoginUsername, jsonEncode(allData));
     } else {
-      allData.removeWhere((key, value) => key == busStopCode);
-      await prefs.setString(usernameFavList, jsonEncode(allData));
+      allData["favourite"].removeWhere((key, value) => key == busStopCode);
+      await prefs.setString(currentLoginUsername, jsonEncode(allData));
     }
+
+    print("remove");
+    print(userFavData);
   }
 }
 
