@@ -12,7 +12,6 @@ import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/login.dart';
 import 'package:bus_express/view/profile/company/aboutUs.dart';
-import 'package:bus_express/view/profile/profileEdit.dart';
 import 'package:bus_express/view/signup.dart';
 import 'package:open_settings/open_settings.dart';
 import 'company/components/contactFunctions.dart';
@@ -262,6 +261,7 @@ class _ProfileState extends State<Profile> {
           iconSize: iconSize,
           borderRadius: borderRadius,
           padding: padding,
+          rotate: true,
         ),
         customListTile(
           "Refetch Data",

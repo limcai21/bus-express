@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
