@@ -127,8 +127,8 @@ class _ProfileState extends State<Profile> {
           customListTile(
             "Login",
             "View all your favourites",
-            CustomIcons.profile_filled,
-            CustomIcons.chevron_right,
+            FluentIcons.person_28_filled,
+            FluentIcons.chevron_right_24_filled,
             Colors.orange,
             () => Navigator.push(
               context,
@@ -148,8 +148,8 @@ class _ProfileState extends State<Profile> {
           customListTile(
             'Sign Up',
             'Favourites all your bus stop',
-            CustomIcons.sign_up,
-            CustomIcons.chevron_right,
+            FluentIcons.person_add_24_filled,
+            FluentIcons.chevron_right_24_filled,
             Colors.teal,
             () => Navigator.push(
               context,
@@ -166,7 +166,7 @@ class _ProfileState extends State<Profile> {
             "My Info",
             "Username, Password, Email...",
             FluentIcons.contact_card_24_filled,
-            CustomIcons.chevron_right,
+            FluentIcons.chevron_right_24_filled,
             Colors.orange,
             () => Navigator.push(
               context,
@@ -255,8 +255,8 @@ class _ProfileState extends State<Profile> {
         customListTile(
           "Location Service",
           "Enable your location service",
-          CustomIcons.near_me,
-          CustomIcons.open_in,
+          FluentIcons.cursor_24_filled,
+          FluentIcons.open_24_filled,
           Colors.blueGrey,
           () => OpenSettings.openLocationSetting(),
           iconSize: iconSize,
@@ -266,7 +266,7 @@ class _ProfileState extends State<Profile> {
         customListTile(
           "Refetch Data",
           "Refetch missing Bus Stops, Service & Route",
-          CustomIcons.refresh,
+          FluentIcons.arrow_clockwise_24_filled,
           null,
           Colors.pink,
           () async {
@@ -289,8 +289,8 @@ class _ProfileState extends State<Profile> {
         customListTile(
           'About Us',
           'Find out more about us',
-          CustomIcons.information_circle,
-          CustomIcons.chevron_right,
+          FluentIcons.info_24_filled,
+          FluentIcons.chevron_right_24_filled,
           Colors.green,
           () => Navigator.push(
             context,
@@ -303,8 +303,8 @@ class _ProfileState extends State<Profile> {
         customListTile(
           'Feedback',
           'Tell us if you encounter something odd',
-          CustomIcons.feedback,
-          CustomIcons.open_in,
+          FluentIcons.person_feedback_24_filled,
+          FluentIcons.open_24_filled,
           Colors.purple,
           () => launchEmail(companyFeedbackEmail, 'Feedback'),
           iconSize: iconSize,
