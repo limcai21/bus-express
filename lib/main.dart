@@ -1,3 +1,7 @@
+import 'package:bus_express/model/global.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'view/home.dart';
 import 'view/favourite.dart';
 import 'model/constants.dart';
@@ -42,29 +46,29 @@ class BusArrivalAppState extends State<BusArrivalApp> {
   List pagesData = [
     [
       "Home",
-      CustomIcons.home_regular,
-      CustomIcons.home_filled,
+      FluentIcons.home_24_regular,
+      FluentIcons.home_24_filled,
       Home(),
       Colors.blue,
     ],
     [
       "Search",
-      CustomIcons.search_regular,
-      CustomIcons.search_filled,
+      FluentIcons.search_24_regular,
+      FluentIcons.search_24_filled,
       Search(),
       Colors.orange,
     ],
     [
       "Favourite",
-      CustomIcons.favourite_regular,
-      CustomIcons.favourite_filled,
+      FluentIcons.heart_24_regular,
+      FluentIcons.heart_24_filled,
       Favourite(),
       Colors.pink,
     ],
     [
       "Profile",
-      CustomIcons.profile_regular,
-      CustomIcons.profile_filled,
+      FluentIcons.person_24_regular,
+      FluentIcons.person_24_filled,
       Profile(),
       Colors.teal,
     ],
@@ -78,7 +82,16 @@ class BusArrivalAppState extends State<BusArrivalApp> {
 
   initFunction() async {
     await startUpLoadData(context);
+
+    // CHECK IF USER IS LOGIN
+    final prefs = await SharedPreferences.getInstance();
+    String checkIfGotLoginPreviously = prefs.getString("loginUser");
+
     setState(() {
+      if (isUserLogin != null) {
+        currentLoginUsername = checkIfGotLoginPreviously;
+        isUserLogin = true;
+      }
       doneLoading = true;
     });
   }

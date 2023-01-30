@@ -68,12 +68,11 @@ nearbyBusStop() async {
 
 // GET NEARBY BUS STOP
 startUpLoadData(context) async {
-  loadingAlert(context, title: "Loading required data");
-
   print("Loading (startUpLoadData)");
 
   // GETTING DATA FROM DB
   final prefs = await SharedPreferences.getInstance();
+  bool showAlert = false;
 
   // FOR TESTING
   // await prefs.remove('allBusStopsData');
@@ -83,6 +82,13 @@ startUpLoadData(context) async {
   final String dbBusStopsData = prefs.getString('allBusStopsData');
   final String dbBusServiceData = prefs.getString('allBusServiceData');
   final String dbBusRouteData = prefs.getString('allBusRouteData');
+
+  if (dbBusStopsData == null &&
+      dbBusServiceData == null &&
+      dbBusRouteData == null) {
+    loadingAlert(context, title: "Loading required data");
+    showAlert = true;
+  }
 
   // BUS STOP
   if (dbBusStopsData == null) {
@@ -139,7 +145,9 @@ startUpLoadData(context) async {
   allAddressData = new SplayTreeMap<String, dynamic>.from(
       tempHolder, (k1, k2) => k1.compareTo(k2));
 
-  Navigator.pop(context);
+  if (showAlert) {
+    Navigator.pop(context);
+  }
 
   print("Data all loaded (startUpLoadData)");
 }
