@@ -167,7 +167,7 @@ class _ProfileState extends State<Profile> {
             "Username, Password, Email...",
             FluentIcons.contact_card_24_filled,
             CustomIcons.chevron_right,
-            Colors.amber,
+            Colors.orange,
             () => Navigator.push(
               context,
               MaterialPageRoute(

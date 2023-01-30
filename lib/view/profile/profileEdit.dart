@@ -1,3 +1,4 @@
+import 'package:bus_express/view/profile/settings/changeUsername.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/profile/settings/changeContactNumber.dart';
@@ -12,7 +13,12 @@ class ProfileEditForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List pages = [ChangeEmail(), ChangePassword(), ChangeContactNumber()];
+    List pages = [
+      ChangeEmail(),
+      ChangePassword(),
+      ChangeContactNumber(),
+      ChangeUsername(),
+    ];
 
     return CustomScaffold(
       title,

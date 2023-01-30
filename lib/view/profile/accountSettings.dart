@@ -55,17 +55,12 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
             context,
             MaterialPageRoute(
               builder: (context) => ProfileEditForm(
-                'Email',
-                'Update your Email',
-                0,
+                'Username',
+                'Change your Username',
+                3,
               ),
             ),
-          ).then((value) {
-            setState(() {
-              isUserLogin = isUserLogin;
-              // refreshEmailAddressAndContactNumber();
-            });
-          }),
+          ),
           iconSize: iconSize,
           borderRadius: borderRadius,
           padding: padding,
@@ -107,11 +102,7 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
                 0,
               ),
             ),
-          ).then((value) {
-            setState(() {
-              isUserLogin = isUserLogin;
-            });
-          }),
+          ),
           iconSize: iconSize,
           borderRadius: borderRadius,
           padding: padding,
