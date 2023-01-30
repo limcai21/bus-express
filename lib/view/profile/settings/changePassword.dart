@@ -144,22 +144,22 @@ class _ChangePasswordState extends State<ChangePassword> {
     });
   }
 
-  updatePassword() {
+  updatePassword() async {
     final newPassword = newPasswordController.text;
-
-    // GET CURRENT USER DATA
-    Map<String, dynamic> currentUserData =
-        jsonDecode(prefs.getString(currentLoginUsername));
-    currentUserData['password'] = newPassword;
-    prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
-    print("updated password");
 
     setState(() {
       isUserLogin = false;
     });
 
-    Navigator.pop(context, true);
-    Navigator.pop(context, true);
+    // GET CURRENT USER DATA
+    Map<String, dynamic> currentUserData =
+        jsonDecode(prefs.getString(currentLoginUsername));
+    currentUserData['password'] = newPassword;
+    await prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
+    print("updated password");
+
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   @override

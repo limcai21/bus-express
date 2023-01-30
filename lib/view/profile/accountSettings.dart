@@ -28,6 +28,9 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
   double padding = 10;
 
   logoutAccount() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("loginUser");
+
     setState(() {
       isUserLogin = false;
       currentLoginUsername = "";
@@ -74,7 +77,7 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
           CustomIcons.chevron_right,
           Colors.brown,
           () async {
-            var result = await Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ProfileEditForm(
@@ -84,10 +87,6 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
                 ),
               ),
             );
-
-            if (result == true) {
-              logoutAccount();
-            }
           },
           iconSize: iconSize,
           borderRadius: borderRadius,

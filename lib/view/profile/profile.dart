@@ -4,6 +4,8 @@ import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/button/textButton.dart';
+import 'package:bus_express/view/profile/accountSettings.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
@@ -38,7 +40,10 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  logoutAccount() {
+  logoutAccount() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("loginUser");
+
     setState(() {
       isUserLogin = false;
       currentLoginUsername = "";
@@ -47,6 +52,7 @@ class _ProfileState extends State<Profile> {
   }
 
   refreshEmailAddressAndContactNumber() {
+    print(currentLoginUsername);
     if (currentLoginUsername.isNotEmpty) {
       Map<String, dynamic> userData =
           jsonDecode(prefs.getString(currentLoginUsername));
@@ -115,7 +121,7 @@ class _ProfileState extends State<Profile> {
         profileCard(),
 
         // SETTING AREA
-        listViewHeader('Account', context),
+        listViewHeader('Settings', context),
 
         if (!isUserLogin) ...[
           customListTile(
@@ -147,7 +153,9 @@ class _ProfileState extends State<Profile> {
             Colors.teal,
             () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SignUp()),
+              MaterialPageRoute(
+                builder: (context) => SignUp(),
+              ),
             ),
             iconSize: iconSize,
             borderRadius: borderRadius,
@@ -155,75 +163,27 @@ class _ProfileState extends State<Profile> {
           ),
         ] else ...[
           customListTile(
-            "Email",
-            "Update your email",
-            CustomIcons.mail,
+            "My Info",
+            "Username, Password, Email...",
+            FluentIcons.contact_card_24_filled,
             CustomIcons.chevron_right,
-            Colors.orange,
+            Colors.amber,
             () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfileEditForm(
-                  'Email',
-                  'Update your Email',
-                  0,
+                builder: (context) => AccountSettings(
+                  'My Info',
+                  'Username, Password, Email...',
                 ),
               ),
             ).then((value) {
               setState(() {
                 isUserLogin = isUserLogin;
                 refreshEmailAddressAndContactNumber();
-              });
-            }),
-            iconSize: iconSize,
-            borderRadius: borderRadius,
-            padding: padding,
-          ),
-          customListTile(
-            "Password",
-            "Change your password",
-            CustomIcons.password,
-            CustomIcons.chevron_right,
-            Colors.brown,
-            () async {
-              var result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileEditForm(
-                    'Password',
-                    'Change your Password',
-                    1,
-                  ),
-                ),
-              );
 
-              if (result == true) {
-                logoutAccount();
-              }
-            },
-            iconSize: iconSize,
-            borderRadius: borderRadius,
-            padding: padding,
-          ),
-          customListTile(
-            "Contact Number",
-            "Update your Contact Number",
-            CustomIcons.phone,
-            CustomIcons.chevron_right,
-            Colors.teal,
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfileEditForm(
-                  'Contact Number',
-                  'Update your Contact Number',
-                  2,
-                ),
-              ),
-            ).then((value) {
-              setState(() {
-                isUserLogin = isUserLogin;
-                refreshEmailAddressAndContactNumber();
+                if (!isUserLogin) {
+                  logoutAccount();
+                }
               });
             }),
             iconSize: iconSize,
@@ -275,10 +235,14 @@ class _ProfileState extends State<Profile> {
                 logoutDescription,
                 context,
                 closeTitle: "Cancel",
-                additionalActions: customTextButton(context, "Logout", () {
-                  logoutAccount();
-                  Navigator.pop(context);
-                }),
+                additionalActions: customTextButton(
+                  context,
+                  "Logout",
+                  () async {
+                    await logoutAccount();
+                    Navigator.pop(context);
+                  },
+                ),
               );
             },
             iconSize: iconSize,

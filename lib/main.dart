@@ -88,9 +88,11 @@ class BusArrivalAppState extends State<BusArrivalApp> {
     String checkIfGotLoginPreviously = prefs.getString("loginUser");
 
     setState(() {
-      if (isUserLogin != null) {
+      if (checkIfGotLoginPreviously != null) {
         currentLoginUsername = checkIfGotLoginPreviously;
         isUserLogin = true;
+      } else {
+        currentLoginUsername = '';
       }
       doneLoading = true;
     });
