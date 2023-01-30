@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
@@ -111,7 +112,7 @@ class _SignUpFormState extends State<SignUpForm> {
             TextFormField(
               controller: usernameController,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.profile_filled),
+                icon: Icon(FluentIcons.person_24_filled),
                 labelText: 'Username',
               ),
               validator: (value) {
@@ -127,7 +128,7 @@ class _SignUpFormState extends State<SignUpForm> {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.mail),
+                icon: Icon(FluentIcons.mail_24_filled),
                 labelText: 'Email',
               ),
               validator: (value) {
@@ -145,7 +146,7 @@ class _SignUpFormState extends State<SignUpForm> {
               keyboardType: TextInputType.phone,
               maxLength: contactNumberMaxLength,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.phone),
+                icon: Icon(FluentIcons.call_24_filled),
                 labelText: 'Contact Number',
               ),
               validator: (value) {
@@ -162,7 +163,7 @@ class _SignUpFormState extends State<SignUpForm> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.lock_filled),
+                icon: Icon(FluentIcons.lock_closed_24_filled),
                 labelText: 'Password',
               ),
               validator: (value) {
@@ -178,7 +179,7 @@ class _SignUpFormState extends State<SignUpForm> {
               controller: retypePasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                icon: Icon(CustomIcons.lock_filled),
+                icon: Icon(FluentIcons.lock_closed_24_filled),
                 labelText: 'Retype Password',
               ),
               validator: (value) {
