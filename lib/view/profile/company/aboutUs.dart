@@ -2,6 +2,7 @@ import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 
@@ -99,24 +100,24 @@ class AboutUsContent extends StatelessWidget {
             customListTile(
               "Phone Number",
               companyNumber,
-              CustomIcons.phone,
-              CustomIcons.open_in,
+              FluentIcons.call_24_filled,
+              FluentIcons.open_24_filled,
               Colors.teal,
               () => launchContactNumber(companyNumber),
             ),
             customListTile(
               "Email",
               companyFeedbackEmail,
-              CustomIcons.mail,
-              CustomIcons.open_in,
+              FluentIcons.mail_24_filled,
+              FluentIcons.open_24_filled,
               Colors.orange,
               () => launchEmail(companyFeedbackEmail, "Feedback"),
             ),
             customListTile(
               "Company Website",
               comapanyName,
-              CustomIcons.web,
-              CustomIcons.open_in,
+              FluentIcons.web_asset_24_filled,
+              FluentIcons.open_24_filled,
               Colors.red,
               () => launchURL(companyWebsite),
             ),
@@ -126,7 +127,7 @@ class AboutUsContent extends StatelessWidget {
             customListTile(
               "Developer",
               companyDeveloper,
-              CustomIcons.profile_filled,
+              FluentIcons.person_24_filled,
               null,
               Colors.blueGrey,
               null,
@@ -137,16 +138,16 @@ class AboutUsContent extends StatelessWidget {
             customListTile(
               'LTA DataMall',
               "API",
-              CustomIcons.code,
-              CustomIcons.open_in,
+              FluentIcons.code_24_filled,
+              FluentIcons.open_24_filled,
               Colors.brown,
               () => launchURL(ltaDataMallURL),
             ),
             customListTile(
               'Tourism Information & Services Hub',
               "API",
-              CustomIcons.code,
-              CustomIcons.open_in,
+              FluentIcons.code_24_filled,
+              FluentIcons.open_24_filled,
               Colors.deepPurple,
               () => launchURL(stbAPIURL),
             ),

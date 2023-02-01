@@ -1,5 +1,7 @@
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 operatorName(operator) {
   switch (operator) {
@@ -30,42 +32,42 @@ busFeaturesIcon(feature) {
   switch (feature) {
     case "SEA":
       {
-        return CustomIcons.seat;
+        return MdiIcons.seatPassenger;
       }
       break;
     case "SDA":
       {
-        return CustomIcons.standing;
+        return MdiIcons.walk;
       }
       break;
     case "LSD":
       {
-        return CustomIcons.important;
+        return FluentIcons.important_24_filled;
       }
       break;
     case "WAB":
       {
-        return CustomIcons.wheelchair;
+        return MdiIcons.wheelchairAccessibility;
       }
       break;
     case "SD":
       {
-        return CustomIcons.bus_single_decker;
+        return MdiIcons.busSide;
       }
       break;
     case "BD":
       {
-        return CustomIcons.bus_bendy;
+        return MdiIcons.busArticulatedEnd;
       }
       break;
     case "DD":
       {
-        return CustomIcons.bus_double_decker;
+        return MdiIcons.busDoubleDecker;
       }
       break;
     default:
       {
-        return CustomIcons.bus;
+        return MdiIcons.bus;
       }
       break;
   }

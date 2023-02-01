@@ -192,7 +192,7 @@ class _ProfileState extends State<Profile> {
           customListTile(
             "Delete Account",
             "You can't undo this action",
-            CustomIcons.delete,
+            FluentIcons.delete_24_filled,
             null,
             Colors.red,
             () {
@@ -225,7 +225,7 @@ class _ProfileState extends State<Profile> {
           customListTile(
             "Logout",
             "You can always sign back in",
-            CustomIcons.logout,
+            FluentIcons.sign_out_24_filled,
             null,
             Colors.indigo,
             () {

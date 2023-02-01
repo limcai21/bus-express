@@ -1,4 +1,5 @@
 import 'package:bus_express/model/custom_icons_icons.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/search.dart';
@@ -88,7 +89,7 @@ class DataSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(CustomIcons.dismiss, size: 22),
+        icon: Icon(FluentIcons.dismiss_24_filled, size: 22),
         onPressed: () {
           query = "";
         },

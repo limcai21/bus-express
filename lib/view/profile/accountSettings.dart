@@ -1,4 +1,3 @@
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/profile/profileEdit.dart';
@@ -49,7 +48,7 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
           "Username",
           "Change your username",
           FluentIcons.person_24_filled,
-          CustomIcons.chevron_right,
+          FluentIcons.chevron_right_24_filled,
           Colors.orange,
           () => Navigator.push(
             context,
@@ -68,8 +67,8 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
         customListTile(
           "Password",
           "Change your password",
-          CustomIcons.password,
-          CustomIcons.chevron_right,
+          FluentIcons.password_24_filled,
+          FluentIcons.chevron_right_24_filled,
           Colors.brown,
           () async {
             Navigator.push(
@@ -90,8 +89,8 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
         customListTile(
           "Email",
           "Update your email",
-          CustomIcons.mail,
-          CustomIcons.chevron_right,
+          FluentIcons.mail_24_filled,
+          FluentIcons.chevron_right_24_filled,
           Colors.blue,
           () => Navigator.push(
             context,
@@ -110,8 +109,8 @@ class _AccountSettingsBodyState extends State<AccountSettingsBody> {
         customListTile(
           "Contact Number",
           "Update your Contact Number",
-          CustomIcons.phone,
-          CustomIcons.chevron_right,
+          FluentIcons.call_24_filled,
+          FluentIcons.chevron_right_24_filled,
           Colors.teal,
           () => Navigator.push(
             context,

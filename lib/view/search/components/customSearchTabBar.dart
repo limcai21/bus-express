@@ -6,7 +6,9 @@ import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:bus_express/view/search/components/roadAlert.dart';
 import 'package:bus_express/view/search/components/searchFunction.dart';
 import 'package:bus_express/view/search/search.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomSearchTabBar extends StatefulWidget {
   @override
@@ -77,7 +79,10 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                         trailing: busStop['error'] != true
-                            ? Icon(CustomIcons.chevron_right, size: 18)
+                            ? Icon(
+                                FluentIcons.chevron_right_24_filled,
+                                size: 18,
+                              )
                             : null,
                         subtitle: busStop['error'] != true
                             ? Text((busStop['roadName']).toString() +
@@ -90,7 +95,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           children: [
                             busStop['error'] != true
                                 ? customLeadingIcon(
-                                    CustomIcons.bus_stop, primaryColor)
+                                    MdiIcons.busStop, primaryColor)
                                 : customLeadingIcon(
                                     Icons.error_outline_rounded, Colors.red),
                           ],
@@ -138,7 +143,10 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
                                 trailing: busService['error'] != true
-                                    ? Icon(CustomIcons.chevron_right, size: 18)
+                                    ? Icon(
+                                        FluentIcons.chevron_right_24_filled,
+                                        size: 18,
+                                      )
                                     : null,
                                 subtitle: Text(busService['operator']),
                                 leading: Column(
@@ -147,7 +155,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                                   children: [
                                     busService['error'] != true
                                         ? customLeadingIcon(
-                                            CustomIcons.bus, primaryColor)
+                                            MdiIcons.bus, primaryColor)
                                         : customLeadingIcon(
                                             Icons.error_outline_rounded,
                                             Colors.red),
@@ -242,7 +250,10 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                         trailing: road['error'] != true
-                            ? Icon(CustomIcons.chevron_right, size: 18)
+                            ? Icon(
+                                FluentIcons.chevron_right_24_filled,
+                                size: 18,
+                              )
                             : null,
                         subtitle: road['error'] == true
                             ? Text(road['subtitle'])
@@ -254,9 +265,13 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                           children: [
                             road['error'] == true
                                 ? customLeadingIcon(
-                                    CustomIcons.error_circle, Colors.red)
+                                    FluentIcons.error_circle_24_regular,
+                                    Colors.red,
+                                  )
                                 : customLeadingIcon(
-                                    CustomIcons.road_3d, primaryColor)
+                                    MdiIcons.roadVariant,
+                                    primaryColor,
+                                  )
                           ],
                         ),
                         onTap: () => road['error'] != true

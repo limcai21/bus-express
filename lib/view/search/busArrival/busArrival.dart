@@ -4,6 +4,7 @@ import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -226,7 +227,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             subtitle: Text("No Estimate Available"),
-            trailing: Icon(CustomIcons.chevron_right, size: 18),
+            trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
             onTap: () {
               if (busArrivalData.isNotEmpty) {
                 Navigator.push(
@@ -273,7 +274,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
         actions: [
           if (busArrivalData.isNotEmpty)
             IconButton(
-              icon: Icon(CustomIcons.refresh),
+              icon: Icon(FluentIcons.arrow_clockwise_24_filled),
               onPressed: () {
                 initPageData(widget.busStopCode);
               },

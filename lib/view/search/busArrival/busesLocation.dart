@@ -408,13 +408,13 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
                 FloatingActionButton(
                   backgroundColor: primaryColor,
                   onPressed: goToBusStop,
-                  child: Icon(CustomIcons.bus_stop),
+                  child: Icon(MdiIcons.busStop),
                 ),
                 // FloatingActionButton.extended(
                 //   onPressed: goToBusStop,
                 //   backgroundColor: primaryColor,
                 //   label: Text("BUS STOP"),
-                //   icon: Icon(CustomIcons.bus_stop),
+                //   icon: Icon(MdiIcons.busStop),
                 // )
               ],
             ),

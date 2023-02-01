@@ -1,9 +1,11 @@
 import 'package:bus_express/model/constants.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SearchBusRoute extends StatefulWidget {
   final String busService;
@@ -103,7 +105,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       title: Text(busStopName),
       subtitle: Text(distance != null ? distance : "Distance not avaialble"),
-      trailing: Icon(CustomIcons.chevron_right, size: 18),
+      trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
       leading: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -111,7 +113,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(
-          CustomIcons.bus_stop,
+          MdiIcons.busStop,
           size: 32,
           color: primaryColor,
         ),

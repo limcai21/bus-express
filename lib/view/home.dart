@@ -13,6 +13,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:location/location.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../model/custom_icons_icons.dart';
 import 'package:open_settings/open_settings.dart';
 import 'dart:math' as math;
@@ -181,7 +182,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      icon: Icon(CustomIcons.clock, size: 20),
+                      icon: Icon(FluentIcons.clock_24_filled, size: 20),
                       onPressed: () async {
                         Navigator.push(
                           context,
@@ -211,7 +212,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       icon: Icon(
-                        CustomIcons.routes,
+                        MdiIcons.routes,
                         size: 20,
                         color: Theme.of(context).primaryColor,
                       ),
@@ -392,7 +393,7 @@ class _HomeState extends State<Home> {
                       alignment: Alignment.center,
                       child: IconButton(
                         icon: Icon(
-                          CustomIcons.bus_stop,
+                          MdiIcons.busStop,
                           size: 15,
                           color: Colors.white,
                         ),
@@ -436,7 +437,7 @@ class _HomeState extends State<Home> {
                         "PermissionStatus.deniedForever") &&
                     (permissionGranted.toString() != "PermissionStatus.denied")
                 ? nearbyBusStopBool
-                    ? Icon(CustomIcons.bus_stop)
+                    ? Icon(MdiIcons.busStop)
                     : Transform(
                         alignment: Alignment.center,
                         transform: Matrix4.rotationY(math.pi),

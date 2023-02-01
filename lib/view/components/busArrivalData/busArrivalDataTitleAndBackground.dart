@@ -1,6 +1,6 @@
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/switchCase.dart';
 import 'package:bus_express/model/constants.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 busArrivalDataTitle(String busService, data) {
@@ -27,11 +27,11 @@ busArrivalDataTitle(String busService, data) {
 }
 
 busArrivalDataBackground(context, {List busesInFavList, String currentBus}) {
-  IconData bgIcon = CustomIcons.favourite_filled;
+  IconData bgIcon = FluentIcons.heart_24_filled;
 
   if (busesInFavList != null) {
     if (!busesInFavList.contains(currentBus)) {
-      bgIcon = CustomIcons.favourite_regular;
+      bgIcon = FluentIcons.heart_24_regular;
     }
   }
 
