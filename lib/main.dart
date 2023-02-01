@@ -1,7 +1,6 @@
 import 'package:bus_express/model/global.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'view/home.dart';
 import 'view/favourite.dart';
 import 'model/constants.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'view/components/startUpData.dart';
 import 'view/search/components/searchFunction.dart';
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 
@@ -115,7 +113,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
       actionBtn: [
         if (selectedIndex == 1)
           IconButton(
-            icon: Icon(CustomIcons.search_regular),
+            icon: Icon(FluentIcons.search_24_filled),
             onPressed: () async {
               await showSearch(
                 context: context,
@@ -160,7 +158,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
         child: SalomonBottomBar(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          selectedItemColor: Theme.of(context).primaryColor,
+          selectedItemColor: primaryColor,
           selectedColorOpacity: 0.15,
           // unselectedItemColor: Colors.grey,
           currentIndex: selectedIndex,

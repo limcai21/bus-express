@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:bus_express/view/components/button/textButton.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeUsername extends StatefulWidget {
   @override
@@ -12,34 +14,38 @@ class ChangeUsername extends StatefulWidget {
 
 class _ChangeUsernameState extends State<ChangeUsername> {
   final formKey = GlobalKey<FormState>();
-  var prefs;
+  SharedPreferences prefs;
   var usernameController = TextEditingController();
 
-  checkUsernameExist(String username) {
-    final checkUsername = prefs.getString(username);
-    if (checkUsername != null) {
-      return usernameExist;
-    } else {
-      return null;
-    }
-  }
-
-  updateUsername() {
+  updateUsername() async {
     final newUsername = usernameController.text;
 
     // GET CURRENT USER DATA
     Map<String, dynamic> currentUserData =
         jsonDecode(prefs.getString(currentLoginUsername));
     currentUserData['username'] = newUsername;
-    prefs.setString(currentLoginUsername, jsonEncode(currentUserData));
-    print("updated username");
+    await prefs.setString(newUsername, jsonEncode(currentUserData));
+    await prefs.remove(currentLoginUsername);
+
+    setState(() {
+      currentLoginUsername = newUsername;
+    });
 
     Navigator.pop(context);
+
+    Navigator.pop(context);
+
+    alertDialog(usernameUpdateTitle, usernameUpdateDescription, context);
+  }
+
+  loadSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   @override
   void initState() {
     super.initState();
+    loadSharedPreferences();
   }
 
   @override
@@ -51,19 +57,20 @@ class _ChangeUsernameState extends State<ChangeUsername> {
         children: [
           TextFormField(
             controller: usernameController,
-            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               icon: Icon(FluentIcons.person_24_filled),
               labelText: 'Username',
-              hintText: currentLoginUsername,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return emailEmptyNull;
-              } else if (!RegExp(emailRegex).hasMatch(value)) {
-                return emailInvalid;
+                return usernameEmptyNull;
+              } else {
+                if (value == currentLoginUsername) {
+                  return usernameSameAsCurrent;
+                } else {
+                  return checkUsernameExist(value, prefs);
+                }
               }
-              return null;
             },
           ),
           SizedBox(height: 10),
@@ -73,11 +80,15 @@ class _ChangeUsernameState extends State<ChangeUsername> {
             child: ElevatedButton(
               onPressed: () async {
                 if (formKey.currentState.validate()) {
-                  await updateUsername();
                   alertDialog(
-                    emailUpdateTitle,
-                    emailUpdateDescription,
+                    usernameCofirmUpdateTitle,
+                    usernameCofirmUpdateDescription,
                     context,
+                    additionalActions: customTextButton(
+                      context,
+                      "Change",
+                      () async => await updateUsername(),
+                    ),
                   );
                 }
               },

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bus_express/model/global.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';
@@ -36,16 +37,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController retypePasswordController = TextEditingController();
-  var prefs;
-
-  checkUsernameExist(String username) {
-    final checkUsername = prefs.getString(username);
-    if (checkUsername != null) {
-      return usernameExist;
-    } else {
-      return null;
-    }
-  }
+  SharedPreferences prefs;
 
   checkRetypePasswordAndPasswordAreSame() {
     final password =
@@ -66,7 +58,7 @@ class _SignUpFormState extends State<SignUpForm> {
     final contactNumber = contactNumberController.text;
     final password = passwordController.text;
 
-    if (checkUsernameExist(username) != usernameExist) {
+    if (checkUsernameExist(username, prefs) != usernameExist) {
       var userData = {
         "username": username,
         "password": password,
@@ -117,7 +109,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (value == null || value.isEmpty) {
                   return usernameEmptyNull;
                 } else {
-                  return checkUsernameExist(value);
+                  return checkUsernameExist(value, prefs);
                 }
               },
             ),

@@ -172,8 +172,14 @@ class _HomeState extends State<Home> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor,
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(primaryColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
                       ),
                       icon: Icon(CustomIcons.clock, size: 20),
                       onPressed: () async {
@@ -194,11 +200,14 @@ class _HomeState extends State<Home> {
                   SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        side: BorderSide(
-                          width: 2.0,
-                          color: Theme.of(context).primaryColor,
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            side: BorderSide(color: primaryColor, width: 2),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                       ),
                       icon: Icon(
@@ -211,7 +220,7 @@ class _HomeState extends State<Home> {
                       },
                       label: Text(
                         "Bus Route",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                        style: TextStyle(color: primaryColor),
                       ),
                     ),
                   ),

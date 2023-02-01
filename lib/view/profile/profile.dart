@@ -163,7 +163,7 @@ class _ProfileState extends State<Profile> {
         ] else ...[
           customListTile(
             "My Info",
-            "Username, Password, Email...",
+            "Username, Password, Email and more",
             FluentIcons.contact_card_24_filled,
             FluentIcons.chevron_right_24_filled,
             Colors.orange,
@@ -172,7 +172,7 @@ class _ProfileState extends State<Profile> {
               MaterialPageRoute(
                 builder: (context) => AccountSettings(
                   'My Info',
-                  'Username, Password, Email...',
+                  'Username, Password, Email & Contact Number',
                 ),
               ),
             ).then((value) {

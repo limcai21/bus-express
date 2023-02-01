@@ -10,8 +10,13 @@ const primaryColor = Color.fromRGBO(0, 46, 83, 1);
 // FORM
 // USERNAME
 const usernameEmptyNull = 'Username cannot be empty';
+const usernameSameAsCurrent = 'Username cannot be the same as current one';
 const usernameExist = 'Username exist. Please choose a new one';
 const usernameUpdateTitle = 'Updated!';
+const usernameUpdateDescription = "Your Username is updated";
+const usernameCofirmUpdateTitle = "Really?";
+const usernameCofirmUpdateDescription =
+    "All your data such as Favourite List, Email and others will be move too";
 
 // EMAIL
 const emailEmptyNull = 'Email cannot be empty';
@@ -19,7 +24,7 @@ const emailInvalid = 'Email is not valid';
 const emailRegex =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const emailUpdateTitle = 'Updated!';
-const emailUpdateDescription = "Email updated!";
+const emailUpdateDescription = "Your Email Address is updated!";
 
 // PASSWORD
 const passwordEmptyNull = 'Password cannot be empty';
@@ -42,7 +47,7 @@ const contactNumberEmptyNull = 'Contact Number cannot be empty';
 const contactNumberInvalid = 'Contact Number invalid';
 const contactNumberRegex = r'^(?:6|8|9)[0-9]{7}$';
 const contactNumberUpdateTitle = 'Updated!';
-const contactNumberUpdateDescription = "Your contact number is updated!";
+const contactNumberUpdateDescription = "Your Contact Number is updated!";
 const contactNumberMaxLength = 8;
 
 // LOGIN FAIL

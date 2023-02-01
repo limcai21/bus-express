@@ -109,6 +109,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
   busArrivalWithData() {
     return Expanded(
       child: ListView(
+        padding: const EdgeInsets.only(bottom: 20),
         physics: BouncingScrollPhysics(),
         children: [
           for (var bus in busArrivalData.values) ...[

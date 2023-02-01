@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:bus_express/model/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:math' as math;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 Map<String, dynamic> allBusStopsData = {};
 Map<String, dynamic> nearbyBusStopsData = {};
@@ -88,18 +91,18 @@ customLeadingIcon(
   // CHECK IF IS FROM PROFILE
   Color iconColor = mainColor;
   bool fromProfile = false;
-  Widget iconOutput = Icon(
-    icon,
-    size: iconSize != null ? iconSize : 32,
-    color: iconColor,
-  );
+  Widget iconOutput;
 
   if (borderRadius != null && iconSize != null && padding != null) {
     iconColor = Colors.white;
     fromProfile = true;
   }
 
-  if (rotate == true) {
+  if (rotate == null) {
+    rotate = false;
+  }
+
+  if (rotate) {
     iconOutput = Transform(
       alignment: Alignment.center,
       transform: Matrix4.rotationY(math.pi),
@@ -108,6 +111,12 @@ customLeadingIcon(
         size: iconSize != null ? iconSize : 32,
         color: iconColor,
       ),
+    );
+  } else {
+    iconOutput = Icon(
+      icon,
+      size: iconSize != null ? iconSize : 32,
+      color: iconColor,
     );
   }
 
@@ -136,6 +145,15 @@ double calculateDistance(lat1, lon1, lat2, lon2) {
       c((lat2 - lat1) * p) / 2 +
       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
   return 1000 * 12742 * asin(sqrt(a));
+}
+
+checkUsernameExist(String username, SharedPreferences prefs) {
+  final checkUsername = prefs.getString(username);
+  if (checkUsername != null) {
+    return usernameExist;
+  } else {
+    return null;
+  }
 }
 
 extension StringExtension on String {
