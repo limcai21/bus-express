@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bus_express/model/constants.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
@@ -159,29 +160,31 @@ class _FavouriteState extends State<Favourite> {
                 : ""),
         leading: busArrivalDataLeading(arrivalData),
         trailing: busArrivalDataTrailing(arrivalData, gotData),
-        onTap: () {
-          if (arrivalData != null) {
-            setState(() {
-              stopTimer = true;
-              refreshTimer.cancel();
-              print('timer stop at fav');
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SearchBusRoute(busService)),
-            ).then((value) async {
-              setState(() {
-                stopTimer = false;
-                isDataLoaded = false;
-                print("start timer again");
-              });
-
-              await pageInitFunction();
-            });
-          }
-        },
         onLongPress: () {
+          setState(() {
+            stopTimer = true;
+            refreshTimer.cancel();
+            print('timer stop at fav');
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchBusRoute(
+                busService,
+                allBusServiceData[busService]['operator'],
+              ),
+            ),
+          ).then((value) async {
+            setState(() {
+              stopTimer = false;
+              isDataLoaded = false;
+              print("start timer again");
+            });
+
+            await pageInitFunction();
+          });
+        },
+        onTap: () {
           if (arrivalData != null) {
             setState(() {
               stopTimer = true;
@@ -207,6 +210,12 @@ class _FavouriteState extends State<Favourite> {
               });
               await pageInitFunction();
             });
+          } else {
+            alertDialog(
+              "Oops!",
+              "Bus Location for Bus $busService is currently not available now",
+              context,
+            );
           }
         },
       ),

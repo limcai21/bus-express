@@ -2,14 +2,14 @@ import 'package:bus_express/model/constants.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SearchBusRoute extends StatefulWidget {
   final String busService;
-  SearchBusRoute(this.busService);
+  final String busOperator;
+  SearchBusRoute(this.busService, this.busOperator);
 
   @override
   State<SearchBusRoute> createState() => _SearchBusRouteState();
@@ -159,17 +159,15 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     String directionOneEndLocation =
         directionOneData[lastIndex.toString()]['busStopName'];
     String directionTwoEndLocation = '';
-    String subtitle = directionOneEndLocation;
     endLocation = directionOneEndLocation;
 
     if (amountOfDirection == 2) {
       directionTwoEndLocation = directionOneData['1']['busStopName'];
-      subtitle = directionOneEndLocation + " ⇆ " + directionTwoEndLocation;
     }
 
     return CustomScaffold(
       widget.busService,
-      subtitle,
+      widget.busOperator,
       DefaultTabController(
         length: amountOfDirection,
         child: Column(
@@ -193,6 +191,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
               child: TabBarView(
                 children: [
                   ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 20),
                     physics: BouncingScrollPhysics(),
                     itemCount: directionOneData.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -210,6 +209,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
                   ),
                   if (amountOfDirection == 2)
                     ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 20),
                       physics: BouncingScrollPhysics(),
                       itemCount: directionTwoData.length,
                       itemBuilder: (BuildContext context, int index) {

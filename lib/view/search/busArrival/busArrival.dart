@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
@@ -128,7 +127,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                 title: busArrivalDataTitle(bus['busService'], bus),
                 subtitle: Text(bus['destinationName'].toString()),
                 trailing: busArrivalDataTrailing(bus, isDataLoaded),
-                onTap: () {
+                onLongPress: () {
                   setState(() {
                     stopTimer = true;
                     refreshTimer.cancel();
@@ -136,7 +135,10 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SearchBusRoute(bus['busService']),
+                      builder: (context) => SearchBusRoute(
+                        bus['busService'],
+                        allBusServiceData[bus['busService']]['operator'],
+                      ),
                     ),
                   ).then((value) async {
                     // IF USER RETURN TO THIS PAGE
@@ -146,7 +148,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                     await initPageData(widget.busStopCode);
                   });
                 },
-                onLongPress: () {
+                onTap: () {
                   setState(() {
                     stopTimer = true;
                     refreshTimer.cancel();
@@ -228,13 +230,15 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
             ),
             subtitle: Text("No Estimate Available"),
             trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
-            onTap: () {
+            onLongPress: () {
               if (busArrivalData.isNotEmpty) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => SearchBusRoute(
                       busInThisBusStop[index].toString(),
+                      allBusServiceData[busInThisBusStop[index].toString()]
+                          ['operator'],
                     ),
                   ),
                 );

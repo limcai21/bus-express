@@ -14,7 +14,6 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:location/location.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import '../model/custom_icons_icons.dart';
 import 'package:open_settings/open_settings.dart';
 import 'dart:math' as math;
 import 'components/button/textButton.dart';
@@ -60,7 +59,10 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SearchBusRoute(bus.toString()),
+                  builder: (context) => SearchBusRoute(
+                    bus.toString(),
+                    allBusServiceData[bus.toString()]['operator'],
+                  ),
                 ),
               );
             },
