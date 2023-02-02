@@ -1,4 +1,3 @@
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/profile/company/components/contactFunctions.dart';

@@ -1,5 +1,4 @@
 import 'package:bus_express/model/constants.dart';
-import 'package:bus_express/model/custom_icons_icons.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:bus_express/view/search/busRoute/busRoute.dart';
@@ -167,6 +166,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
                                         MaterialPageRoute(
                                           builder: (context) => SearchBusRoute(
                                             busService['serviceNo'],
+                                            busService['operator'],
                                           ),
                                         ),
                                       )
