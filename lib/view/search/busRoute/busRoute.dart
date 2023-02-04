@@ -1,4 +1,3 @@
-import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 
 class SearchBusRoute extends StatefulWidget {
   final String busService;
