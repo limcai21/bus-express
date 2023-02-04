@@ -31,6 +31,7 @@ class _ProfileState extends State<Profile> {
 
   deleteAccount() async {
     await prefs.remove(currentLoginUsername);
+    await prefs.remove("loginUser");
     setState(() {
       isUserLogin = false;
       currentLoginUsername = "";
