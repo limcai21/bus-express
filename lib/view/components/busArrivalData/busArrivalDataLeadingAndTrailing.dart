@@ -26,7 +26,7 @@ busArrivalDataLeading(data) {
 
 busTimingDivider() {
   return SizedBox(
-    height: 20,
+    height: 15,
     child: VerticalDivider(
       thickness: 1,
       width: 20,
@@ -69,7 +69,7 @@ busArrivalDataTrailingTiming(data) {
           color: textColor,
         ),
       ),
-      if (data['estimatedArrival'].toString() != "NA")
+      if (data['estimatedArrival'].toString() != "NA") ...[
         Container(
           margin: const EdgeInsets.only(top: 3),
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -78,6 +78,7 @@ busArrivalDataTrailingTiming(data) {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
+      ]
     ],
   );
 }
@@ -86,29 +87,29 @@ busArrivalDataTrailing(data, bool gotData) {
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
-    children: gotData
-        ? [
+    children: [
+      if (gotData) ...[
+        Row(
+          children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    busArrivalDataTrailingTiming(data['nextBus']),
-                    busTimingDivider(),
-                    busArrivalDataTrailingTiming(data['nextBus2']),
-                    busTimingDivider(),
-                    busArrivalDataTrailingTiming(data['nextBus3']),
-                  ],
-                ),
+                busArrivalDataTrailingTiming(data['nextBus']),
+                busTimingDivider(),
+                busArrivalDataTrailingTiming(data['nextBus2']),
+                busTimingDivider(),
+                busArrivalDataTrailingTiming(data['nextBus3']),
               ],
             ),
-          ]
-        : [
-            Text(
-              "Not Available",
-              style: TextStyle(color: Colors.grey, fontSize: 14),
-            ),
           ],
+        ),
+      ] else ...[
+        Text(
+          "Not Available",
+          style: TextStyle(color: Colors.grey, fontSize: 14),
+        ),
+      ]
+    ],
   );
 }
