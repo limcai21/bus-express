@@ -95,6 +95,13 @@ var mapMaxBound = LatLngBounds(
   LatLng(1.16, 103.502),
 );
 
+// BUS ROUTE
+const busRouteNotAvaialbleTitle = "Error";
+const busRouteNotAvaialbleDescription =
+    "We are unable to get the bus route for Bus Service ";
+const busRouteNotAvaialbleDescription2 =
+    "Leave us a feedback if this keep occuring";
+
 // BUS
 const busNoCoordinateTitle = "Oops!";
 const busNoCoordinateDescription = "Bus coordinates are not yet available";

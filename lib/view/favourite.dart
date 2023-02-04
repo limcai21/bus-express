@@ -213,7 +213,7 @@ class _FavouriteState extends State<Favourite> {
           } else {
             alertDialog(
               "Oops!",
-              "Bus Location for Bus $busService is currently not available now",
+              "Bus Location for Bus Service $busService is currently not available now",
               context,
             );
           }
