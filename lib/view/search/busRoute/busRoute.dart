@@ -1,3 +1,4 @@
+import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:bus_express/model/global.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
 import 'package:bus_express/view/search/busArrival/busArrival.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class SearchBusRoute extends StatefulWidget {
   final String busService;
@@ -16,7 +18,8 @@ class SearchBusRoute extends StatefulWidget {
 }
 
 class _SearchBusRouteState extends State<SearchBusRoute> {
-  String endLocation = '';
+  String currentRoadName1 = '';
+  String currentRoadName2 = '';
 
   lastBusTimingBottomSheet(dataSet) {
     final weekdaysFirst = dataSet['weekdaysFirst'];
@@ -83,23 +86,21 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     );
   }
 
-  checkIfSequenceExist(int index, Map<dynamic, dynamic> data) {
-    if (data[(index + 1).toString()] != null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   listTitleForRoute(
-    int index,
+    Map busStopData,
     Map<dynamic, dynamic> data,
+    int direction,
   ) {
-    final finalIndex = (index + 1).toString();
-    final busStopName = data[finalIndex]['busStopName'];
-    final roadName = data[finalIndex]['roadName'];
-    final busStopCode = data[finalIndex]['busStopCode'];
-    final distance = data[finalIndex]['distance'].toString() + " km";
+    final busStopName = busStopData['busStopName'];
+    final roadName = busStopData['roadName'];
+    final busStopCode = busStopData['busStopCode'];
+    final distance = busStopData['distance'].toString() + " km";
+
+    if (direction == 1) {
+      currentRoadName1 = roadName;
+    } else {
+      currentRoadName2 = roadName;
+    }
 
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -134,7 +135,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
         context: context,
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         builder: (BuildContext context) {
-          return lastBusTimingBottomSheet(data[(index + 1).toString()]);
+          return lastBusTimingBottomSheet(busStopData);
         },
       ),
     );
@@ -147,22 +148,22 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     Map<dynamic, dynamic> directionTwoData = data['Direction 2'];
 
     int amountOfDirection = data.length;
-    amountOfDirection = directionTwoData.isEmpty
-        ? amountOfDirection = 1
-        : amountOfDirection = amountOfDirection;
 
-    int lastIndex = directionOneData.length;
-    if (directionOneData[(directionOneData.length).toString()] == null) {
-      lastIndex = directionOneData.length + 1;
+    if (directionTwoData == null) {
+      amountOfDirection = 1;
+    } else {
+      amountOfDirection = amountOfDirection;
     }
 
+    int directionOneLength = directionOneData.length - 1;
     String directionOneEndLocation =
-        directionOneData[lastIndex.toString()]['busStopName'];
+        directionOneData[directionOneLength.toString()]['busStopName'];
     String directionTwoEndLocation = '';
-    endLocation = directionOneEndLocation;
 
     if (amountOfDirection == 2) {
-      directionTwoEndLocation = directionOneData['1']['busStopName'];
+      int directionTwoLength = directionTwoData.length - 1;
+      directionTwoEndLocation =
+          directionTwoData[directionTwoLength.toString()]['busStopName'];
     }
 
     return CustomScaffold(
@@ -174,13 +175,6 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
           children: [
             TabBar(
               indicatorColor: Theme.of(context).primaryColor,
-              onTap: (value) {
-                setState(() {
-                  value == 0
-                      ? endLocation = directionOneEndLocation
-                      : endLocation = directionTwoEndLocation;
-                });
-              },
               labelColor: Theme.of(context).primaryColor,
               tabs: [
                 Tab(text: directionOneEndLocation),
@@ -190,40 +184,30 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
             Expanded(
               child: TabBarView(
                 children: [
-                  ListView.builder(
+                  ListView(
                     padding: const EdgeInsets.only(bottom: 20),
                     physics: BouncingScrollPhysics(),
-                    itemCount: directionOneData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final checker =
-                          checkIfSequenceExist(index, directionOneData);
-                      if (checker) {
-                        return listTitleForRoute(
-                          index,
-                          directionOneData,
-                        );
-                      } else {
-                        return null;
-                      }
-                    },
+                    children: [
+                      for (var busStop in directionOneData.values) ...[
+                        if (busStop['roadName'] != currentRoadName1) ...[
+                          listViewHeader(busStop['roadName'], context),
+                        ],
+                        listTitleForRoute(busStop, directionOneData, 1),
+                      ]
+                    ],
                   ),
                   if (amountOfDirection == 2)
-                    ListView.builder(
+                    ListView(
                       padding: const EdgeInsets.only(bottom: 20),
                       physics: BouncingScrollPhysics(),
-                      itemCount: directionTwoData.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final checker =
-                            checkIfSequenceExist(index, directionTwoData);
-                        if (checker) {
-                          return listTitleForRoute(
-                            index,
-                            directionTwoData,
-                          );
-                        } else {
-                          return null;
-                        }
-                      },
+                      children: [
+                        for (var busStop in directionTwoData.values) ...[
+                          if (busStop['roadName'] != currentRoadName2) ...[
+                            listViewHeader(busStop['roadName'], context),
+                          ],
+                          listTitleForRoute(busStop, directionTwoData, 2),
+                        ]
+                      ],
                     ),
                 ],
               ),
