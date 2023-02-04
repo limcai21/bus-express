@@ -122,37 +122,6 @@ class BusArrivalAppState extends State<BusArrivalApp> {
             },
           ),
       ],
-      // bottomNavigationbar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   // FOR BLUE BACKGROUND
-      //   // backgroundColor: Theme.of(context).primaryColor,
-      //   // selectedIconTheme: IconThemeData(color: Colors.white),
-      //   // unselectedIconTheme: IconThemeData(color: Colors.grey[300]),
-      //   // selectedLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
-      //   // selectedItemColor: Colors.white,
-      //   // showSelectedLabels: false,
-      //   // showUnselectedLabels: false,
-
-      //   // FOR WHITE BACKGROUND
-      //   backgroundColor: Color.fromRGBO(240, 240, 240, 1),
-      //   selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-      //   unselectedIconTheme: IconThemeData(color: Colors.grey),
-      //   selectedFontSize: 12,
-      //   showSelectedLabels: false,
-      //   showUnselectedLabels: false,
-      //   items: [
-      //     for (var i = 0; i < pagesData.length; i++)
-      //       BottomNavigationBarItem(
-      //         label: pagesData[i][0],
-      //         icon: Icon(pagesData[i][1]),
-      //         activeIcon: Icon(pagesData[i][2]),
-      //         backgroundColor: Theme.of(context).primaryColor,
-      //       ),
-      //   ],
-      //   currentIndex: selectedIndex,
-      //   onTap: onItemTapped,
-      // ),
-
       bottomNavigationbar: Container(
         color: Color.fromRGBO(240, 240, 240, 1),
         child: SalomonBottomBar(

@@ -75,7 +75,7 @@ const logoutTitle = 'Logout';
 const logoutDescription = "Are you sure you want to logout?";
 
 // SAVE BUS STOP
-const loginTitle = 'Erm...';
+const loginTitle = 'Oops!';
 const loginDescription = "Login to favourite this bus stop";
 
 // BUS ROUTE NOT FOUND
@@ -84,7 +84,7 @@ const busRouteNotFoundDescription =
     " bus route is currently not available. \nYou might want to feedback this to us";
 
 // NO BUS STOP IN THIS ROUTE
-const noBusStopInThisRouteTitle = 'Oops';
+const noBusStopInThisRouteTitle = 'Oops!';
 const noBusStopInThisRouteDescription = 'No bus stops along this road';
 
 // MAP
