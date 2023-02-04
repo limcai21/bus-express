@@ -6,6 +6,7 @@ alertDialog(
   context, {
   TextButton additionalActions,
   String closeTitle = 'CLOSE',
+  bool closeTwice = false,
 }) {
   return showDialog(
     context: context,
@@ -40,6 +41,7 @@ alertDialog(
             ),
             onPressed: () {
               Navigator.pop(context);
+              if (closeTwice) Navigator.pop(context);
             },
           ),
         ],

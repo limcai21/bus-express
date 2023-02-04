@@ -1,4 +1,7 @@
 import 'package:bus_express/model/constants.dart';
+import 'package:bus_express/view/components/alert/alertDialog.dart';
+import 'package:bus_express/view/components/alert/alertLoading.dart';
+import 'package:bus_express/view/components/button/textButton.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/global.dart';
@@ -18,6 +21,7 @@ class SearchBusRoute extends StatefulWidget {
 class _SearchBusRouteState extends State<SearchBusRoute> {
   String currentRoadName1 = '';
   String currentRoadName2 = '';
+  bool bothGotData = false;
 
   lastBusTimingBottomSheet(dataSet) {
     final weekdaysFirst = dataSet['weekdaysFirst'];
@@ -139,6 +143,41 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     );
   }
 
+  checkIfGotData(context) {
+    Map<dynamic, dynamic> data = allBusRouteData[widget.busService];
+    Map<dynamic, dynamic> directionOneData = data['Direction 1'];
+    Map<dynamic, dynamic> directionTwoData = data['Direction 2'];
+
+    if (directionOneData == null && directionTwoData == null) {
+      final description = busRouteNotAvaialbleDescription +
+          widget.busService +
+          ". " +
+          busRouteNotAvaialbleDescription2;
+      alertDialog(
+        busRouteNotAvaialbleTitle,
+        description,
+        context,
+        closeTwice: true,
+        additionalActions: feedbackTextButton(
+          "Missing Bus Route for Bus Service " + widget.busService,
+          context,
+        ),
+      );
+    } else {
+      setState(() {
+        bothGotData = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      this.checkIfGotData(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<dynamic, dynamic> data = allBusRouteData[widget.busService];
@@ -171,45 +210,47 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
         length: amountOfDirection,
         child: Column(
           children: [
-            TabBar(
-              indicatorColor: Theme.of(context).primaryColor,
-              labelColor: Theme.of(context).primaryColor,
-              tabs: [
-                Tab(text: directionOneEndLocation),
-                if (amountOfDirection == 2) Tab(text: directionTwoEndLocation)
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  ListView(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                      for (var busStop in directionOneData.values) ...[
-                        if (busStop['roadName'] != currentRoadName1) ...[
-                          listViewHeader(busStop['roadName'], context),
-                        ],
-                        listTitleForRoute(busStop, directionOneData, 1),
-                      ]
-                    ],
-                  ),
-                  if (amountOfDirection == 2)
+            if (bothGotData) ...[
+              TabBar(
+                indicatorColor: Theme.of(context).primaryColor,
+                labelColor: Theme.of(context).primaryColor,
+                tabs: [
+                  Tab(text: directionOneEndLocation),
+                  if (amountOfDirection == 2) Tab(text: directionTwoEndLocation)
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
                     ListView(
                       padding: const EdgeInsets.only(bottom: 20),
                       physics: BouncingScrollPhysics(),
                       children: [
-                        for (var busStop in directionTwoData.values) ...[
-                          if (busStop['roadName'] != currentRoadName2) ...[
+                        for (var busStop in directionOneData.values) ...[
+                          if (busStop['roadName'] != currentRoadName1) ...[
                             listViewHeader(busStop['roadName'], context),
                           ],
-                          listTitleForRoute(busStop, directionTwoData, 2),
+                          listTitleForRoute(busStop, directionOneData, 1),
                         ]
                       ],
                     ),
-                ],
+                    if (amountOfDirection == 2)
+                      ListView(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          for (var busStop in directionTwoData.values) ...[
+                            if (busStop['roadName'] != currentRoadName2) ...[
+                              listViewHeader(busStop['roadName'], context),
+                            ],
+                            listTitleForRoute(busStop, directionTwoData, 2),
+                          ]
+                        ],
+                      ),
+                  ],
+                ),
               ),
-            ),
+            ]
           ],
         ),
       ),
