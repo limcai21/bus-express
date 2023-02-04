@@ -28,7 +28,7 @@ class BusesLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title,
-      busStopName + "  -  " + subtitle,
+      subtitle,
       BusesLocationMap(
         data: data,
         busStopCode: busStopCode,
