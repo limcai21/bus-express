@@ -51,10 +51,10 @@ class _ProfileState extends State<Profile> {
   }
 
   refreshEmailAddressAndContactNumber() {
-    print(currentLoginUsername);
     if (currentLoginUsername.isNotEmpty) {
-      Map<String, dynamic> userData =
-          jsonDecode(prefs.getString(currentLoginUsername));
+      Map<String, dynamic> userData = jsonDecode(
+        prefs.getString(currentLoginUsername),
+      );
       userEmail = userData["email"];
       userContactNumber = userData["contactNumber"];
     }
@@ -166,7 +166,7 @@ class _ProfileState extends State<Profile> {
             "Username, Password, Email and more",
             FluentIcons.contact_card_24_filled,
             FluentIcons.chevron_right_24_filled,
-            Colors.orange,
+            Colors.indigo,
             () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -227,7 +227,7 @@ class _ProfileState extends State<Profile> {
             "You can always sign back in",
             FluentIcons.sign_out_24_filled,
             null,
-            Colors.indigo,
+            Colors.orange,
             () {
               alertDialog(
                 logoutTitle,
@@ -268,7 +268,7 @@ class _ProfileState extends State<Profile> {
           "Refetch missing Bus Stops, Service & Route",
           FluentIcons.arrow_clockwise_24_filled,
           null,
-          Colors.pink,
+          Colors.brown,
           () async {
             loadingAlert(context, title: "Refetching Data..");
             await Bus().all();
