@@ -71,6 +71,7 @@ class Bus {
     var request = http.Request('GET', Uri.parse(url));
     request.headers.addAll(ltaDatamallAPIHeader);
     var response = await request.send();
+    int counter = 0;
 
     if (response.statusCode == 200) {
       final List data =
@@ -98,12 +99,15 @@ class Bus {
 
           if (busRouteData[serviceNo] == null) {
             busRouteData[serviceNo] = {};
-            busRouteData[serviceNo]['Direction 1'] = {};
-            busRouteData[serviceNo]['Direction 2'] = {};
           }
 
           if (direction == 1) {
-            busRouteData[serviceNo]['Direction 1'][sequence] = {
+            if (busRouteData[serviceNo]['Direction 1'] == null) {
+              counter = 0;
+              busRouteData[serviceNo]['Direction 1'] = {};
+            }
+
+            busRouteData[serviceNo]['Direction 1'][counter.toString()] = {
               "serviceNo": serviceNo,
               "busOperator": busOperator,
               "sequence": sequence,
@@ -123,7 +127,12 @@ class Bus {
               "sundayLast": sundayLast,
             };
           } else {
-            busRouteData[serviceNo]['Direction 2'][sequence] = {
+            if (busRouteData[serviceNo]['Direction 2'] == null) {
+              busRouteData[serviceNo]['Direction 2'] = {};
+              counter = 0;
+            }
+
+            busRouteData[serviceNo]['Direction 2'][counter.toString()] = {
               "serviceNo": serviceNo,
               "busOperator": busOperator,
               'roadName': allBusStopsData[busStopCode] == null
@@ -142,6 +151,7 @@ class Bus {
               "sundayLast": sundayLast,
             };
           }
+          counter++;
         }
 
         // GET NEXT LIST
