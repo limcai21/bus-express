@@ -166,12 +166,16 @@ class _FavouriteState extends State<Favourite> {
             refreshTimer.cancel();
             print('timer stop at fav');
           });
+          String subtitle = allBusServiceData[busService] != null
+              ? allBusServiceData[busService]['operator']
+              : '';
+
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => SearchBusRoute(
                 busService,
-                allBusServiceData[busService]['operator'],
+                subtitle,
               ),
             ),
           ).then((value) async {

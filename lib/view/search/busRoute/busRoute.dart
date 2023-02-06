@@ -1,6 +1,5 @@
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/view/components/alert/alertDialog.dart';
-import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/button/textButton.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +96,7 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
     final roadName = busStopData['roadName'];
     final busStopCode = busStopData['busStopCode'];
     final distance = busStopData['distance'].toString() + " km";
+    final sequence = busStopData['sequence'];
 
     if (direction == 1) {
       currentRoadName1 = roadName;
@@ -108,7 +108,21 @@ class _SearchBusRouteState extends State<SearchBusRoute> {
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       title: Text(busStopName),
       subtitle: Text(distance != null ? distance : "Distance not avaialble"),
-      trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
+      trailing: Container(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "$sequence",
+              style: TextStyle(color: Colors.grey),
+            ),
+            SizedBox(width: 10),
+            Icon(FluentIcons.chevron_right_24_filled, size: 18),
+          ],
+        ),
+      ),
       leading: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

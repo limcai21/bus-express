@@ -56,12 +56,16 @@ class _HomeState extends State<Home> {
             ),
             child: Text(bus.toString()),
             onPressed: () {
+              String subtitle = allBusServiceData[bus.toString()] != null
+                  ? allBusServiceData[bus.toString()]['operator']
+                  : '';
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => SearchBusRoute(
                     bus.toString(),
-                    allBusServiceData[bus.toString()]['operator'],
+                    subtitle,
                   ),
                 ),
               );

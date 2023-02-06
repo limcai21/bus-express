@@ -270,7 +270,7 @@ class _ProfileState extends State<Profile> {
           null,
           Colors.brown,
           () async {
-            loadingAlert(context, title: "Refetching Data..");
+            loadingAlert(context, title: "Refetching Data");
             await Bus().all();
             print("done with bus service");
             await BusStop().all();

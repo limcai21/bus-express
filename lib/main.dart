@@ -133,13 +133,14 @@ class BusArrivalAppState extends State<BusArrivalApp> {
           currentIndex: selectedIndex,
           onTap: onItemTapped,
           items: [
-            for (var i = 0; i < pagesData.length; i++)
+            for (var i = 0; i < pagesData.length; i++) ...[
               SalomonBottomBarItem(
                 icon: Icon(pagesData[i][1]),
                 activeIcon: Icon(pagesData[i][2]),
                 title: Text(pagesData[i][0]),
                 // selectedColor: pagesData[i][4],
               ),
+            ]
           ],
         ),
       ),

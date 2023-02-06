@@ -132,12 +132,17 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                     stopTimer = true;
                     refreshTimer.cancel();
                   });
+
+                  String subtitle = allBusServiceData[bus['busService']] != null
+                      ? allBusServiceData[bus['busService']]['operator']
+                      : '';
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => SearchBusRoute(
                         bus['busService'],
-                        allBusServiceData[bus['busService']]['operator'],
+                        subtitle,
                       ),
                     ),
                   ).then((value) async {
@@ -232,13 +237,19 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
             trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
             onLongPress: () {
               if (busArrivalData.isNotEmpty) {
+                String subtitle =
+                    allBusServiceData[busInThisBusStop[index].toString()] !=
+                            null
+                        ? allBusServiceData[busInThisBusStop[index].toString()]
+                            ['operator']
+                        : '';
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => SearchBusRoute(
                       busInThisBusStop[index].toString(),
-                      allBusServiceData[busInThisBusStop[index].toString()]
-                          ['operator'],
+                      subtitle,
                     ),
                   ),
                 );

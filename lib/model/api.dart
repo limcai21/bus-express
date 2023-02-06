@@ -135,6 +135,7 @@ class Bus {
             busRouteData[serviceNo]['Direction 2'][counter.toString()] = {
               "serviceNo": serviceNo,
               "busOperator": busOperator,
+              "sequence": sequence,
               'roadName': allBusStopsData[busStopCode] == null
                   ? await BusStop().originAndDestination(busStopCode)
                   : allBusStopsData[busStopCode]['roadName'],
