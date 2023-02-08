@@ -92,7 +92,10 @@ class _HomeState extends State<Home> {
   }
 
   busStopModalSheet(
-      String busStopCode, String busStopName, String roadName) async {
+    String busStopCode,
+    String busStopName,
+    String roadName,
+  ) async {
     List buses = await Bus().service(busStopCode);
 
     return showModalBottomSheet(
@@ -128,6 +131,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Text(
                       busStopCode,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -140,11 +144,15 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buses.length > 0
-                      ? buses[0] != 'Not Found'
-                          ? Text("Bus")
-                          : Text("Unable to get bus operating here")
-                      : Text("No Bus Operating Here"),
+                  if (buses.length > 0) ...[
+                    if (buses[0] != 'Not Found') ...[
+                      Text("Bus"),
+                    ] else ...[
+                      Text("Unable to get bus operating here"),
+                    ],
+                  ] else ...[
+                    Text("No Bus Operating Here"),
+                  ],
                   SizedBox(height: 5),
                   Align(
                       alignment: Alignment.centerLeft,
@@ -172,9 +180,7 @@ class _HomeState extends State<Home> {
                           : null)
                 ],
               ),
-              buses.length > 0 && buses[0] != 'Not Found'
-                  ? SizedBox(height: 60)
-                  : SizedBox(height: 30),
+              SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(
@@ -208,11 +214,16 @@ class _HomeState extends State<Home> {
                   Expanded(
                     child: ElevatedButton.icon(
                       style: ButtonStyle(
+                        side: MaterialStateProperty.all(
+                          BorderSide(width: 2, color: primaryColor),
+                        ),
+                        overlayColor: MaterialStateProperty.all(
+                          Color.lerp(Colors.white, primaryColor, 0.1),
+                        ),
                         backgroundColor:
                             MaterialStateProperty.all(Colors.white),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
-                            side: BorderSide(color: primaryColor, width: 2),
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
