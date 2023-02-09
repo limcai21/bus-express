@@ -73,9 +73,16 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: CustomIcons
+  #   - family: SegoeUI
   #     fonts:
-  #       - asset: fonts/CustomIcons.ttf
+  #       - asset: fonts/SegoeUI.ttf
+  #       - asset: fonts/SegoeUI_Italic.ttf
+  #         style: italic
+  #       - asset: fonts/SegoeUI_Bold.ttf
+  #         weight: 700
+  #       - asset: fonts/SegoeUI_BoldItalic.ttf
+  #         style: italic
+  #         weight: 700
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
