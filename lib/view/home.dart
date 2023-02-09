@@ -19,10 +19,6 @@ import 'dart:math' as math;
 import 'components/button/textButton.dart';
 
 class Home extends StatefulWidget {
-  callBack() {
-    _HomeState().initState();
-  }
-
   @override
   State<Home> createState() => _HomeState();
 }
