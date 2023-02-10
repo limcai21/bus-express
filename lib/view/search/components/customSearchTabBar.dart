@@ -65,6 +65,7 @@ class _CustomSearchTabBarState extends State<CustomSearchTabBar> {
           ),
           Expanded(
             child: TabBarView(
+              physics: BouncingScrollPhysics(),
               children: [
                 // BUS STOP
                 ListView(
