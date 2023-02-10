@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/view/components/alert/alertLoading.dart';
 import 'package:bus_express/view/components/button/textButton.dart';
-import 'package:bus_express/view/profile/accountSettings.dart';
+import 'package:bus_express/view/profile/myInfo.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/constants.dart';

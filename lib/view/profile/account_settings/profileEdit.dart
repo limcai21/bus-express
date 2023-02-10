@@ -1,9 +1,9 @@
-import 'package:bus_express/view/profile/settings/changeUsername.dart';
-import 'package:flutter/material.dart';
+import 'package:bus_express/view/profile/account_settings/changeContactNumber.dart';
+import 'package:bus_express/view/profile/account_settings/changeEmail.dart';
+import 'package:bus_express/view/profile/account_settings/changePassword.dart';
+import 'package:bus_express/view/profile/account_settings/changeUsername.dart';
 import 'package:bus_express/view/components/customScaffold.dart';
-import 'package:bus_express/view/profile/settings/changeContactNumber.dart';
-import 'package:bus_express/view/profile/settings/changeEmail.dart';
-import 'package:bus_express/view/profile/settings/changePassword.dart';
+import 'package:flutter/material.dart';
 
 class ProfileEditForm extends StatelessWidget {
   final String title;
