@@ -21,39 +21,21 @@ final ltaDatamallAPIHeader = {
   'accept': 'application/json',
 };
 
-// STB
-// API KEY = AAw3NLjlGoOifemLGAXGhCaGF9egLOmA
-final nearbyBusStopURL =
-    'https://api.stb.gov.sg/services/transport/v2/bus-stops?offset=0&limit=50&location=';
-final busRouteByBusService =
-    'https://api.stb.gov.sg/services/transport/v2/bus-routes';
-final busServiceByBusStop =
-    'https://api.stb.gov.sg/services/transport/v2/bus-services/bus-stop';
-final busStopDetailByBusStop =
-    "https://api.stb.gov.sg/services/transport/v2/bus-stops"; // "/bus-stop-code"
-
-final stbAPIHeader = {'X-Api-Key': 'AAw3NLjlGoOifemLGAXGhCaGF9egLOmA'};
-
 class Bus {
-  Future<Object> service(String busStopCode, {int offset = 0}) async {
+  Future<Object> service(String busStopCode) async {
     var request = http.Request(
-        'GET',
-        Uri.parse(
-            '$busServiceByBusStop/${busStopCode.toString()}?offset=$offset&limit=50'));
-    request.headers.addAll(stbAPIHeader);
+      'GET',
+      Uri.parse(busArrivalURL + "?BusStopCode=$busStopCode"),
+    );
+    request.headers.addAll(ltaDatamallAPIHeader);
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(await response.stream.bytesToString())['data'];
+      List data = jsonDecode(await response.stream.bytesToString())['Services'];
+      print(data);
       var tempBusHolder = [];
-
-      if (data.length > 0) {
-        for (var i = 0; i < data.length; i++) {
-          var busService = data[i]['number'];
-          tempBusHolder.add(busService);
-        }
-
-        await Bus().service(busStopCode, offset: offset + 50);
+      for (var busService in data) {
+        tempBusHolder.add(busService['ServiceNo']);
       }
 
       tempBusHolder.sort();
@@ -61,6 +43,28 @@ class Bus {
     } else {
       return [response.reasonPhrase];
     }
+  }
+
+  Future<Object> serviceOperator(String busStopCode, String busService) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+          busArrivalURL + "?BusStopCode=$busStopCode&ServiceNo=$busService"),
+    );
+    request.headers.addAll(ltaDatamallAPIHeader);
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(await response.stream.bytesToString())['Services'];
+      for (var busServiceData in data) {
+        if (busServiceData['ServiceNo'] == busService) {
+          return operatorName(busServiceData['Operator']);
+        } else {
+          return '';
+        }
+      }
+    }
+    return '';
   }
 
   route({
@@ -112,10 +116,10 @@ class Bus {
               "busOperator": busOperator,
               "sequence": sequence,
               'roadName': allBusStopsData[busStopCode] == null
-                  ? await BusStop().originAndDestination(busStopCode)
+                  ? ''
                   : allBusStopsData[busStopCode]['roadName'],
               'busStopName': allBusStopsData[busStopCode] == null
-                  ? await BusStop().originAndDestination(busStopCode)
+                  ? ''
                   : allBusStopsData[busStopCode]['description'],
               'busStopCode': busStopCode,
               "distance": distance,
@@ -137,10 +141,10 @@ class Bus {
               "busOperator": busOperator,
               "sequence": sequence,
               'roadName': allBusStopsData[busStopCode] == null
-                  ? await BusStop().originAndDestination(busStopCode)
+                  ? ''
                   : allBusStopsData[busStopCode]['roadName'],
               'busStopName': allBusStopsData[busStopCode] == null
-                  ? await BusStop().originAndDestination(busStopCode)
+                  ? ''
                   : allBusStopsData[busStopCode]['description'],
               'busStopCode': busStopCode,
               "distance": distance,
@@ -327,11 +331,11 @@ class Bus {
           "operator": operator,
           "originCode": originCode,
           "originName": allBusStopsData[originCode] == null
-              ? await BusStop().originAndDestination(originCode)
+              ? ''
               : allBusStopsData[originCode]['description'],
           "destinationCode": destinationCode,
           "destinationName": allBusStopsData[destinationCode] == null
-              ? await BusStop().originAndDestination(destinationCode)
+              ? ''
               : allBusStopsData[destinationCode]['description'],
           "nextBus": {
             "estimatedArrival": estimatedArrival,
@@ -442,21 +446,5 @@ class BusStop {
     });
 
     return tempHolder;
-  }
-
-  Future<Object> originAndDestination(String busStopCode) async {
-    var request = http.Request(
-        'GET',
-        Uri.parse(
-            busStopDetailByBusStop + "/" + int.parse(busStopCode).toString()));
-    request.headers.addAll(stbAPIHeader);
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(await response.stream.bytesToString())['data'];
-      return data['description'];
-    } else {
-      return response.reasonPhrase;
-    }
   }
 }

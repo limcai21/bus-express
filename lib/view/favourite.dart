@@ -160,7 +160,7 @@ class _FavouriteState extends State<Favourite> {
                 : ""),
         leading: busArrivalDataLeading(arrivalData),
         trailing: busArrivalDataTrailing(arrivalData, gotData),
-        onLongPress: () {
+        onLongPress: () async {
           setState(() {
             stopTimer = true;
             refreshTimer.cancel();
@@ -168,7 +168,7 @@ class _FavouriteState extends State<Favourite> {
           });
           String subtitle = allBusServiceData[busService] != null
               ? allBusServiceData[busService]['operator']
-              : '';
+              : await Bus().serviceOperator(code, busService);
 
           Navigator.push(
             context,

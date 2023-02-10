@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
   MapController mapController = MapController();
   CenterOnLocationUpdate centerOnLocationUpdate;
 
-  Future<void> busRouteAlert(busData, context) async {
+  Future<void> busRouteAlert(busData, context, busStopCode) async {
     if (busData[0] == "Not Found") {
       return alertDialog(
         busRouteNotAvailableForBusStopTitle,
@@ -51,10 +51,10 @@ class _HomeState extends State<Home> {
               horizontal: 20,
             ),
             child: Text(bus.toString()),
-            onPressed: () {
+            onPressed: () async {
               String subtitle = allBusServiceData[bus.toString()] != null
                   ? allBusServiceData[bus.toString()]['operator']
-                  : '';
+                  : await Bus().serviceOperator(busStopCode, bus.toString());
 
               Navigator.push(
                 context,
@@ -142,9 +142,9 @@ class _HomeState extends State<Home> {
                 children: [
                   if (buses.length > 0) ...[
                     if (buses[0] != 'Not Found') ...[
-                      Text("Bus"),
+                      Text("Available Now"),
                     ] else ...[
-                      Text("Unable to get bus operating here"),
+                      Text("No buses operating now"),
                     ],
                   ] else ...[
                     Text("No Bus Operating Here"),
@@ -230,7 +230,7 @@ class _HomeState extends State<Home> {
                         color: Theme.of(context).primaryColor,
                       ),
                       onPressed: () {
-                        busRouteAlert(buses, context);
+                        busRouteAlert(buses, context, busStopCode);
                       },
                       label: Text(
                         "Bus Route",

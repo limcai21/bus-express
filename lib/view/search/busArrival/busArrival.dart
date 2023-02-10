@@ -127,7 +127,7 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                 title: busArrivalDataTitle(bus['busService'], bus),
                 subtitle: Text(bus['destinationName'].toString()),
                 trailing: busArrivalDataTrailing(bus, isDataLoaded),
-                onLongPress: () {
+                onLongPress: () async {
                   setState(() {
                     stopTimer = true;
                     refreshTimer.cancel();
@@ -135,7 +135,8 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
 
                   String subtitle = allBusServiceData[bus['busService']] != null
                       ? allBusServiceData[bus['busService']]['operator']
-                      : '';
+                      : await Bus().serviceOperator(
+                          widget.busStopCode, bus['busService'].toString());
 
                   Navigator.push(
                     context,
@@ -235,14 +236,15 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
             ),
             subtitle: Text("No Estimate Available"),
             trailing: Icon(FluentIcons.chevron_right_24_filled, size: 18),
-            onLongPress: () {
+            onLongPress: () async {
               if (busArrivalData.isNotEmpty) {
                 String subtitle =
                     allBusServiceData[busInThisBusStop[index].toString()] !=
                             null
                         ? allBusServiceData[busInThisBusStop[index].toString()]
                             ['operator']
-                        : '';
+                        : await Bus().serviceOperator(widget.busStopCode,
+                            busInThisBusStop[index].toString());
 
                 Navigator.push(
                   context,
