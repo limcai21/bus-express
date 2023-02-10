@@ -144,10 +144,10 @@ class _HomeState extends State<Home> {
                     if (buses[0] != 'Not Found') ...[
                       Text("Available Now"),
                     ] else ...[
-                      Text("No buses operating now"),
+                      Text("No Buses Operating Here"),
                     ],
                   ] else ...[
-                    Text("No Bus Operating Here"),
+                    Text("No buses operating now"),
                   ],
                   SizedBox(height: 5),
                   Align(

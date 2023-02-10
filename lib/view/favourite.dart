@@ -145,7 +145,7 @@ class _FavouriteState extends State<Favourite> {
 
   favListListTile(
       bool gotData, String code, String busService, String busStopName,
-      {Map arrivalData}) {
+      {Map arrivalData}) async {
     return Dismissible(
       key: Key(busService),
       background: busArrivalDataBackground(context),
@@ -155,9 +155,11 @@ class _FavouriteState extends State<Favourite> {
         title: busArrivalDataTitle(busService, arrivalData),
         subtitle: gotData
             ? Text(arrivalData['destinationName'])
-            : Text(allBusServiceData[busService] != null
-                ? allBusServiceData[busService]['operator']
-                : ""),
+            : Text(
+                allBusServiceData[busService] != null
+                    ? allBusServiceData[busService]['operator']
+                    : await Bus().serviceOperator(code, busService),
+              ),
         leading: busArrivalDataLeading(arrivalData),
         trailing: busArrivalDataTrailing(arrivalData, gotData),
         onLongPress: () async {
