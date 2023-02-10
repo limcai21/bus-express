@@ -151,95 +151,100 @@ class _HomeState extends State<Home> {
                   ],
                   SizedBox(height: 5),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: buses.length > 0 && buses[0] != 'Not Found'
-                          ? Wrap(
-                              spacing: 3,
-                              runSpacing: 3,
-                              children: [
-                                for (var bus in buses)
-                                  Container(
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      color: Colors.green[900],
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text(
-                                      bus.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
+                    alignment: Alignment.centerLeft,
+                    child: buses.length > 0 && buses[0] != 'Not Found'
+                        ? Wrap(
+                            spacing: 3,
+                            runSpacing: 3,
+                            children: [
+                              for (var bus in buses)
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[900],
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    bus.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
                                     ),
                                   ),
-                              ],
-                            )
-                          : null)
+                                ),
+                            ],
+                          )
+                        : null,
+                  )
                 ],
               ),
-              SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(primaryColor),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                      ),
-                      icon: Icon(FluentIcons.clock_24_filled, size: 20),
-                      onPressed: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchBusArrival(
-                              busStopName,
-                              busStopCode,
-                              roadName,
+              if (buses.isNotEmpty) ...[
+                SizedBox(height: 30),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(primaryColor),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                        );
-                      },
-                      label: Text("Arrival Timing"),
+                        ),
+                        icon: Icon(FluentIcons.clock_24_filled, size: 20),
+                        onPressed: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchBusArrival(
+                                busStopName,
+                                busStopCode,
+                                roadName,
+                              ),
+                            ),
+                          );
+                        },
+                        label: Text("Arrival Timing"),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      style: ButtonStyle(
-                        side: MaterialStateProperty.all(
-                          BorderSide(width: 2, color: primaryColor),
-                        ),
-                        overlayColor: MaterialStateProperty.all(
-                          Color.lerp(Colors.white, primaryColor, 0.1),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                            BorderSide(width: 2, color: primaryColor),
+                          ),
+                          overlayColor: MaterialStateProperty.all(
+                            Color.lerp(Colors.white, primaryColor, 0.1),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
                         ),
-                      ),
-                      icon: Icon(
-                        MdiIcons.routes,
-                        size: 20,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {
-                        busRouteAlert(buses, context, busStopCode);
-                      },
-                      label: Text(
-                        "Bus Route",
-                        style: TextStyle(color: primaryColor),
+                        icon: Icon(
+                          MdiIcons.routes,
+                          size: 20,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          busRouteAlert(buses, context, busStopCode);
+                        },
+                        label: Text(
+                          "Bus Route",
+                          style: TextStyle(color: primaryColor),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              )
+                  ],
+                )
+              ] else ...[
+                SizedBox(height: 10),
+              ],
             ],
           ),
         );

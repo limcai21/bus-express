@@ -59,12 +59,10 @@ class Bus {
       for (var busServiceData in data) {
         if (busServiceData['ServiceNo'] == busService) {
           return operatorName(busServiceData['Operator']);
-        } else {
-          return '';
         }
       }
     }
-    return '';
+    return 'Operator unavailable';
   }
 
   route({

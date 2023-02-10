@@ -325,46 +325,64 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                   ],
                 ),
               ),
-              if (isDataLoaded)
-                if (busArrivalData.isNotEmpty) legendForBus(),
-              if (busArrivalData.isEmpty)
+              if (isDataLoaded && busArrivalData.isNotEmpty) ...[
+                legendForBus(),
+              ],
+              if (busArrivalData.isEmpty) ...[
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      isDataLoaded && busArrivalData.isEmpty
-                          ? Text(
-                              "No buses available",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Text(
-                              "Loading...",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                      isDataLoaded && busArrivalData.isEmpty
-                          ? busInThisBusStopLoadedFinish &&
-                                  busInThisBusStop[0] != "Not Found"
-                              ? Text(
-                                  "But here are the buses serving at this bus stop")
-                              : Text("As of $currentTime")
-                          : Text("Hold on while we retrieve the information")
+                      if (isDataLoaded && busArrivalData.isEmpty) ...[
+                        Text(
+                          "No buses available",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ] else ...[
+                        Text(
+                          "Loading...",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                      if (isDataLoaded && busArrivalData.isEmpty) ...[
+                        if (busInThisBusStop.isNotEmpty) ...[
+                          if (busInThisBusStopLoadedFinish &&
+                              busInThisBusStop[0] != "Not Found") ...[
+                            Text(
+                                "But here are the buses serving at this bus stop")
+                          ] else ...[
+                            Text("As of $currentTime")
+                          ],
+                        ] else ...[
+                          Text("As of $currentTime")
+                        ],
+                      ] else ...[
+                        Text("Hold on while we retrieve the information")
+                      ],
                     ],
                   ),
                 ),
-              busArrivalData.isEmpty
-                  ? busInThisBusStopLoadedFinish &&
-                          busInThisBusStop[0] != "Not Found"
-                      ? busArrivalWithNoData()
-                      : Text("")
-                  : busArrivalWithData(),
+              ],
+              if (busArrivalData.isEmpty) ...[
+                if (busInThisBusStop.isNotEmpty) ...[
+                  if (busInThisBusStopLoadedFinish &&
+                      busInThisBusStop[0] != "Not Found") ...[
+                    busArrivalWithNoData()
+                  ] else ...[
+                    Text("")
+                  ]
+                ]
+              ] else ...[
+                busArrivalWithData()
+              ]
             ],
           ),
         ],

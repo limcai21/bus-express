@@ -257,8 +257,8 @@ class _FavouriteState extends State<Favourite> {
 
         if (temp.keys.isEmpty) {
           // NO ARRIVAL DATA
-          forListViewChildren
-              .add(favListListTile(false, code, busService, title));
+          Widget output = await favListListTile(false, code, busService, title);
+          forListViewChildren.add(output);
         } else {
           // GOT ARRIVAL DATA
           forListViewChildren.add(
