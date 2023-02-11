@@ -129,14 +129,6 @@ startUpLoadData(context) async {
     }
   });
 
-  // GET BUS TYPE
-  allBusServiceData.forEach((key, value) {
-    String category = formatBusCategory(value['category']);
-    if (!allBusServiceType.contains(category)) {
-      allBusServiceType.add(category);
-    }
-  });
-
   // SORT BY A-Z
   allBusStopsData = new SplayTreeMap<String, dynamic>.from(
       allBusStopsData, (k1, k2) => k1.compareTo(k2));

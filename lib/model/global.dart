@@ -131,12 +131,6 @@ customLeadingIcon(
   );
 }
 
-formatBusCategory(String category) {
-  var finalCategory = category.replaceAll('_', ' ');
-  finalCategory = finalCategory.capitalizeFirstLetter();
-  return finalCategory;
-}
-
 double calculateDistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;
   var c = cos;
