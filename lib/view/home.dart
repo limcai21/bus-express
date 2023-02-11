@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
                             spacing: 3,
                             runSpacing: 3,
                             children: [
-                              for (var bus in buses)
+                              for (var bus in buses) ...[
                                 Container(
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
@@ -171,6 +171,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                 ),
+                              ]
                             ],
                           )
                         : null,
@@ -193,6 +194,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         icon: Icon(FluentIcons.clock_24_filled, size: 20),
+                        label: Text("Arrival Timing"),
                         onPressed: () async {
                           Navigator.push(
                             context,
@@ -205,7 +207,6 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         },
-                        label: Text("Arrival Timing"),
                       ),
                     ),
                     SizedBox(width: 10),

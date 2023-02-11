@@ -289,13 +289,14 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          if (busArrivalData.isNotEmpty)
+          if (busArrivalData.isNotEmpty) ...[
             IconButton(
               icon: Icon(FluentIcons.arrow_clockwise_24_filled),
               onPressed: () {
                 initPageData(widget.busStopCode);
               },
             )
+          ]
         ],
       ),
       body: Stack(
@@ -325,9 +326,13 @@ class _SearchBusArrivalState extends State<SearchBusArrival> {
                   ],
                 ),
               ),
+
+              // LEGEND
               if (isDataLoaded && busArrivalData.isNotEmpty) ...[
                 legendForBus(),
               ],
+
+              // CHECK FOR EMPTY DATA
               if (busArrivalData.isEmpty) ...[
                 Container(
                   alignment: Alignment.centerLeft,
