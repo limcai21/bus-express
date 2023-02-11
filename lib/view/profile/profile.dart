@@ -271,12 +271,12 @@ class _ProfileState extends State<Profile> {
           Colors.brown,
           () async {
             loadingAlert(context, title: "Refetching Data");
+            await Bus().route();
+            print("done with bus route");
             await Bus().all();
             print("done with bus service");
             await BusStop().all();
             print("done with bus stop");
-            await Bus().route();
-            print("done with bus route");
             Navigator.pop(context);
             alertDialog(refetchDataTitle, refetchDataDescription, context);
           },

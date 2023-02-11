@@ -172,38 +172,26 @@ class Bus {
   }
 
   all() async {
-    var request = http.Request('GET', Uri.parse(allBusServiceURL));
-    request.headers.addAll(ltaDatamallAPIHeader);
-    var response = await request.send();
-    var tempHolder = [];
     Map<String, dynamic> tempData = {};
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(await response.stream.bytesToString())['value'];
-      if (data.length > 0) {
-        tempHolder.addAll(data);
-      }
-
-      for (var i = 0; i < tempHolder.length; i++) {
-        final serviceNo = tempHolder[i]["ServiceNo"];
-        var operator = tempHolder[i]["Operator"];
-        tempData[serviceNo] = {
-          "serviceNo": tempHolder[i]["ServiceNo"],
-          "operator": operatorName(operator),
-          "category": formatBusCategory(tempHolder[i]["Category"]),
-        };
-      }
-
-      // STORE
-      final prefs = await SharedPreferences.getInstance();
-      tempData = new SplayTreeMap<String, dynamic>.from(
-          tempData, (k1, k2) => k1.compareTo(k2));
-      await prefs.remove('allBusServiceData');
-      await prefs.setString('allBusServiceData', jsonEncode(tempData));
-      allBusServiceData = tempData;
-
-      return tempData;
+    for (var busData in allBusRouteData.values) {
+      final serviceNo = busData['Direction 1']['0']["serviceNo"];
+      var busOperator = busData['Direction 1']['0']["busOperator"];
+      tempData[serviceNo] = {
+        "serviceNo": serviceNo,
+        "operator": busOperator,
+      };
     }
+
+    // STORE
+    final prefs = await SharedPreferences.getInstance();
+    tempData = new SplayTreeMap<String, dynamic>.from(
+        tempData, (k1, k2) => k1.compareTo(k2));
+    await prefs.remove('allBusServiceData');
+    await prefs.setString('allBusServiceData', jsonEncode(tempData));
+    allBusServiceData = tempData;
+
+    return tempData;
   }
 
   arrival(String busStopCode, {String busService}) async {

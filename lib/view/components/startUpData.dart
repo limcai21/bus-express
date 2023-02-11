@@ -97,18 +97,18 @@ startUpLoadData(context) async {
     allBusStopsData = jsonDecode(dbBusStopsData);
   }
 
-  // BUS SERVICE
-  if (dbBusServiceData == null) {
-    await Bus().all();
-  } else {
-    allBusServiceData = jsonDecode(dbBusServiceData);
-  }
-
   // BUS ROUTE
   if (dbBusRouteData == null) {
     await Bus().route();
   } else {
     allBusRouteData = jsonDecode(dbBusRouteData);
+  }
+
+  // BUS SERVICE
+  if (dbBusServiceData == null) {
+    await Bus().all();
+  } else {
+    allBusServiceData = jsonDecode(dbBusServiceData);
   }
 
   // GET ROADNAME FOR ADDRESS
