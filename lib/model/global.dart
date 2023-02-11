@@ -15,7 +15,6 @@ Map<String, dynamic> allBusRouteData = {};
 Map<String, dynamic> allAddressData = {};
 
 List allBusServiceType = [];
-List<String> filters = <String>[];
 
 bool locationServiceEnabled;
 bool isUserLogin = false;

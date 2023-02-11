@@ -38,17 +38,9 @@ class DataSearch extends SearchDelegate<String> {
 
     allBusServiceData.forEach((key, value) {
       final service = (value["serviceNo"]).toString();
-      final category = (value["category"]).toString();
 
-      if (filters.isEmpty) {
-        if ((service.toString()).contains(searchData.toUpperCase())) {
-          tempSearchHolderForBusService[key] = value;
-        }
-      } else {
-        if ((service.toString()).contains(searchData.toUpperCase()) &&
-            filters.contains(category)) {
-          tempSearchHolderForBusService[key] = value;
-        }
+      if ((service.toString()).contains(searchData.toUpperCase())) {
+        tempSearchHolderForBusService[key] = value;
       }
     });
 

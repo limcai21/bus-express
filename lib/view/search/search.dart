@@ -15,7 +15,6 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
-    filters = [];
     searchBusStopsData = allBusStopsData;
     searchBusServiceData = allBusServiceData;
     searchAddressData = allAddressData;
