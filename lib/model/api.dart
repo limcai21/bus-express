@@ -1,8 +1,8 @@
-import 'dart:collection';
 import 'dart:convert';
-import 'package:bus_express/model/switchCase.dart';
+import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'package:bus_express/model/global.dart';
+import 'package:bus_express/model/switchCase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // LTA DATAMALL
