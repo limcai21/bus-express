@@ -10,6 +10,7 @@ import 'package:bus_express/view/search/busRoute/busRoute.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:location/location.dart';
@@ -384,9 +385,10 @@ class _HomeState extends State<Home> {
             zoom: zoom,
             center: centerPoint,
             plugins: [
+              MarkerClusterPlugin(),
               LocationMarkerPlugin(
                 centerOnLocationUpdate: centerOnLocationUpdate,
-              )
+              ),
             ],
           ),
           layers: [
@@ -395,7 +397,12 @@ class _HomeState extends State<Home> {
               subdomains: mapSubdomain,
             ),
             if (isAllPermissionEnabled) LocationMarkerLayerOptions(),
-            new MarkerLayerOptions(
+            MarkerClusterLayerOptions(
+              maxClusterRadius: 100,
+              size: Size(40, 40),
+              fitBoundsOptions: FitBoundsOptions(
+                padding: EdgeInsets.all(50),
+              ),
               markers: [
                 for (var busStop in mapMaker.values) ...[
                   new Marker(
@@ -426,7 +433,18 @@ class _HomeState extends State<Home> {
                   ),
                 ]
               ],
-            )
+              polygonOptions: PolygonOptions(
+                borderColor: Colors.transparent,
+                color: Colors.transparent,
+              ),
+              builder: (context, markers) {
+                return FloatingActionButton(
+                  backgroundColor: primaryColor,
+                  child: Text(markers.length.toString()),
+                  onPressed: null,
+                );
+              },
+            ),
           ],
         ),
         Padding(

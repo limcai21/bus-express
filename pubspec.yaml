@@ -32,6 +32,7 @@ dependencies:
   salomon_bottom_bar: any
   shared_preferences: any 
   fluentui_system_icons: any
+  flutter_map_marker_cluster: any
   flutter_map_location_marker: any 
   material_design_icons_flutter: any 
   
