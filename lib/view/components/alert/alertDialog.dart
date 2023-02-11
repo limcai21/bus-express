@@ -1,3 +1,4 @@
+import 'package:bus_express/model/constants.dart';
 import 'package:flutter/material.dart';
 
 alertDialog(
@@ -27,13 +28,16 @@ alertDialog(
         content: SingleChildScrollView(
           child: Text(description),
         ),
-        actions: <Widget>[
+        actions: [
           additionalActions,
-          TextButton(
+          ElevatedButton(
             style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(Theme.of(context).primaryColor),
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
+              backgroundColor: MaterialStateProperty.all(
+                Theme.of(context).primaryColor,
+              ),
+              overlayColor: MaterialStateProperty.all(
+                Color.lerp(Colors.white, primaryColor, 0.9),
+              ),
             ),
             child: Text(
               closeTitle.toUpperCase(),
