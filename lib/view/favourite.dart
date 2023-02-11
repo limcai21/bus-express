@@ -261,15 +261,14 @@ class _FavouriteState extends State<Favourite> {
           forListViewChildren.add(output);
         } else {
           // GOT ARRIVAL DATA
-          forListViewChildren.add(
-            favListListTile(
-              true,
-              code,
-              busService,
-              title,
-              arrivalData: temp.values.toList()[0],
-            ),
+          Widget output = await favListListTile(
+            true,
+            code,
+            busService,
+            title,
+            arrivalData: temp.values.toList()[0],
           );
+          forListViewChildren.add(output);
         }
       }
     }
