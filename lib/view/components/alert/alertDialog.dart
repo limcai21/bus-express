@@ -30,7 +30,7 @@ alertDialog(
         ),
         actions: [
           additionalActions,
-          ElevatedButton(
+          TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
                 Theme.of(context).primaryColor,
