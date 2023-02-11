@@ -26,11 +26,13 @@ class _ChangeUsernameState extends State<ChangeUsername> {
     currentUserData['username'] = newUsername;
     await prefs.setString(newUsername, jsonEncode(currentUserData));
     await prefs.remove(currentLoginUsername);
+    await prefs.setString('loginUser', newUsername);
 
     setState(() {
       currentLoginUsername = newUsername;
     });
 
+    print(currentLoginUsername);
     Navigator.pop(context);
 
     Navigator.pop(context);
