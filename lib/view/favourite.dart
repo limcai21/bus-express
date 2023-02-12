@@ -361,7 +361,7 @@ class _FavouriteState extends State<Favourite> {
                   legendForBus(),
                   Expanded(
                     child: ListView(
-                      padding: const EdgeInsets.only(bottom: 70),
+                      padding: const EdgeInsets.only(bottom: 85),
                       physics: BouncingScrollPhysics(),
                       children: listViewChildren,
                     ),
