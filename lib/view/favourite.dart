@@ -18,10 +18,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Favourite extends StatefulWidget {
   @override
   State<Favourite> createState() => _FavouriteState();
-
-  test() {
-    _FavouriteState().pageInitFunction();
-  }
 }
 
 class _FavouriteState extends State<Favourite> {
