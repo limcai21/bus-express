@@ -115,10 +115,7 @@ class BusArrivalAppState extends State<BusArrivalApp> {
           IconButton(
             icon: Icon(FluentIcons.search_24_filled),
             onPressed: () async {
-              await showSearch(
-                context: context,
-                delegate: DataSearch(),
-              );
+              await showSearch(context: context, delegate: DataSearch());
             },
           ),
       ],
