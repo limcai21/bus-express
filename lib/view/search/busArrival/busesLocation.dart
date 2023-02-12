@@ -1,3 +1,4 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:bus_express/model/constants.dart';
 import 'package:bus_express/model/global.dart';
 import 'package:bus_express/model/switchCase.dart';
@@ -328,6 +329,7 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
+        // MAP
         new FlutterMap(
           mapController: mapController,
           options: new MapOptions(
@@ -348,9 +350,14 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
             new MarkerLayerOptions(markers: next3BusMarker),
           ],
         ),
-        Container(
+
+        // BOTTOM INFO
+        BlurryContainer(
+          padding: const EdgeInsets.all(0),
           height: 210,
-          color: Color.fromRGBO(0, 0, 0, 0.5),
+          blur: 2,
+          bgColor: Colors.black,
+          borderRadius: const BorderRadius.all(Radius.circular(0)),
           child: ListView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -397,6 +404,8 @@ class _BusesLocationMapState extends State<BusesLocationMap> {
             ],
           ),
         ),
+
+        // FAB
         SizedBox(
           width: double.infinity,
           child: Padding(

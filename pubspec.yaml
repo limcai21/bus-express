@@ -28,7 +28,8 @@ dependencies:
   location: any 
   flutter_map: any 
   url_launcher: any
-  open_settings: any 
+  open_settings: any
+  blurrycontainer: any 
   salomon_bottom_bar: any
   shared_preferences: any 
   fluentui_system_icons: any
