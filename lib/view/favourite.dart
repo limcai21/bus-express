@@ -361,7 +361,7 @@ class _FavouriteState extends State<Favourite> {
                   legendForBus(),
                   Expanded(
                     child: ListView(
-                      padding: const EdgeInsets.only(bottom: 80),
+                      padding: const EdgeInsets.only(bottom: 70),
                       physics: BouncingScrollPhysics(),
                       children: listViewChildren,
                     ),
@@ -369,7 +369,7 @@ class _FavouriteState extends State<Favourite> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(15),
                 child: FloatingActionButton(
                   backgroundColor: primaryColor,
                   child: Icon(FluentIcons.arrow_clockwise_24_filled),
