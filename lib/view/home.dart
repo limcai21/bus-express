@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: Colors.blue[900],
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
