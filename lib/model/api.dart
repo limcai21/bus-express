@@ -32,7 +32,7 @@ class Bus {
 
     if (response.statusCode == 200) {
       List data = jsonDecode(await response.stream.bytesToString())['Services'];
-      print(data);
+      // print(data);
       var tempBusHolder = [];
       for (var busService in data) {
         tempBusHolder.add(busService['ServiceNo']);
