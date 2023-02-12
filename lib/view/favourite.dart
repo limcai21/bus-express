@@ -5,6 +5,7 @@ import 'package:bus_express/view/components/alert/alertDialog.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataLeadingAndTrailing.dart';
 import 'package:bus_express/view/components/busArrivalData/busArrivalDataTitleAndBackground.dart';
 import 'package:bus_express/view/search/busArrival/busesLocation.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:bus_express/model/api.dart';
 import 'package:bus_express/model/global.dart';
@@ -17,6 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Favourite extends StatefulWidget {
   @override
   State<Favourite> createState() => _FavouriteState();
+
+  test() {
+    _FavouriteState().pageInitFunction();
+  }
 }
 
 class _FavouriteState extends State<Favourite> {
@@ -352,15 +357,34 @@ class _FavouriteState extends State<Favourite> {
     if (isUserLogin) {
       if (isDataLoaded) {
         if (favListBusArrivalData != null && favListBusArrivalData.isNotEmpty) {
-          return Column(
+          return Stack(
+            alignment: Alignment.bottomRight,
             children: [
-              legendForBus(),
-              Expanded(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: listViewChildren,
-                ),
+              Column(
+                children: [
+                  legendForBus(),
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.only(bottom: 80),
+                      physics: BouncingScrollPhysics(),
+                      children: listViewChildren,
+                    ),
+                  ),
+                ],
               ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: FloatingActionButton(
+                  backgroundColor: primaryColor,
+                  child: Icon(FluentIcons.arrow_clockwise_24_filled),
+                  onPressed: () {
+                    setState(() {
+                      isDataLoaded = false;
+                    });
+                    pageInitFunction();
+                  },
+                ),
+              )
             ],
           );
         } else {

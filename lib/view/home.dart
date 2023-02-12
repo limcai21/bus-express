@@ -468,7 +468,12 @@ class _HomeState extends State<Home> {
                           color: Theme.of(context).appBarTheme.color,
                         ),
                       )
-                : Text('NEARBY'),
+                : Text(
+                    'NEARBY',
+                    style: TextStyle(
+                      color: Theme.of(context).appBarTheme.color,
+                    ),
+                  ),
             icon: (locationServiceEnabled == true) &&
                     (permissionGranted.toString() !=
                         "PermissionStatus.deniedForever") &&
