@@ -14,6 +14,4 @@ Bus Express is designed by Arnet for commuters in Singapore to check the real-ti
 
 
 ### Source:
-| API | Link |
-| ------ | ------ |
-| LTA DataMall | https://datamall.lta.gov.sg/content/datamall/en.html |
+LTA DataMall: https://datamall.lta.gov.sg/content/datamall/en.html
